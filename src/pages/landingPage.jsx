@@ -65,7 +65,7 @@ export default function LandingPage() {
           >
             <img
               src={coelho2}
-              className="absolute size-16 lg:size-28 lg:-top-24 -top-14 left-0 transform scale-x-[-1] Z-50"
+              className="animate-bounce absolute size-16 lg:size-28 lg:-top-24 -top-14 right-0 transform scale-x-[-1] Z-50"
               alt=""
             />
             QUERO APRENDER A TER UMA RENDA EXTRA NESTA PASCOA
@@ -238,7 +238,7 @@ export default function LandingPage() {
           />
           <button
             onClick={() => (window.location.href = "/checkout")}
-            className="hover:scale-105 shadow-lg shadow-neutral-500 h-12 w-1/2 border-lime-300 mt-6 bg-white text-black rounded-lg text-[2vh] font-bold hover:bg-lime-300 hover:text-white transition"
+            className="hover:scale-105 shadow-lg shadow-lime-500 h-12 w-1/2 border-lime-300 mt-6 bg-white text-black rounded-lg text-[2vh] font-bold hover:bg-lime-300 hover:text-white transition"
           >
             Comprar agora
           </button>
@@ -351,7 +351,7 @@ export default function LandingPage() {
         <img src={ProvaSocial} alt="" className="size-auto" />
       </section>
       {/* Sessão 5: Chamada final */}
-      <section className="bg-white text-black py-16 px-4 text-center flex flex-col items-center h-screen">
+      <section className="bg-white text-black py-5 px-4 text-center flex flex-col items-center">
         <h2 className="text-[4vh] font-bold text-brown-700">
           PRECOS PROMOCIONAIS
         </h2>
@@ -371,7 +371,7 @@ export default function LandingPage() {
         </h2>
         <button
           onClick={() => (window.location.href = "/checkout")}
-          className="rounded-2xl w-80 h-14 text-[3vh] font-bold text-white hover:bg-pink-400 transition hover:scale-105 bg-pink-500 mt-12 mb-20"
+          className="animate-bounce shadow-xl shadow-pink-600 rounded-2xl w-80 h-14 text-[3vh] font-bold text-white hover:bg-pink-400 transition hover:scale-105 bg-pink-500 mt-12 mb-20"
         >
           Quero conhecer
         </button>

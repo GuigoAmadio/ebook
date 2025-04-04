@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import q1 from "../assets/q1.jpg";
-import q2 from "../assets/q2.jpg";
-import q3 from "../assets/q3.jpg";
-import q4 from "../assets/q4.jpg";
-import q5 from "../assets/q5.jpg";
+import coelho from "../assets/coelho.png";
 
 const perguntas = [
   {
@@ -69,9 +65,13 @@ export default function Quiz() {
   };
 
   return (
-    <div className="min-h-screen bg-orange-100 flex flex-col items-center justify-center p-6">
+    <div className="relative min-h-screen bg-orange-100 flex flex-col items-center justify-start pt-20 gap-10 p-6">
+      <div className="bg-pink-200 text-pink-500 font-extrabold text-lg md:text-xl px-6 py-2 rounded-full mb-8 shadow-md border border-pink-500">
+        🐰 Especial de Páscoa! 🍫
+      </div>
+      <img src={coelho} className="absolute bottom-0 right-0 size-28" alt="" />
       {indexAtual === -1 ? (
-        <div className="text-center space-y-6 max-w-xl">
+        <div className="text-center space-y-8 max-w-xl">
           <h1 className="text-3xl font-bold text-lime-600">
             Descubra como ganhar dinheiro com algo simples e delicioso!
           </h1>
@@ -81,7 +81,7 @@ export default function Quiz() {
           </p>
           <button
             onClick={iniciarQuiz}
-            className="px-8 py-3 bg-lime-500 text-white font-bold text-lg rounded-full shadow-md hover:bg-lime-600 transition"
+            className="animate-bounce w-72 px-8 py-3 bg-lime-500 text-white font-medium text-lg rounded-full shadow-xl shadow-yellow-200 hover:bg-lime-600 transition"
           >
             Começar agora
           </button>

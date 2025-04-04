@@ -295,24 +295,6 @@ export default function Checkout() {
               <p>✅ Pague escaneando o QR Code abaixo</p>
             </div>
           )}
-          {form.pagamento === "pix" && qrCodeData.base64 != "" && (
-            <div className="mt-4 space-y-2 border border-green-700 rounded-lg p-4">
-              <p className="text-sm">✅ Pagamento gerado via Pix</p>
-              <img
-                src={`data:image/png;base64,${qrCodeData.base64}`}
-                alt="QR Code PIX"
-                className="mx-auto max-w-xs border rounded-md"
-              />
-              <p className="text-xs break-words text-center">
-                {qrCodeData.emv}
-              </p>
-              <p className="text-xs text-center text-gray-500 mt-2">
-                Válido até:{" "}
-                {new Date(qrCodeData.vencimento).toLocaleString("pt-BR")}
-              </p>
-            </div>
-          )}
-
           <div className="flex flex-col items-center text-center">
             <div className="flex items-center">
               <img src={coelinho} alt="" className="size-6" />
@@ -369,6 +351,23 @@ export default function Checkout() {
           >
             {loading ? "Processando..." : "Finalizar Pagamento"}
           </button>
+          {form.pagamento === "pix" && qrCodeData.base64 != "" && (
+            <div className="mt-4 space-y-2 border border-green-700 rounded-lg p-4">
+              <p className="text-sm">✅ Pagamento gerado via Pix</p>
+              <img
+                src={`data:image/png;base64,${qrCodeData.base64}`}
+                alt="QR Code PIX"
+                className="mx-auto max-w-xs border rounded-md"
+              />
+              <p className="text-xs break-words text-center">
+                {qrCodeData.emv}
+              </p>
+              <p className="text-xs text-center text-gray-500 mt-2">
+                Válido até:{" "}
+                {new Date(qrCodeData.vencimento).toLocaleString("pt-BR")}
+              </p>
+            </div>
+          )}
           <img src={garantia} alt="" className="w-40 mt-4" />
         </section>
       </div>
