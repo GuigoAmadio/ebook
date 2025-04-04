@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .nav-link {
+    @apply w-8 h-8 rounded-md hover:bg-indigo-600 grid place-items-center;
+  }
+  .card {
+    @apply bg-white p-4 rounded-lg shadow-lg;
+  }
+
+  .fundo{
+    background: linear-gradient(180deg, rgba(217,249,157,1) 50%, rgba(77,2,24,1) 50%);
+  }
+
+  .input {
+    @apply w-full border border-gray-300 rounded-md h-10 text-sm pl-3 shadow-sm focus:outline-none focus:ring-1 focus:ring-green-600;
+  }
+
+  .title {
+    @apply font-bold mb-6;
+  }
+
+
+}
