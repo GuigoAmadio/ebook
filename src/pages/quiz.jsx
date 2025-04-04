@@ -8,50 +8,57 @@ import q5 from "../assets/q5.jpg";
 
 const perguntas = [
   {
-    pergunta: "Voce se sente satisfeito com o quanto ganha mensalmente?",
-    imagem: q1,
-    opcoes: ["Sim", "Nao", "Um pouco", "Nao sei"],
-  },
-  {
-    pergunta: "Você prefere trabalhar...",
-    imagem: q2,
+    pergunta: "Você sente que poderia ganhar mais com o que já sabe fazer?",
     opcoes: [
-      "Sozinho com foco total",
-      "Com outras pessoas trocando ideias",
-      "Na rua conhecendo lugares",
-      "Em um ambiente dinâmico com desafios",
+      "Sim, com certeza!",
+      "Talvez",
+      "Nunca pensei nisso",
+      "Acho que não",
     ],
   },
   {
-    pergunta: "Qual dessas áreas mais te atrai?",
-    imagem: q3,
-    opcoes: ["Arte & Design", "Tecnologia", "Negócios", "Ciência"],
-  },
-  {
-    pergunta: "Seu passatempo favorito seria:",
-    imagem: q4,
+    pergunta: "Qual dessas frases mais combina com você?",
     opcoes: [
-      "Ler ou escrever",
-      "Montar algo",
-      "Fotografar",
-      "Jogar e programar",
+      "Quero uma renda extra ainda esse mês",
+      "Quero trabalhar por conta própria",
+      "Quero aprender algo lucrativo e prático",
+      "Quero transformar minha criatividade em dinheiro",
     ],
   },
   {
-    pergunta: "O que mais te motiva?",
-    imagem: q5,
+    pergunta: "Você já pensou em ganhar dinheiro com produtos caseiros?",
     opcoes: [
-      "Desafios criativos",
-      "Resolução de problemas",
-      "Reconhecimento",
-      "Liberdade e flexibilidade",
+      "Sim, mas não sabia como começar",
+      "Sim, mas tive medo",
+      "Não",
+      "Já tentei, mas não deu certo",
+    ],
+  },
+  {
+    pergunta: "O que você faria com R$ 500 extras esse mês?",
+    opcoes: [
+      "Ajudaria em casa",
+      "Investiria em mim",
+      "Compraria algo que desejo",
+      "Guardaria para o futuro",
+    ],
+  },
+  {
+    pergunta: "Se pudesse aprender uma habilidade lucrativa agora, você:",
+    opcoes: [
+      "Começaria imediatamente",
+      "Teria dúvidas, mas tentaria",
+      "Dependeria do investimento",
+      "Quero saber mais antes de agir",
     ],
   },
 ];
 
 export default function Quiz() {
-  const [indexAtual, setIndexAtual] = useState(0);
+  const [indexAtual, setIndexAtual] = useState(-1); // -1 mostra o botão inicial
   const navigate = useNavigate();
+
+  const iniciarQuiz = () => setIndexAtual(0);
 
   const proximaPergunta = () => {
     if (indexAtual + 1 < perguntas.length) {
@@ -62,33 +69,56 @@ export default function Quiz() {
   };
 
   return (
-    <div className="min-h-screen bg-orange-200 flex flex-col items-center justify-start gap-20 p-6">
-      <h1 className="mt-10 text-[5vh] font-bold text-center mx-auto">
-        Responda a estas <span className="text-lime-500">5 perguntas </span> e
-        descubra oportunidades de{" "}
-        <span className="text-lime-500">aumentar a sua renda</span> este mes:
-      </h1>
-      <div className="bg-neutral-200 p-8 max-w-xl w-full text-center space-y-6 flex flex-col items-center">
-        <h1 className="text-2xl font-bold text-gray-800">
-          {perguntas[indexAtual].pergunta}
-        </h1>
-        <img
-          src={perguntas[indexAtual].imagem}
-          alt=""
-          className="size-48 rounded-xl"
-        />
-        <div className="w-full grid grid-cols-1 gap-9 place-items-center">
-          {perguntas[indexAtual].opcoes.map((opcao, i) => (
-            <button
-              key={i}
-              onClick={proximaPergunta}
-              className="py-3 px-6 w-2/3 bg-lime-500 border-2 border-gray-200 text-neutral-700 shadow-lg shadow-neutral-400 rounded-2xl font-bold transition duration-200 hover:bg-lime-400 hover:scale-105"
-            >
-              {opcao}
-            </button>
-          ))}
+    <div className="min-h-screen bg-orange-100 flex flex-col items-center justify-center p-6">
+      {indexAtual === -1 ? (
+        <div className="text-center space-y-6 max-w-xl">
+          <h1 className="text-3xl font-bold text-lime-600">
+            Descubra como ganhar dinheiro com algo simples e delicioso!
+          </h1>
+          <p className="text-gray-700 text-lg font-medium">
+            Responda a 5 perguntas rápidas e veja como transformar sua
+            criatividade em renda com ovos de Páscoa e muito mais.
+          </p>
+          <button
+            onClick={iniciarQuiz}
+            className="px-8 py-3 bg-lime-500 text-white font-bold text-lg rounded-full shadow-md hover:bg-lime-600 transition"
+          >
+            Começar agora
+          </button>
         </div>
-      </div>
+      ) : (
+        <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-xl space-y-6 relative">
+          {/* Barra de progresso */}
+          <div className="absolute -top-6 left-0 w-full flex justify-between px-4">
+            {[...Array(perguntas.length)].map((_, i) => (
+              <div
+                key={i}
+                className={`h-2 w-1/5 mx-1 rounded-full transition-all ${
+                  i <= indexAtual ? "bg-lime-500" : "bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+          <p className="text-sm text-right text-gray-600 font-medium">
+            {indexAtual + 1}/{perguntas.length}
+          </p>
+          <h2 className="text-xl font-bold text-gray-800 text-center">
+            {perguntas[indexAtual].pergunta}
+          </h2>
+
+          <div className="grid grid-cols-1 gap-4">
+            {perguntas[indexAtual].opcoes.map((opcao, i) => (
+              <button
+                key={i}
+                onClick={proximaPergunta}
+                className="py-3 px-6 bg-lime-400 hover:bg-lime-500 text-neutral-800 font-semibold rounded-lg shadow-sm hover:scale-105 transition duration-150"
+              >
+                {opcao}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
