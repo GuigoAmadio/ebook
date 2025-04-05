@@ -1,0 +1,57 @@
+        <section className="font-medium text-center px-4 flex flex-col items-center justify-start w-full gap-5 py-10 bg-white">
+          <div className="relative">
+            <h1 className="font-medium text-neutral-800 text-[3vh]">
+              <span className="text-lime-500 font-bold">Precisa fazer</span> uma
+              renda extra esse mes?
+            </h1>
+            <h2 className="flex flex-wrap justify-center items-center relative text-center font-light text-neutral-700 text-[3vh] mt-2 z-20">
+              {" "}
+              <div className="h-7 md:h-20 rounded-sm bg-pink-500 flex items-center justify-center mr-2 px-5">
+                <p className="font-bold text-[2vh] text-white">Nao sabe</p>
+              </div>
+              por onde comecar?{" "}
+              <span className="font-bold text-[3vh] text-lime-500 mx-2">
+                QUAL
+              </span>
+              produto vender?
+            </h2>
+          </div>
+          <div className="gap-4 flex flex-col items-center justify-around w-full">
+            <div className="relative w-4/5 md:w-1/2 bg-lime-300 p-4 shadow-lg text-center flex items-center justify-center font-medium text-xs rounded-2xl">
+              <div className="absolute rotate-45 -top-10 left-[80%]">
+                <img src={question} alt="" className="size-12" />
+              </div>
+              <img src={retangulo} alt="" className="size-6 mr-5" /> Se sente
+              desmotivado e desencorajado
+            </div>
+            <div className="relative w-4/5 md:w-1/2 bg-lime-300 p-4 shadow-lg text-center flex items-center justify-center font-medium text-xs rounded-2xl">
+              <div className="absolute -rotate-45 -top-10 -left-[10%]">
+                <img src={question} alt="" className="size-12" />
+              </div>
+              <img src={retangulo} alt="" className="size-6 mr-5" /> O cansaco
+              esta tomando conta do seu tempo livre
+            </div>
+            <div className="relative w-4/5 md:w-1/2 bg-lime-300 p-4 shadow-lg text-center flex items-center justify-center font-medium text-xs rounded-2xl">
+              <div className="absolute rotate-45 -top-10 left-[60%]">
+                <img src={question} alt="" className="size-12" />
+              </div>
+              <img src={retangulo} alt="" className="size-6 mr-5" /> Voce deseja
+              fazer uma renda a mais pra fechar o mes
+            </div>
+            <div className="relative w-4/5 md:w-1/2 bg-lime-300 p-4 shadow-lg text-center flex items-center justify-center font-medium text-xs rounded-2xl">
+              <div className="absolute -rotate-45 -top-10 left-14">
+                <img src={question} alt="" className="size-12" />
+              </div>
+              <img src={retangulo} alt="" className="size-6 mr-5" /> Aprender
+              algo novo que gere renda
+            </div>
+          </div>
+        </section>
+
+
+                  <button
+            onClick={() => (window.location.href = "/checkout")}
+            className="animate-bounce hover:scale-105 shadow-lg shadow-lime-500 h-12 w-1/2 border-lime-300 mt-6 bg-lime-400 text-black rounded-lg text-[2vh] font-bold hover:bg-lime-300 hover:text-white transition"
+          >
+            Comprar agora
+          </button>
