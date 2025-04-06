@@ -4,48 +4,51 @@ import coelho from "../assets/coelho.png";
 
 const perguntas = [
   {
-    pergunta: "Você sente que poderia ganhar mais com o que já sabe fazer?",
+    pergunta:
+      "Já se sentiu frustrado ao tentar vender algo e não ter o resultado que esperava?",
     opcoes: [
-      "Sim, com certeza!",
-      "Talvez",
-      "Nunca pensei nisso",
-      "Acho que não",
+      "😭 Sim, com certeza!",
+      "😕 Uma ou outra vez",
+      "🤔 Nunca pensei nisso",
+      "😶 Acho que não",
     ],
   },
   {
-    pergunta: "Qual dessas frases mais combina com você?",
+    pergunta: "Já tentou alguma vez ter 2 fontes de renda no mês?",
     opcoes: [
-      "Quero uma renda extra ainda esse mês",
-      "Quero trabalhar por conta própria",
-      "Quero aprender algo lucrativo e prático",
-      "Quero transformar minha criatividade em dinheiro",
+      "🆕 Nunca tentei",
+      "💭 Sempre pensei nisso",
+      "🏆 Sim, e consegui",
+      "🔁 Sim, mas não consegui",
     ],
   },
   {
-    pergunta: "Você já pensou em ganhar dinheiro com produtos caseiros?",
+    pergunta:
+      "Quanto estaria disposto a gastar para aprender uma nova habilidade?",
     opcoes: [
-      "Sim, mas não sabia como começar",
-      "Sim, mas tive medo",
-      "Não",
-      "Já tentei, mas não deu certo",
+      "💰 Mais de R$1.000",
+      "💵 Por volta de R$500",
+      "💸 Menos de R$100",
+      "🪙 Nada mais que R$30",
     ],
   },
   {
-    pergunta: "O que você faria com R$ 500 extras esse mês?",
+    pergunta: "Como se sentiria com apenas R$500 reais extras esse mês?",
     opcoes: [
-      "Ajudaria em casa",
-      "Investiria em mim",
-      "Compraria algo que desejo",
-      "Guardaria para o futuro",
+      "🏠 Ajudaria bastante em casa",
+      "😐 Não faria muita diferença",
+      "🌱 Já seria um começo",
+      "🙅‍♂️ Irrelevante",
     ],
   },
   {
-    pergunta: "Se pudesse aprender uma habilidade lucrativa agora, você:",
+    pergunta:
+      "Sabe como calcular os gastos e custos para a venda de qualquer produto?",
     opcoes: [
-      "Começaria imediatamente",
-      "Teria dúvidas, mas tentaria",
-      "Dependeria do investimento",
-      "Quero saber mais antes de agir",
+      "🧠 Tenho uma noção",
+      "❓ Não sei nada",
+      "📈 Sim, sou experiente!",
+      "🤷 Nunca tentei antes",
     ],
   },
 ];

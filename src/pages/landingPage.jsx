@@ -128,19 +128,42 @@ export default function LandingPage() {
             <span className="text-lime-500 font-black">vende-los</span>
           </h1>
           <h2 className="mt-10 mb-2 font-serif text-neutral-600">
-            O que aprendera ao longo do livro:
+            O que voce ira aprender ao longo do livro:
           </h2>
           <div className="flex flex-col justify-around rounded-2xl gap-4 bg-white px-5 py-4 mx-10">
             <div className="flex items-center gap-2 ">
               <img src={caixaMarcada} alt="" className="size-6" />
               <p className="text-xs text-nowrap">Tecnicas Basicas de Vendas</p>
             </div>
-            <div class="relative h-[0.5px] w-full overflow-hidden">
+            <div class="relative h-[0.8px] w-full overflow-hidden">
               <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
             </div>{" "}
             <div className="flex items-center gap-2 ">
               <img src={caixaMarcada} alt="" className="size-6" />
-              <p className="text-xs text-nowrap">Praticas para o dia a dia</p>
+              <p className="text-xs text-nowrap">
+                Tecnicas basicas de confeitaria
+              </p>
+            </div>
+            <div class="relative h-[0.8px] w-full overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
+            </div>{" "}
+            <div className="flex items-center gap-2 ">
+              <img src={caixaMarcada} alt="" className="size-6" />
+              <p className="text-xs text-nowrap">Como administrar um negocio</p>
+            </div>
+            <div class="relative h-[0.8px] w-full overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
+            </div>{" "}
+            <div className="flex items-center gap-2 ">
+              <img src={caixaMarcada} alt="" className="size-6" />
+              <p className="text-xs text-nowrap">Persuacao de clientes</p>
+            </div>
+            <div class="relative h-[0.8px] w-full overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
+            </div>{" "}
+            <div className="flex items-center gap-2 ">
+              <img src={caixaMarcada} alt="" className="size-6" />
+              <p className="text-xs text-nowrap">Recheios de Ovos de Pascoa</p>
             </div>
             <div class="relative h-[0.8px] w-full overflow-hidden">
               <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
@@ -148,7 +171,7 @@ export default function LandingPage() {
             <div className="flex items-center gap-2 ">
               <img src={caixaMarcada} alt="" className="size-6" />
               <p className="text-xs text-nowrap">
-                Conceitos basicos de negocios
+                Finalizacao de Ovos de Pascoa
               </p>
             </div>
             <div class="relative h-[0.8px] w-full overflow-hidden">
@@ -157,7 +180,7 @@ export default function LandingPage() {
             <div className="flex items-center gap-2 ">
               <img src={caixaMarcada} alt="" className="size-6" />
               <p className="text-xs text-nowrap">
-                Nocao introdutoria a marketing
+                Metodos de conserva de doces
               </p>
             </div>
             <div class="relative h-[0.8px] w-full overflow-hidden">
@@ -166,7 +189,7 @@ export default function LandingPage() {
             <div className="flex items-center gap-2 ">
               <img src={caixaMarcada} alt="" className="size-6" />
               <p className="text-xs text-nowrap">
-                Nocao introdutoria a marketing
+                Calculo do custo e preco de venda
               </p>
             </div>
             <div class="relative h-[0.8px] w-full overflow-hidden">
@@ -175,34 +198,7 @@ export default function LandingPage() {
             <div className="flex items-center gap-2 ">
               <img src={caixaMarcada} alt="" className="size-6" />
               <p className="text-xs text-nowrap">
-                Nocao introdutoria a marketing
-              </p>
-            </div>
-            <div class="relative h-[0.8px] w-full overflow-hidden">
-              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
-            </div>{" "}
-            <div className="flex items-center gap-2 ">
-              <img src={caixaMarcada} alt="" className="size-6" />
-              <p className="text-xs text-nowrap">
-                Nocao introdutoria a marketing
-              </p>
-            </div>
-            <div class="relative h-[0.8px] w-full overflow-hidden">
-              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
-            </div>{" "}
-            <div className="flex items-center gap-2 ">
-              <img src={caixaMarcada} alt="" className="size-6" />
-              <p className="text-xs text-nowrap">
-                Nocao introdutoria a marketing
-              </p>
-            </div>
-            <div class="relative h-[0.8px] w-full overflow-hidden">
-              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
-            </div>{" "}
-            <div className="flex items-center gap-2 ">
-              <img src={caixaMarcada} alt="" className="size-6" />
-              <p className="text-xs text-nowrap">
-                Nocao introdutoria a marketing
+                Pratica dos conceitos apresentados
               </p>
             </div>
           </div>
