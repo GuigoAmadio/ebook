@@ -1,10 +1,79 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import livroUm from "../assets/livroUm.png";
 import garantia from "../assets/garantia.webp";
 import seguro from "../assets/seguro.png";
 import coelinho from "../assets/coelinho.png";
+import { useLocation } from "react-router-dom";
+import { div } from "framer-motion/client";
 
 export default function Checkout() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const produtoBase = queryParams.get("produto"); // "ebook" ou "pacote"
+  const [produtosSelecionados, setProdutosSelecionados] = useState([
+    "pascoa", // sempre vem selecionado
+  ]);
+  const todosProdutos = [
+    {
+      id: "pascoa",
+      nome: "Lucrando com a Páscoa",
+      precoOriginal: 71.9,
+      precoAtual: 16.9,
+    },
+    {
+      id: "admin",
+      nome: "Técnicas de Administração",
+      precoOriginal: 52.2,
+      precoAtual: 8.9,
+    },
+    {
+      id: "fit",
+      nome: "Ebook de Ovos Fitness",
+      precoOriginal: 25.9,
+      precoAtual: 4.9,
+    },
+    {
+      id: "gourmet",
+      nome: "Ebook de Ovos Gourmet",
+      precoOriginal: 25.9,
+      precoAtual: 4.9,
+    },
+  ];
+
+  const alternarProduto = (id) => {
+    setProdutosSelecionados((atual) =>
+      atual.includes(id) ? atual.filter((item) => item !== id) : [...atual, id]
+    );
+  };
+
+  const selecionados = todosProdutos.filter((p) =>
+    produtosSelecionados.includes(p.id)
+  );
+
+  const totalOriginal = selecionados.reduce(
+    (soma, p) => soma + p.precoOriginal,
+    0
+  );
+  const totalAtual = selecionados.reduce((soma, p) => soma + p.precoAtual, 0);
+  const descontoTotal = totalOriginal - totalAtual;
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const produtosQuery = query.get("produtos");
+
+    if (produtosQuery) {
+      const selecionados = produtosQuery
+        .split(",")
+        .filter((id) => todosProdutos.some((p) => p.id === id));
+
+      setProdutosSelecionados(
+        selecionados.includes("pascoa")
+          ? selecionados
+          : ["pascoa", ...selecionados]
+      );
+    }
+  }, [location.search]);
+
   const [form, setForm] = useState({
     email: "",
     celular: "",
@@ -195,10 +264,9 @@ export default function Checkout() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="min-h-screen bg-gray-100 py-10 px-4 md:px-20 flex flex-col items-center lg:flex-row lg:items-start gap-10">
+      <div className="min-h-screen bg-gray-100 py-10 px-4 md:px-20 flex flex-col items-center lg:flex-row lg:items-start gap-10 lg:justify-between">
         <div className="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md space-y-6">
           <h1 className="text-xl font-bold">Finalizar Compra</h1>
-
           <input
             name="email"
             type="email"
@@ -208,7 +276,6 @@ export default function Checkout() {
             className="input w-full"
             required
           />
-
           <input
             name="celular"
             type="tel"
@@ -227,7 +294,6 @@ export default function Checkout() {
             className="input w-full"
             required
           />
-
           <div className="flex gap-4">
             <button
               type="button"
@@ -252,7 +318,6 @@ export default function Checkout() {
               Cartão
             </button>
           </div>
-
           {form.pagamento === "cartao" && (
             <div className="space-y-3">
               <input
@@ -318,32 +383,67 @@ export default function Checkout() {
             </p>
           </div>
         </div>
+        <div className="mt-6 w-full lg:w-96 space-y-2 mb-10">
+          <p className="font-medium">Aproveite e inclua tambem:</p>
+          {todosProdutos
+            .filter((p) => p.id !== "pascoa")
+            .map((produto) => (
+              <label
+                key={produto.id}
+                className="flex items-center gap-2 bg-white shadow-lg h-12 rounded-xl px-4"
+              >
+                <input
+                  type="checkbox"
+                  checked={produtosSelecionados.includes(produto.id)}
+                  onChange={() => alternarProduto(produto.id)}
+                />
+                <span>
+                  {produto.nome} por{" "}
+                  <span className="text-sky-500">
+                    R${produto.precoAtual.toFixed(2)}
+                  </span>
+                </span>
+              </label>
+            ))}
+        </div>
         <section className="flex flex-col gap-2 justify-start items-center rounded-xl w-96 px-4 py-10 bg-white shadow-md my-10 lg:my-0">
           <h1 className="font-bold text-2xl">Resumo da compra</h1>
-          <div className="px-10 my-10 flex justify-between items-start w-full">
-            <p className="font-medium">Items:</p>
-            <div className="flex flex-col items-end gap-4">
-              <p className="font-bold">Lucrando com a Pascoa</p>
-              <img src={livroUm} alt="" className="w-[100px]" />
+          <div className="px-10 my-10 flex flex-col text-start w-full">
+            <p className="font-medium">Itens:</p>
+            <div className="flex flex-col gap-2">
+              {selecionados.map((item) => (
+                <div className="flex justify-between items-center">
+                  <p key={item.id} className="font-medium opacity-50">
+                    {item.nome}
+                  </p>
+                  <p className="font-medium">R${item.precoOriginal}</p>
+                </div>
+              ))}
             </div>
           </div>
+
           <div className="flex justify-between w-full px-10">
-            <p className="font-medium">Valor do produto:</p>
-            <p className="font-bold">R$21,80</p>
-          </div>
-          <div className="flex justify-between w-full px-10">
-            <p className="font-medium">Descontos:</p>
-            <p className="font-bold">R$0,00</p>
-          </div>
-          <div className="flex justify-between w-full px-10">
-            <p className="font-medium">Taxas de entrega:</p>
-            <p className="font-bold">R$0,00</p>
+            <p className="font-medium">Total:</p>
+            <p className="">R${totalOriginal.toFixed(2)}</p>
           </div>
 
-          <div className="mt-10 flex justify-between w-full px-10">
-            <p className="font-medium">Total a ser pago:</p>
-            <p className="font-bold text-green-500">R$21,80</p>
+          <div className="flex justify-between w-full px-10">
+            <p className="font-medium">Descontos:</p>
+            <p className="font-medium">R${descontoTotal.toFixed(2)}</p>
           </div>
+
+          <div className="flex justify-between w-full px-10">
+            <p className="font-medium">Taxa de entrega:</p>
+            <p className="">R$0,00</p>
+          </div>
+
+          <div className="flex justify-between w-full px-10 mt-4">
+            <p className="font-medium">Total a ser pago:</p>
+            <p className="font-bold text-green-700 text-lg">
+              R${totalAtual.toFixed(2)}
+            </p>
+          </div>
+
           <button
             type="submit"
             disabled={loading}

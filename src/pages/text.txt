@@ -48,10 +48,3 @@
           </div>
         </section>
 
-
-                  <button
-            onClick={() => (window.location.href = "/checkout")}
-            className="animate-bounce hover:scale-105 shadow-lg shadow-lime-500 h-12 w-1/2 border-lime-300 mt-6 bg-lime-400 text-black rounded-lg text-[2vh] font-bold hover:bg-lime-300 hover:text-white transition"
-          >
-            Comprar agora
-          </button>
