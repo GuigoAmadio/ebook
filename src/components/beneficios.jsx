@@ -10,18 +10,17 @@ export default function BeneficiosSection() {
         alt=""
       />
       <h1 className="font-bold text-[3vh] w-3/4 md:w-2/3">
-        <span className="text-[3vh]">Eh mais facil do que pensa!</span> Iremos
+        <span className="text-[3vh]">É mais fácil do que parece!</span> A gente
         <span className="bg-pink-500 p-1 text-white mx-2">
-          de <span>MAOS DADAS</span>
+          te pega pela mão
         </span>
-        em TODAS as etapas!
-        <span className="text-lime-500 font-black"> Nao apenas</span> cozinhar,
-        mas <span className="text-lime-500 font-black">vende-los</span>
+        e te mostra tudo — da <span className="text-lime-500">cozinha</span> até
+        a <span className="text-lime-500">venda.</span>
       </h1>
       <h2 className="mt-10 mb-2 font-serif text-neutral-600">
-        O que voce ira aprender ao longo do livro:
+        Você vai aprender MUITO mais que receitas:
       </h2>
-      <div className="flex flex-col justify-around rounded-2xl gap-4 bg-white px-5 py-4 mx-10">
+      <div className="flex flex-col justify-around rounded-2xl gap-4 bg-white px-5 py-4 mx-16">
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
           <p className="text-xs text-nowrap">Tecnicas Basicas de Vendas</p>
@@ -31,21 +30,25 @@ export default function BeneficiosSection() {
         </div>{" "}
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
-          <p className="text-xs text-nowrap">Tecnicas basicas de confeitaria</p>
+          <p className="text-xs text-nowrap">Truques de confeitaria simples</p>
         </div>
         <div class="relative h-[0.8px] w-full overflow-hidden">
           <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
         </div>{" "}
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
-          <p className="text-xs text-nowrap">Como administrar um negocio</p>
+          <p className="text-xs text-start">
+            Como montar e precificar seu negócio caseiro
+          </p>
         </div>
         <div class="relative h-[0.8px] w-full overflow-hidden">
           <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
         </div>{" "}
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
-          <p className="text-xs text-nowrap">Persuacao de clientes</p>
+          <p className="text-xs text-start">
+            Como conservar, embalar e apresentar
+          </p>
         </div>
         <div class="relative h-[0.8px] w-full overflow-hidden">
           <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
@@ -66,15 +69,8 @@ export default function BeneficiosSection() {
         </div>{" "}
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
-          <p className="text-xs text-nowrap">Metodos de conserva de doces</p>
-        </div>
-        <div class="relative h-[0.8px] w-full overflow-hidden">
-          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
-        </div>{" "}
-        <div className="flex items-center gap-2 ">
-          <img src={caixaMarcada} alt="" className="size-6" />
-          <p className="text-xs text-nowrap">
-            Calculo do custo e preco de venda
+          <p className="text-xs text-start">
+            Como transformar seguidores, amigos e vizinhos em clientes fiéis
           </p>
         </div>
         <div class="relative h-[0.8px] w-full overflow-hidden">
@@ -82,7 +78,7 @@ export default function BeneficiosSection() {
         </div>{" "}
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
-          <p className="text-xs text-nowrap">
+          <p className="text-xs text-start">
             Pratica dos conceitos apresentados
           </p>
         </div>

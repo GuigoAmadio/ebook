@@ -5,50 +5,52 @@ import coelho from "../assets/coelho.png";
 const perguntas = [
   {
     pergunta:
-      "Já se sentiu frustrado ao tentar vender algo e não ter o resultado que esperava?",
+      "Você já pensou em ganhar dinheiro com algo seu, mas travou antes de começar?",
     opcoes: [
-      "😭 Sim, com certeza!",
-      "😕 Uma ou outra vez",
-      "🤔 Nunca pensei nisso",
-      "😶 Acho que não",
-    ],
-  },
-  {
-    pergunta: "Já tentou alguma vez ter 2 fontes de renda no mês?",
-    opcoes: [
-      "🆕 Nunca tentei",
-      "💭 Sempre pensei nisso",
-      "🏆 Sim, e consegui",
-      "🔁 Sim, mas não consegui",
+      "😩 Sim, me sinto travada",
+      "🤷‍♀️ Às vezes tenho vontade, mas não sei por onde comecar",
+      "💭 Já pensei, mas não fiz nada ainda",
+      "😎 Não, já tentei algumas coisas",
     ],
   },
   {
     pergunta:
-      "Quanto estaria disposto a gastar para aprender uma nova habilidade?",
+      "Se você pudesse lucrar com a Páscoa, trabalhando de casa, isso te ajudaria hoje?",
     opcoes: [
-      "💰 Mais de R$1.000",
-      "💵 Por volta de R$500",
-      "💸 Menos de R$100",
-      "🪙 Nada mais que R$30",
-    ],
-  },
-  {
-    pergunta: "Como se sentiria com apenas R$500 reais extras esse mês?",
-    opcoes: [
-      "🏠 Ajudaria bastante em casa",
-      "😐 Não faria muita diferença",
-      "🌱 Já seria um começo",
-      "🙅‍♂️ Irrelevante",
+      "🙋‍♀️ Com certeza, seria perfeito pra mim agora",
+      "😍 Sim, daria a renda extra que eu preciso",
+      "🤔 Talvez, se não for complicado",
+      "🤨 Não sei se daria certo pra mim",
     ],
   },
   {
     pergunta:
-      "Sabe como calcular os gastos e custos para a venda de qualquer produto?",
+      "O que mais te impede de começar algo que gere dinheiro pra você hoje?",
     opcoes: [
-      "🧠 Tenho uma noção",
-      "❓ Não sei nada",
-      "📈 Sim, sou experiente!",
-      "🤷 Nunca tentei antes",
+      "😬 Nao saber por onde comecar.",
+      "💸 Medo de gastar dinheiro e não vender",
+      "🧾 Não entendo nada de negócios",
+      "😩 Falta de tempo ou motivação",
+    ],
+  },
+  {
+    pergunta:
+      "Se existise um metodo facil, receitas prontas e um plano passo a passo, voce usaria para faturar na Pascoa?",
+    opcoes: [
+      "💪 Seguiria sem pensar",
+      "🙌 Se for simples, tô dentro!",
+      "🤷‍♀️ Talvez… depende de como funciona",
+      "🤯 Parece muito complicado",
+    ],
+  },
+  {
+    pergunta:
+      "Se tudo ja estivesse pronto, apenas esperando alguem para assumir e lucrar nesta Pascoa, o que voce faria?",
+    opcoes: [
+      "😍 Eu começaria agora mesmo",
+      "🤔 Acho que nao seria para mim",
+      "🙋‍♀️ Com certeza iria tentar",
+      "😓 Ainda assim teria medo de não conseguir",
     ],
   },
 ];
@@ -76,11 +78,12 @@ export default function Quiz() {
       {indexAtual === -1 ? (
         <div className="text-center space-y-8 max-w-xl">
           <h1 className="text-3xl font-bold text-lime-600">
-            Descubra como ganhar dinheiro com algo simples e delicioso!
+            Aprenda a faturar com Ovos de Pascoa Caseiros Irresistiveis!
+            <br /> Mesmo nao tendo experiência de vendas
           </h1>
           <p className="text-gray-700 text-lg font-medium">
-            Responda a 5 perguntas rápidas e veja como transformar sua
-            criatividade em renda com ovos de Páscoa e muito mais.
+            Responda 5 perguntas simples ✨ e descubra como transformar sua
+            criatividade em lucro com ovos de Páscoa
           </p>
           <button
             onClick={iniciarQuiz}

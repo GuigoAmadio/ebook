@@ -19,10 +19,12 @@ export default function ReceitasSection({}) {
   return (
     <section className="pt-14 pb-24 px-4 bg-rose-950 text-center text-white">
       <h2 className="text-[3vh] font-bold text-center mb-20 text-brown-700">
-        Sao
+        🍬 São
         <span className="text-brown-900 text-[4vh]"> 15 </span>
-        <span className="text-pink-500 text-[4vh]">Receitas</span> com segredos
-        de preparo por profissionais:{" "}
+        <span className="text-pink-500 text-[4vh]">
+          Receitas PROFISSIONAIS{" "}
+        </span>
+        testadas que fazem seus doces venderem sozinhos:
       </h2>
 
       <div className="grid grid-cols-2 gap-x-4 gap-y-10 max-w-md mx-auto">

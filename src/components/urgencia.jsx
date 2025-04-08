@@ -17,14 +17,15 @@ export default function UrgenciaSection({}) {
       ></img>
       <h2 className="text-[3vh] md:text-[5vh] font-bold w-3/4">
         <span className="text-white bg-pink-500 px-4 py-1 rounded-sm">
-          NAO PERCA
+          💰 Dá pra lucrar
         </span>{" "}
-        uma das épocas mais rentáveis do ano!
+        até R$ 3.755 por mês vendendo esses ovos.
       </h2>
       <h2 className="text-[3vh] font-bold w-3/4">
-        Aproveite nossa promocao e faca até R$ 3.755 de renda{" "}
-        <span className="text-pink-500 font-extrabold ">EXTRA</span> por mês
-        vendendo doces
+        📈 A Páscoa é uma das épocas mais lucrativas do ano. E a maioria das
+        pessoas perde a chance… por{" "}
+        <span className="text-pink-500 font-extrabold ">MEDO</span>, mas não
+        você!
       </h2>
 
       <img src={ProvaSocial} alt="" className="size-auto" />

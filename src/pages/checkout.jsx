@@ -1,94 +1,92 @@
 import React, { useEffect, useState } from "react";
-import livroUm from "../assets/livroUm.png";
-import garantia from "../assets/garantia.webp";
-import seguro from "../assets/seguro.png";
-import coelinho from "../assets/coelinho.png";
 import { useLocation } from "react-router-dom";
-import { div } from "framer-motion/client";
+import CheckoutForm from "../components/CheckoutForm";
+import ProdutosCard from "../components/ProdutosCard";
+import ResumoCompra from "../components/ResumoCompra";
+
+import capaPrincipal from "../assets/capaPrincipal.jpg";
+import capaFitness from "../assets/capaFitness.jpg";
+import capaGourmet from "../assets/capaGourmet.png";
+import capaExcell from "../assets/capaExcell.jpg";
 
 export default function Checkout() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const produtoBase = queryParams.get("produto"); // "ebook" ou "pacote"
-  const [produtosSelecionados, setProdutosSelecionados] = useState([
-    "pascoa", // sempre vem selecionado
-  ]);
+
   const todosProdutos = [
     {
       id: "pascoa",
       nome: "Lucrando com a Páscoa",
       precoOriginal: 71.9,
       precoAtual: 16.9,
+      imagem: capaPrincipal,
     },
     {
       id: "admin",
-      nome: "Técnicas de Administração",
-      precoOriginal: 52.2,
-      precoAtual: 8.9,
+      nome: "Planilha Detalhada de Gastos",
+      precoOriginal: 22.2,
+      precoAtual: 2.9,
+      imagem: capaExcell,
     },
     {
       id: "fit",
-      nome: "Ebook de Ovos Fitness",
+      nome: "Guia de 8 Ovos Fitness High Protein",
       precoOriginal: 25.9,
       precoAtual: 4.9,
+      imagem: capaFitness,
     },
     {
       id: "gourmet",
-      nome: "Ebook de Ovos Gourmet",
+      nome: "Receita de 10 Ovos Gourmet Para Impressionar",
       precoOriginal: 25.9,
       precoAtual: 4.9,
+      imagem: capaGourmet,
     },
   ];
 
+  const [form, setForm] = useState({
+    email: "",
+    celular: "",
+    cpf: "",
+    pagamento: "pix",
+  });
+
+  const [produtosSelecionados, setProdutosSelecionados] = useState([]);
+  const [pagamentoStatus, setPagamentoStatus] = useState(null); // null | "loading" | "success" | "erro"
+  const [upsellUrl, setUpsellUrl] = useState("");
+  const [qrCodeData, setQrCodeData] = useState(null);
+  const [ultimoPix, setUltimoPix] = useState(0); // timestamp do último Pix gerado
+
+  useEffect(() => {
+    const produtosQuery = queryParams.get("produtos");
+    let selecionados = produtosQuery
+      ? produtosQuery
+          .split(",")
+          .filter((id) => todosProdutos.some((p) => p.id === id))
+      : [];
+
+    if (!selecionados.includes("pascoa")) {
+      selecionados = ["pascoa", ...selecionados];
+    }
+
+    setProdutosSelecionados(selecionados);
+  }, [location.search]);
+
   const alternarProduto = (id) => {
-    setProdutosSelecionados((atual) =>
-      atual.includes(id) ? atual.filter((item) => item !== id) : [...atual, id]
+    setProdutosSelecionados((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
     );
   };
 
   const selecionados = todosProdutos.filter((p) =>
     produtosSelecionados.includes(p.id)
   );
-
   const totalOriginal = selecionados.reduce(
-    (soma, p) => soma + p.precoOriginal,
+    (acc, p) => acc + p.precoOriginal,
     0
   );
-  const totalAtual = selecionados.reduce((soma, p) => soma + p.precoAtual, 0);
+  const totalAtual = selecionados.reduce((acc, p) => acc + p.precoAtual, 0);
   const descontoTotal = totalOriginal - totalAtual;
-
-  useEffect(() => {
-    const query = new URLSearchParams(location.search);
-    const produtosQuery = query.get("produtos");
-
-    if (produtosQuery) {
-      const selecionados = produtosQuery
-        .split(",")
-        .filter((id) => todosProdutos.some((p) => p.id === id));
-
-      setProdutosSelecionados(
-        selecionados.includes("pascoa")
-          ? selecionados
-          : ["pascoa", ...selecionados]
-      );
-    }
-  }, [location.search]);
-
-  const [form, setForm] = useState({
-    email: "",
-    celular: "",
-    pagamento: "pix",
-    cpf: "",
-  });
-
-  const [ultimoPix, setUltimoPix] = useState(0); // timestamp da última geração de PIX
-
-  const [loading, setLoading] = useState(false);
-  const [qrCodeData, setQrCodeData] = useState({
-    base64: "",
-    emv: "",
-    vencimento: "",
-  });
 
   const validarCampos = () => {
     const { email, celular, cpf, pagamento } = form;
@@ -117,10 +115,6 @@ export default function Checkout() {
     return true;
   };
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
   const gerarTokenCartao = async () => {
     const resposta = await fetch(
       "https://homolog.appmax.com.br/api/v3/tokenize/card",
@@ -139,22 +133,16 @@ export default function Checkout() {
       }
     );
 
-    const dados = await resposta.json();
-
-    if (!dados.token) {
-      throw new Error("Token não gerado");
-    }
-    console.log("Gerado token do cartao:", dados.token);
-    return dados.token;
+    const data = await resposta.json();
+    if (!data.token) throw new Error("Token não gerado");
+    return data.token;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // ⛔️ Validação dos campos antes de prosseguir
     if (!validarCampos()) return;
 
-    // 🕒 Bloqueio se tentar gerar novo QR PIX antes de 2 min
+    // Bloquear múltiplas gerações de Pix por 2 minutos
     if (form.pagamento === "pix") {
       const agora = Date.now();
       const doisMinutos = 2 * 60 * 1000;
@@ -164,50 +152,46 @@ export default function Checkout() {
         alert(`Aguarde ${restante} segundos antes de gerar um novo QR Code.`);
         return;
       }
+
+      setUltimoPix(agora);
     }
 
-    setLoading(true);
+    setPagamentoStatus("loading");
+
     try {
       let token = null;
       if (form.pagamento === "cartao") {
         token = await gerarTokenCartao();
       }
 
-      const res = await fetch(
-        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/realizarPagamento",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            pagamento: form.pagamento,
-            email: form.email,
-            celular: form.celular,
-            cpf: form.cpf,
-            token: token,
-          }),
-        }
-      );
+      const resposta = await fetch("https://seu-backend.com/api/pagar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          produtos: produtosSelecionados,
+          total: totalAtual,
+          token,
+        }),
+      });
 
-      const data = await res.json();
+      const json = await resposta.json();
 
-      if (form.pagamento === "pix") {
-        const ref = data.data.pay_reference;
-
+      if (form.pagamento === "pix" && json?.data?.pix_qrcode) {
+        // Armazena QR code e inicia verificação de pagamento
         setQrCodeData({
-          base64: data.data.pix_qrcode,
-          emv: data.data.pix_emv,
-          vencimento: data.data.pix_expiration_date,
+          base64: json.data.pix_qrcode,
+          emv: json.data.pix_emv,
+          vencimento: json.data.pix_expiration_date,
         });
 
-        alert("QR Code gerado! Verificando pagamento...");
+        const ref = json.data.pay_reference;
 
-        // ⏳ Verifica o status a cada 5s até dar 2 minutos
         let tentativas = 0;
         const intervalo = setInterval(async () => {
           tentativas++;
-
           const check = await fetch(
-            "https://us-central1-stripepay-3c918.cloudfunctions.net/api/verificarStatusPix",
+            "https://seu-backend.com/api/verificarStatusPix",
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -219,258 +203,90 @@ export default function Checkout() {
 
           if (status.status === "approved") {
             clearInterval(intervalo);
-            alert("Pagamento via PIX confirmado! Enviando ebook...");
-
-            await fetch(
-              "https://us-central1-stripepay-3c918.cloudfunctions.net/api/enviarEbook",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: form.email }),
-              }
-            );
-            alert("Ebook enviado com sucesso!");
+            setPagamentoStatus("success");
           } else if (tentativas >= 24) {
             clearInterval(intervalo);
-            alert(
-              "Tempo limite de espera excedido. Tente novamente mais tarde."
-            );
+            setPagamentoStatus("erro");
+            alert("Pagamento Pix não confirmado a tempo. Tente novamente.");
           }
         }, 5000);
-      } else if (data?.success === "ATIVA" || data?.status === "approved") {
-        alert("Pagamento com cartão aprovado!");
-
-        // Envia o ebook por email
-        await fetch(
-          "https://us-central1-stripepay-3c918.cloudfunctions.net/api/enviarEbook",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: form.email }),
-          }
-        );
-
-        alert("Ebook enviado para seu email! 📘");
+      } else if (json.status === "aprovado") {
+        if (json.upsell_url) {
+          setUpsellUrl(json.upsell_url);
+        } else {
+          setPagamentoStatus("success");
+        }
       } else {
-        alert("Erro no pagamento: " + (data.message || "Falha ao processar"));
+        alert("Erro no pagamento. Tente novamente.");
+        setPagamentoStatus("erro");
       }
-    } catch (error) {
-      alert("Erro ao processar pagamento.");
-      console.error(error);
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      console.error("Erro:", err);
+      alert("Erro ao processar o pagamento.");
+      setPagamentoStatus("erro");
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className="min-h-screen bg-gray-100 py-10 px-4 md:px-20 flex flex-col items-center lg:flex-row lg:items-start gap-10 lg:justify-between">
-        <div className="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md space-y-6">
-          <h1 className="text-xl font-bold">Finalizar Compra</h1>
-          <input
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Seu e-mail"
-            className="input w-full"
-            required
-          />
-          <input
-            name="celular"
-            type="tel"
-            value={form.celular}
-            onChange={handleChange}
-            placeholder="Celular com DDD"
-            className="input w-full"
-            required
-          />
-          <input
-            name="cpf"
-            type="cpf"
-            value={form.cpf}
-            onChange={handleChange}
-            placeholder="Preencher com seu CPF"
-            className="input w-full"
-            required
-          />
-          <div className="flex gap-4">
-            <button
-              type="button"
-              onClick={() => setForm({ ...form, pagamento: "pix" })}
-              className={`flex-1 p-3 rounded border ${
-                form.pagamento === "pix"
-                  ? "bg-green-700 text-white"
-                  : "bg-white"
-              }`}
-            >
-              PIX
-            </button>
-            <button
-              type="button"
-              onClick={() => setForm({ ...form, pagamento: "cartao" })}
-              className={`flex-1 p-3 rounded border ${
-                form.pagamento === "cartao"
-                  ? "bg-green-700 text-white"
-                  : "bg-white"
-              }`}
-            >
-              Cartão
-            </button>
-          </div>
-          {form.pagamento === "cartao" && (
-            <div className="space-y-3">
-              <input
-                id="cardNumber"
-                placeholder="Número do cartão"
-                className="input w-full"
-                required
-              />
-              <div className="flex gap-2">
-                <input
-                  id="expMonth"
-                  placeholder="Mês"
-                  className="input w-1/3"
-                  required
-                />
-                <input
-                  id="expYear"
-                  placeholder="Ano"
-                  className="input w-1/3"
-                  required
-                />
-                <input
-                  id="cvv"
-                  placeholder="CVV"
-                  className="input w-1/3"
-                  required
-                />
-              </div>
-              <input
-                id="cardholderName"
-                placeholder="Nome no cartão"
-                className="input w-full"
-                required
-              />
-            </div>
-          )}
-          {form.pagamento === "pix" && (
-            <div className="mt-4 p-4 border-2 border-dashed border-green-700 text-sm rounded-md space-y-4">
-              <p>✅ Liberação imediata</p>
-              <p>✅ Pague escaneando o QR Code abaixo</p>
-            </div>
-          )}
-          <div className="flex flex-col items-center text-center">
-            <div className="flex items-center">
-              <img src={coelinho} alt="" className="size-6" />
-              <h2 className="font-extrabold text-neutral-600">
-                Lucrando com a pascoa
-              </h2>
-            </div>
-            <p className="text-neutral-800 text-sm my-3">
-              Este pagamento esta sendo processado com seguranca pela AppMax
-            </p>
-            <div className="flex items-center mb-4">
-              <img src={seguro} alt="" className="size-3 mr-2" />
-              <h3 className="text-green-500 text-sm">Compra 100% segura!</h3>
-            </div>
-            <p className="text-xs mb-2">
-              Este site é protegido pelo reCAPTCHA do Google
-            </p>
-            <p className="text-xs">
-              <span className="font-bold">Política de privacidade</span> e{" "}
-              <span className="font-bold">Termos de serviço</span>
-            </p>
-          </div>
-        </div>
-        <div className="mt-6 w-full lg:w-96 space-y-2 mb-10">
-          <p className="font-medium">Aproveite e inclua tambem:</p>
-          {todosProdutos
-            .filter((p) => p.id !== "pascoa")
-            .map((produto) => (
-              <label
-                key={produto.id}
-                className="flex items-center gap-2 bg-white shadow-lg h-12 rounded-xl px-4"
-              >
-                <input
-                  type="checkbox"
-                  checked={produtosSelecionados.includes(produto.id)}
-                  onChange={() => alternarProduto(produto.id)}
-                />
-                <span>
-                  {produto.nome} por{" "}
-                  <span className="text-sky-500">
-                    R${produto.precoAtual.toFixed(2)}
-                  </span>
-                </span>
-              </label>
-            ))}
-        </div>
-        <section className="flex flex-col gap-2 justify-start items-center rounded-xl w-96 px-4 py-10 bg-white shadow-md my-10 lg:my-0">
-          <h1 className="font-bold text-2xl">Resumo da compra</h1>
-          <div className="px-10 my-10 flex flex-col text-start w-full">
-            <p className="font-medium">Itens:</p>
-            <div className="flex flex-col gap-2">
-              {selecionados.map((item) => (
-                <div className="flex justify-between items-center">
-                  <p key={item.id} className="font-medium opacity-50">
-                    {item.nome}
-                  </p>
-                  <p className="font-medium">R${item.precoOriginal}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex justify-between w-full px-10">
-            <p className="font-medium">Total:</p>
-            <p className="">R${totalOriginal.toFixed(2)}</p>
-          </div>
-
-          <div className="flex justify-between w-full px-10">
-            <p className="font-medium">Descontos:</p>
-            <p className="font-medium">R${descontoTotal.toFixed(2)}</p>
-          </div>
-
-          <div className="flex justify-between w-full px-10">
-            <p className="font-medium">Taxa de entrega:</p>
-            <p className="">R$0,00</p>
-          </div>
-
-          <div className="flex justify-between w-full px-10 mt-4">
-            <p className="font-medium">Total a ser pago:</p>
-            <p className="font-bold text-green-700 text-lg">
-              R${totalAtual.toFixed(2)}
-            </p>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-green-700 text-white py-3 rounded font-semibold my-10 shadow-md shadow-neutral-600"
-          >
-            {loading ? "Processando..." : "Finalizar Pagamento"}
-          </button>
-          {form.pagamento === "pix" && qrCodeData.base64 != "" && (
-            <div className="mt-4 space-y-2 border border-green-700 rounded-lg p-4">
-              <p className="text-sm">✅ Pagamento gerado via Pix</p>
-              <img
-                src={`data:image/png;base64,${qrCodeData.base64}`}
-                alt="QR Code PIX"
-                className="mx-auto max-w-xs border rounded-md"
-              />
-              <p className="text-xs break-words text-center">
-                {qrCodeData.emv}
-              </p>
-              <p className="text-xs text-center text-gray-500 mt-2">
-                Válido até:{" "}
-                {new Date(qrCodeData.vencimento).toLocaleString("pt-BR")}
-              </p>
-            </div>
-          )}
-          <img src={garantia} alt="" className="w-40 mt-4" />
-        </section>
+  // Tela de upsell
+  if (upsellUrl) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white p-10">
+        <h1 className="text-xl font-bold mb-6">
+          🎁 Oferta Especial para Você!
+        </h1>
+        <iframe
+          src={upsellUrl}
+          className="w-full max-w-3xl h-[700px] rounded-lg shadow-xl border"
+          title="Upsell Appmax"
+        />
+        <p className="text-sm mt-6 text-gray-600">
+          Caso não deseje, basta fechar a aba.
+        </p>
       </div>
-    </form>
+    );
+  }
+
+  // Tela de sucesso
+  if (pagamentoStatus === "success") {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white text-center p-10">
+        <h1 className="text-2xl font-bold text-green-700">
+          ✅ Pagamento Aprovado!
+        </h1>
+        <p className="mt-4">
+          Seu eBook já foi enviado para o e-mail <strong>{form.email}</strong>.
+        </p>
+        <p className="mt-2 text-gray-500">Obrigado por comprar com a gente!</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col lg:flex-row gap-10 min-h-screen bg-gray-100 p-4 md:p-10">
+      <div className="flex flex-col gap-6 w-full lg:w-2/3">
+        <CheckoutForm form={form} setForm={setForm} />
+        <div className="bg-white p-4 rounded-xl shadow-md space-y-4">
+          <h2 className="text-lg font-semibold">
+            Adicione outros eBooks à sua compra
+          </h2>
+          <ProdutosCard
+            produtos={todosProdutos.filter((p) => p.id !== "pascoa")}
+            produtosSelecionados={produtosSelecionados}
+            onToggle={alternarProduto}
+          />
+        </div>
+      </div>
+
+      <ResumoCompra
+        selecionados={selecionados}
+        totalOriginal={totalOriginal}
+        totalAtual={totalAtual}
+        descontoTotal={descontoTotal}
+        pagamento={form.pagamento}
+        onSubmit={handleSubmit}
+        loading={pagamentoStatus === "loading"}
+        qrCodeData={qrCodeData}
+      />
+    </div>
   );
 }

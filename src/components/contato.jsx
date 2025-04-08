@@ -5,14 +5,14 @@ export default function ContatoSection() {
         Garanta agora seu eBook e comece a lucrar ainda hoje!
       </h2>
       <p className="text-[2vh] w-3/4 md:w-1/2 mx-auto mb-4">
-        Não espere a próxima Páscoa. O melhor momento para começar é agora. Este
-        pode ser o seu primeiro passo rumo à sua renda extra!
+        Não dá pra esperar a próxima Páscoa. Esse é o seu momento. Garanta agora
+        seu acesso e comece a lucrar ainda hoje:
       </p>
       <button
         onClick={() => (window.location.href = "/checkout?produtos=pascoa")}
         className="border-2 border-dashed border-lime-400 hover:scale-105 shadow-lg shadow-yellow-500 h-12 w-72 mt-6 bg-white text-black rounded-lg text-[2vh] font-bold hover:bg-lime-400 hover:text-white transition"
       >
-        Garantir Ja
+        🔥 QUERO COMEÇAR AGORA MESMO
       </button>
       <div className="flex w-full items-center justify-center lg:gap-40">
         <div>

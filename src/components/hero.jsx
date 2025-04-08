@@ -7,14 +7,14 @@ export default function HeroSection({}) {
   return (
     <section className="relative bg-lime-200 min-h-screen flex flex-col items-center text-center px-4 py-10">
       <h1 className="mt-12 text-[3vh] md:text-[5vh] font-bold text-brown-700">
-        Transforme a Páscoa em Lucro <br></br>com Ovos Artesanais
+        Transforme Chocolate em Dinheiro Nesta Páscoa<br></br>
       </h1>
       <p className="text-[3vh] w-3/4 md:w-1/2 font-bold text-brown-600">
-        Descubra agora como{" "}
+        Mesmo que você{" "}
         <span className="text-green-600 font-extrabold">
-          ganhar dinheiro na Páscoa
+          nunca tenha vendido
         </span>{" "}
-        fazendo e vendendo doces irresistíveis.
+        nada antes ou ache que não leva jeito.
       </p>
       <div className="relative flex justify-center items-center h-auto my-20">
         {/* Glow / Vinheta */}
@@ -49,7 +49,7 @@ export default function HeroSection({}) {
           className="animate-bounce absolute size-16 lg:size-28 lg:-top-24 -top-14 right-0 transform scale-x-[-1] Z-50"
           alt=""
         />
-        QUERO APRENDER A TER UMA RENDA EXTRA NESTA PASCOA
+        🔓 QUERO TER UMA RENDA EXTRA NESTA PÁSCOA
       </button>
       {/* Sessão 2: Reenforcement */}
     </section>

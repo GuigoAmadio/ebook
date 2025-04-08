@@ -8,7 +8,7 @@ import OfertasSection from "../components/ofertas";
 import ContatoSection from "../components/contato";
 
 export default function LandingPage() {
-  const [tempoRestante, setTempoRestante] = React.useState(2 * 60 * 60);
+  const [tempoRestante, setTempoRestante] = React.useState(0 * 37 * 60);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
