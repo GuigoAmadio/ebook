@@ -18,28 +18,28 @@ export default function Checkout() {
       id: "pascoa",
       nome: "Lucrando com a Páscoa",
       precoOriginal: 71.9,
-      precoAtual: 16.9,
+      precoAtual: 2,
       imagem: capaPrincipal,
     },
     {
       id: "admin",
       nome: "Planilha Detalhada de Gastos",
       precoOriginal: 22.2,
-      precoAtual: 2.9,
+      precoAtual: 1,
       imagem: capaExcell,
     },
     {
       id: "fit",
       nome: "Guia de 8 Ovos Fitness High Protein",
       precoOriginal: 25.9,
-      precoAtual: 4.9,
+      precoAtual: 1,
       imagem: capaFitness,
     },
     {
       id: "gourmet",
       nome: "Receita de 10 Ovos Gourmet Para Impressionar",
       precoOriginal: 25.9,
-      precoAtual: 4.9,
+      precoAtual: 2,
       imagem: capaGourmet,
     },
   ];
@@ -53,7 +53,6 @@ export default function Checkout() {
 
   const [produtosSelecionados, setProdutosSelecionados] = useState([]);
   const [pagamentoStatus, setPagamentoStatus] = useState(null); // null | "loading" | "success" | "erro"
-  const [upsellUrl, setUpsellUrl] = useState("");
   const [qrCodeData, setQrCodeData] = useState(null);
   const [ultimoPix, setUltimoPix] = useState(0); // timestamp do último Pix gerado
 
@@ -117,25 +116,26 @@ export default function Checkout() {
 
   const gerarTokenCartao = async () => {
     const resposta = await fetch(
-      "https://homolog.appmax.com.br/api/v3/tokenize/card",
+      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/tokenizarCartao",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          card: {
-            name: document.getElementById("cardholderName")?.value,
-            number: document.getElementById("cardNumber")?.value,
-            cvv: document.getElementById("cvv")?.value,
-            month: Number(document.getElementById("expMonth")?.value),
-            year: Number(document.getElementById("expYear")?.value),
-          },
+          name: document.getElementById("cardholderName")?.value,
+          number: document.getElementById("cardNumber")?.value,
+          cvv: document.getElementById("cvv")?.value,
+          month: Number(document.getElementById("expMonth")?.value),
+          year: Number(document.getElementById("expYear")?.value),
         }),
       }
     );
 
-    const data = await resposta.json();
-    if (!data.token) throw new Error("Token não gerado");
-    return data.token;
+    const dados = await resposta.json();
+    if (!dados.data.token) {
+      throw new Error("Token não gerado eis o motivo:", dados.error);
+    }
+
+    return dados.data.token;
   };
 
   const handleSubmit = async (e) => {
@@ -164,19 +164,22 @@ export default function Checkout() {
         token = await gerarTokenCartao();
       }
 
-      const resposta = await fetch("https://seu-backend.com/api/pagar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          produtos: produtosSelecionados,
-          total: totalAtual,
-          token,
-        }),
-      });
-
+      const resposta = await fetch(
+        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/realizarPagamento",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...form,
+            cvv: document.getElementById("cvv")?.value,
+            produtos: produtosSelecionados,
+            token,
+            total: totalAtual,
+          }),
+        }
+      );
       const json = await resposta.json();
-
+      console.log("Json resposta do pagamento:", json);
       if (form.pagamento === "pix" && json?.data?.pix_qrcode) {
         // Armazena QR code e inicia verificação de pagamento
         setQrCodeData({
@@ -185,37 +188,45 @@ export default function Checkout() {
           vencimento: json.data.pix_expiration_date,
         });
 
-        const ref = json.data.pay_reference;
-
+        const pay_reference = json.data.pay_reference;
+        const MAX_TEMPO = 10 * 60 * 1000; // 10 minutos
+        const INTERVALO = 5000; // 5 segundos
         let tentativas = 0;
-        const intervalo = setInterval(async () => {
+        const maxTentativas = MAX_TEMPO / INTERVALO;
+
+        const loop = setInterval(async () => {
           tentativas++;
-          const check = await fetch(
-            "https://seu-backend.com/api/verificarStatusPix",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ pay_reference: ref }),
+
+          try {
+            const resposta = await fetch(
+              "https://us-central1-stripepay-3c918.cloudfunctions.net/verificarPagamento",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  id: pay_reference,
+                }),
+              }
+            );
+
+            const json = await resposta.json();
+
+            if (json.status === "aprovado") {
+              clearInterval(loop);
+              setPagamentoStatus("success");
+            } else if (tentativas >= maxTentativas) {
+              clearInterval(loop);
+              alert("❌ Pagamento via Pix não foi confirmado em 10 minutos.");
+              setPagamentoStatus("erro");
             }
-          );
-
-          const status = await check.json();
-
-          if (status.status === "approved") {
-            clearInterval(intervalo);
-            setPagamentoStatus("success");
-          } else if (tentativas >= 24) {
-            clearInterval(intervalo);
-            setPagamentoStatus("erro");
-            alert("Pagamento Pix não confirmado a tempo. Tente novamente.");
+          } catch (erro) {
+            console.error("Erro ao verificar Pix:", erro);
           }
-        }, 5000);
+        }, INTERVALO);
+
+        // Fazer requisicao de checkagem para meu banco de dados.
       } else if (json.status === "aprovado") {
-        if (json.upsell_url) {
-          setUpsellUrl(json.upsell_url);
-        } else {
-          setPagamentoStatus("success");
-        }
+        setPagamentoStatus("success");
       } else {
         alert("Erro no pagamento. Tente novamente.");
         setPagamentoStatus("erro");
@@ -227,33 +238,13 @@ export default function Checkout() {
     }
   };
 
-  // Tela de upsell
-  if (upsellUrl) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-white p-10">
-        <h1 className="text-xl font-bold mb-6">
-          🎁 Oferta Especial para Você!
-        </h1>
-        <iframe
-          src={upsellUrl}
-          className="w-full max-w-3xl h-[700px] rounded-lg shadow-xl border"
-          title="Upsell Appmax"
-        />
-        <p className="text-sm mt-6 text-gray-600">
-          Caso não deseje, basta fechar a aba.
-        </p>
-      </div>
-    );
-  }
-
-  // Tela de sucesso
   if (pagamentoStatus === "success") {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-white text-center p-10">
         <h1 className="text-2xl font-bold text-green-700">
           ✅ Pagamento Aprovado!
         </h1>
-        <p className="mt-4">
+        <p className="mt-2 font-medium">
           Seu eBook já foi enviado para o e-mail <strong>{form.email}</strong>.
         </p>
         <p className="mt-2 text-gray-500">Obrigado por comprar com a gente!</p>
