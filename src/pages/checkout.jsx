@@ -67,7 +67,6 @@ export default function Checkout() {
     if (!selecionados.includes("pascoa")) {
       selecionados = ["pascoa", ...selecionados];
     }
-
     setProdutosSelecionados(selecionados);
   }, [location.search]);
 
@@ -248,6 +247,24 @@ export default function Checkout() {
           Seu eBook já foi enviado para o e-mail <strong>{form.email}</strong>.
         </p>
         <p className="mt-2 text-gray-500">Obrigado por comprar com a gente!</p>
+      </div>
+    );
+  }
+  if (pagamentoStatus === "erro") {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white text-center p-10">
+        <h1 className="text-2xl font-bold text-green-700">
+          Algo deu errado🚫!
+        </h1>
+        <p className="mt-2 font-medium">
+          O pagamento nao foi bem concluido, tente novamente.
+        </p>
+        <button
+          onClick={() => setPagamentoStatus(null)} // 👈 reseta o status aqui
+          className="mt-6 px-6 py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition"
+        >
+          Voltar
+        </button>
       </div>
     );
   }
