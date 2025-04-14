@@ -8,12 +8,11 @@ export default function ResumoCompra({
   totalOriginal,
   totalAtual,
   descontoTotal,
-  qrCodeData,
   pagamento,
   onSubmit,
+  loading,
+  qrCodeData,
 }) {
-  const [loading, setLoading] = useState(false);
-
   return (
     <section className="flex flex-col gap-2 justify-start items-center rounded-xl w-96 px-4 py-10 bg-white shadow-md my-10 lg:my-0">
       <h1 className="font-bold text-2xl">Resumo da compra</h1>
