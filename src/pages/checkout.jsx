@@ -13,6 +13,12 @@ export default function Checkout() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
+  const produtoPrincipal = {
+    sku: "PASCOA-001",
+    name: "Lucrando com a Páscoa",
+    soft_descriptor: "LucraPascoa",
+  };
+
   const todosProdutos = [
     {
       id: "pascoa",
@@ -174,6 +180,7 @@ export default function Checkout() {
             produtos: produtosSelecionados,
             token,
             total: totalAtual,
+            product: produtoPrincipal,
           }),
         }
       );
