@@ -170,7 +170,7 @@ export default function Checkout() {
       }
 
       const resposta = await fetch(
-        "http://127.0.0.1:5001/stripepay-3c918/us-central1/api/realizarPagamento",
+        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/realizarPagamento",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
