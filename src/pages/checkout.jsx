@@ -215,9 +215,9 @@ export default function Checkout() {
               }
             );
 
-            const json = await resposta.json();
+            const resposta2 = await resposta.json();
 
-            if (json.status === "aprovado") {
+            if (resposta2.status === "aprovado") {
               clearInterval(loop);
               setPagamentoStatus("success");
             } else if (tentativas >= maxTentativas) {
