@@ -210,7 +210,7 @@ export default function Checkout() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  id: pay_reference,
+                  id: json.customerId,
                 }),
               }
             );
