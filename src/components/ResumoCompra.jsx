@@ -119,7 +119,7 @@ export default function ResumoCompra({
           >
             {copiado
               ? "✅ Copiado para a área de transferência!"
-              : qrCodeData.emv}
+              : "Copiar Pix"}
           </button>
 
           <p className="text-xs text-center text-gray-500 mt-2">
