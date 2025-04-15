@@ -13,6 +13,18 @@ export default function ResumoCompra({
   loading,
   qrCodeData,
 }) {
+  const [copiado, setCopiado] = useState(false);
+
+  const copiarPix = async () => {
+    try {
+      await navigator.clipboard.writeText(qrCodeData.emv);
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 2000);
+    } catch (err) {
+      console.error("Erro ao copiar Pix:", err);
+    }
+  };
+
   return (
     <section className="flex flex-col gap-2 justify-start items-center rounded-xl w-96 px-4 py-10 bg-white shadow-md my-10 lg:my-0">
       <h1 className="font-bold text-2xl">Resumo da compra</h1>
@@ -101,7 +113,15 @@ export default function ResumoCompra({
             alt="QR Code PIX"
             className="mx-auto max-w-xs border rounded-md"
           />
-          <p className="text-xs break-words text-center">{qrCodeData.emv}</p>
+          <button
+            onClick={copiarPix}
+            className="text-xs break-words text-center w-full p-2 border border-pink-500 rounded bg-pink-100 hover:bg-pink-200 transition"
+          >
+            {copiado
+              ? "✅ Copiado para a área de transferência!"
+              : qrCodeData.emv}
+          </button>
+
           <p className="text-xs text-center text-gray-500 mt-2">
             Válido até:{" "}
             {new Date(qrCodeData.vencimento).toLocaleString("pt-BR")}

@@ -170,7 +170,7 @@ export default function Checkout() {
       }
 
       const resposta = await fetch(
-        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/realizarPagamento",
+        "http://127.0.0.1:5001/stripepay-3c918/us-central1/api/realizarPagamento",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -194,7 +194,6 @@ export default function Checkout() {
           vencimento: json.data.pix_expiration_date,
         });
 
-        const pay_reference = json.data.pay_reference;
         const MAX_TEMPO = 10 * 60 * 1000; // 10 minutos
         const INTERVALO = 5000; // 5 segundos
         let tentativas = 0;
