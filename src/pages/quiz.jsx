@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import coelho from "../assets/coelho.png";
+import calcinha from "../assets/calcinha.png";
 
 const perguntas = [
   {
@@ -74,7 +74,11 @@ export default function Quiz() {
       <div className="bg-pink-200 text-pink-500 font-extrabold text-lg md:text-xl px-6 py-2 rounded-full mb-8 shadow-md border border-pink-500">
         🐰 Especial de Páscoa! 🍫
       </div>
-      <img src={coelho} className="absolute bottom-0 right-0 size-28" alt="" />
+      <img
+        src={calcinha}
+        className="absolute bottom-0 right-0 size-28"
+        alt=""
+      />
       {indexAtual === -1 ? (
         <div className="text-center space-y-8 max-w-xl">
           <h1 className="text-3xl font-bold text-lime-600">

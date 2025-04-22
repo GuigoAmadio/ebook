@@ -4,7 +4,7 @@ import trufas2 from "../assets/trufas.png";
 
 export default function UrgenciaSection({}) {
   return (
-    <section className="bg-orange-100 text-black relative py-10 px-4 text-center flex flex-col items-center">
+    <section className="bg-rose-950 text-white relative py-10 px-4 text-center flex flex-col items-center">
       <img
         src={trufas}
         alt="Trufas em linha"
@@ -17,16 +17,17 @@ export default function UrgenciaSection({}) {
       ></img>
       <h2 className="text-[3vh] md:text-[5vh] font-bold w-3/4">
         <span className="text-white bg-pink-500 px-4 py-1 rounded-sm">
-          💰 Dá pra lucrar
+          Você não faz ideia
         </span>{" "}
-        até R$ 3.755 por mês vendendo esses ovos.
+        do poder que está prestes a desbloquear.
       </h2>
       <h2 className="text-[3vh] font-bold w-3/4">
-        📈 A Páscoa é uma das épocas mais lucrativas do ano. E a maioria das
-        pessoas perde a chance… por{" "}
-        <span className="text-pink-500 font-extrabold ">MEDO</span>, mas não
-        você!
+        A maioria dos homens vive no escuro…
+        <span className="text-pink-500 font-extrabold "> mas não você!</span>
       </h2>
+      <h3 className="mt-5 font-black text-amber-600 text-[3vh] w-3/4">
+        Veja o que falam sobre o lendario manual da seducao:
+      </h3>
 
       <img src={ProvaSocial} alt="" className="size-auto" />
     </section>

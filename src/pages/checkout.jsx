@@ -63,6 +63,9 @@ export default function Checkout() {
   const [ultimoPix, setUltimoPix] = useState(0); // timestamp do último Pix gerado
 
   useEffect(() => {
+    fbq("track", "ViewContent", {
+      content_name: "Página de Checkout",
+    });
     const produtosQuery = queryParams.get("produtos");
     let selecionados = produtosQuery
       ? produtosQuery
@@ -76,7 +79,25 @@ export default function Checkout() {
     setProdutosSelecionados(selecionados);
   }, [location.search]);
 
-  const alternarProduto = (id) => {
+  const alternarProduto = async (id) => {
+    fbq("track", "AddToCart", {
+      content_ids: [id],
+      value: todosProdutos.find((p) => p.id === id)?.precoAtual || 0,
+      currency: "BRL",
+    });
+    await fetch("https://SEU_BACKEND/api/capi", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: form.email,
+        telefone: form.celular,
+        valor: 5.7,
+        produtos: ["gourmet", "fit"],
+        eventName: "AddToCart",
+        eventId,
+      }),
+    });
+
     setProdutosSelecionados((prev) =>
       prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
     );
@@ -145,6 +166,8 @@ export default function Checkout() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    fbq("track", "InitiateCheckout");
+
     if (!validarCampos()) return;
 
     // Bloquear múltiplas gerações de Pix por 2 minutos
@@ -218,6 +241,17 @@ export default function Checkout() {
 
             if (resposta2.status === "aprovado") {
               clearInterval(loop);
+
+              const eventId = `purchase_${Date.now()}_${Math.random()
+                .toString(36)
+                .substring(2, 8)}`;
+
+              fbq("track", "Purchase", {
+                value: totalAtual,
+                currency: "BRL",
+                eventID: eventId,
+              });
+
               setPagamentoStatus("success");
             } else if (tentativas >= maxTentativas) {
               clearInterval(loop);
@@ -232,6 +266,32 @@ export default function Checkout() {
         // Fazer requisicao de checkagem para meu banco de dados.
       } else if (json.status === "aprovado") {
         setPagamentoStatus("success");
+
+        // ✅ Disparar Pixel de compra
+        const eventId = `purchase_${Date.now()}_${Math.random()
+          .toString(36)
+          .substring(2, 8)}`;
+
+        fbq("track", "Purchase", {
+          value: totalAtual,
+          currency: "BRL",
+          eventID: eventId,
+        });
+
+        // ✅ Enviar eventID para o backend (pra CAPI deduplicar)
+        await fetch(
+          "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: form.email,
+              telefone: form.celular,
+              valor: totalAtual,
+              eventId,
+            }),
+          }
+        );
       } else {
         alert("Erro no pagamento. Tente novamente.");
         setPagamentoStatus("erro");

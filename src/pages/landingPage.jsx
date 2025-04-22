@@ -8,7 +8,7 @@ import OfertasSection from "../components/ofertas";
 import ContatoSection from "../components/contato";
 
 export default function LandingPage() {
-  const [tempoRestante, setTempoRestante] = React.useState(0 * 37 * 60);
+  const [tempoRestante, setTempoRestante] = React.useState(1 * 37 * 60);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -28,9 +28,9 @@ export default function LandingPage() {
     <div className="font-sans text-brown-800 bg-white overflow-hidden">
       {/* Barra de tempo */}
       <div className="fixed top-0 w-full z-50 bg-orange-100 border-b border-orange-300 shadow text-center text-sm md:text-base text-orange-800 py-2 px-4 font-medium flex justify-center items-center gap-4">
-        <span className="font-bold text-lime-700">🐰 Especial de Páscoa:</span>
+        <span className="font-bold text-black">🎈 Especial de Namorados:</span>
         <span className="font-bold">As promocoes acabam em:</span>
-        <span className="ml-2 px-3 py-1 rounded-full bg-lime-100 text-lime-800 font-bold shadow-sm">
+        <span className="ml-2 px-3 py-1 rounded-full bg-white text-black font-bold shadow-sm">
           ⏳ {formatarTempo(tempoRestante)}
         </span>
       </div>

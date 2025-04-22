@@ -1,25 +1,25 @@
 export default function ContatoSection() {
   return (
-    <section className="bg-lime-200 text-black py-16 px-4 text-center">
+    <section className="bg-neutral-800 text-white py-16 px-4 text-center">
       <h2 className="text-[3vh] font-bold mb-4">
-        Garanta agora seu eBook e comece a lucrar ainda hoje!
+        Garanta agora seu eBook e entenda as mulheres ainda hoje!
       </h2>
       <p className="text-[2vh] w-3/4 md:w-1/2 mx-auto mb-4">
-        Não dá pra esperar a próxima Páscoa. Esse é o seu momento. Garanta agora
-        seu acesso e comece a lucrar ainda hoje:
+        Não perca o momento! Aprenda enquanto ainda pode a como manipular e
+        controlar as mulheres.
       </p>
       <button
         onClick={() => (window.location.href = "/checkout?produtos=pascoa")}
-        className="border-2 border-dashed border-lime-400 hover:scale-105 shadow-lg shadow-yellow-500 h-12 w-72 mt-6 bg-white text-black rounded-lg text-[2vh] font-bold hover:bg-lime-400 hover:text-white transition"
+        className="border-2 border-dashed border-red-400 hover:scale-105 shadow-lg shadow-yellow-500 h-12 w-72 mt-6 bg-white text-black rounded-lg text-[2vh] font-bold hover:bg-lime-400 hover:text-white transition"
       >
-        🔥 QUERO COMEÇAR AGORA MESMO
+        🔥 QUERO APRENDER AGORA MESMO
       </button>
       <div className="flex w-full items-center justify-center lg:gap-40">
         <div>
           <h3 className="font-black text-[3vh] mt-10">
             Entre em contato conosco:
           </h3>
-          <form className="max-w-xl mx-auto p-6 bg-lime-100 border-2 border-dashed border-lime-400 rounded-xl shadow-md space-y-6 mt-10">
+          <form className="max-w-xl mx-auto p-6 bg-rose-200 border-2 border-dashed border-red-400 rounded-xl shadow-md space-y-6 mt-10">
             <div>
               <label
                 htmlFor="email"
@@ -56,7 +56,7 @@ export default function ContatoSection() {
 
             <button
               type=""
-              className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 rounded-md transition"
+              className="w-full bg-rose-500 hover:bg-pink-600 text-white font-semibold py-3 rounded-md transition"
             >
               Enviar
             </button>
