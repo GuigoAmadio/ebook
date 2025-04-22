@@ -355,6 +355,7 @@ export default function Checkout() {
               );
 
               setPagamentoStatus("success");
+              window.history.replaceState({}, "", "?status=sucesso");
             } else if (tentativas >= maxTentativas) {
               clearInterval(loop);
               alert("❌ Pagamento via Pix não foi confirmado em 10 minutos.");
@@ -368,6 +369,7 @@ export default function Checkout() {
         // Fazer requisicao de checkagem para meu banco de dados.
       } else if (json.status === "aprovado") {
         setPagamentoStatus("success");
+        window.history.replaceState({}, "", "?status=sucesso");
 
         // ✅ Disparar Pixel de compra
         const eventId = `purchase_${Date.now()}_${Math.random()
