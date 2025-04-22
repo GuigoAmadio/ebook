@@ -63,8 +63,25 @@ export default function Checkout() {
   const [ultimoPix, setUltimoPix] = useState(0); // timestamp do último Pix gerado
 
   useEffect(() => {
+    const eventId = `view_${Date.now()}_${Math.random()
+      .toString(36)
+      .substring(2, 8)}`;
+
     fbq("track", "ViewContent", {
       content_name: "Página de Checkout",
+      eventID: eventId,
+    });
+    fetch("https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: form.email,
+        telefone: form.celular,
+        eventName: "ViewContent",
+        eventId,
+        valor: 0,
+        produtos: [],
+      }),
     });
     const produtosQuery = queryParams.get("produtos");
     let selecionados = produtosQuery
@@ -80,27 +97,54 @@ export default function Checkout() {
   }, [location.search]);
 
   const alternarProduto = async (id) => {
+    const novoSelecionados = produtosSelecionados.includes(id)
+      ? produtosSelecionados.filter((p) => p !== id)
+      : [...produtosSelecionados, id];
+
+    setProdutosSelecionados(novoSelecionados);
+
+    // Pega os produtos completos com base nos IDs
+    const produtosCompletos = todosProdutos.filter((p) =>
+      novoSelecionados.includes(p.id)
+    );
+
+    const valorTotal = produtosCompletos.reduce(
+      (total, p) => total + p.precoAtual,
+      0
+    );
+
+    const eventId = `add_${Date.now()}_${Math.random()
+      .toString(36)
+      .substring(2, 8)}`;
+
+    // 🔹 Dispara para o Pixel (frontend)
     fbq("track", "AddToCart", {
-      content_ids: [id],
-      value: todosProdutos.find((p) => p.id === id)?.precoAtual || 0,
+      content_ids: novoSelecionados,
+      value: valorTotal,
       currency: "BRL",
-    });
-    await fetch("https://SEU_BACKEND/api/capi", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: form.email,
-        telefone: form.celular,
-        valor: 5.7,
-        produtos: ["gourmet", "fit"],
-        eventName: "AddToCart",
-        eventId,
-      }),
+      eventID: eventId,
     });
 
-    setProdutosSelecionados((prev) =>
-      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
-    );
+    // 🔹 Dispara para o backend (API de Conversão da Meta)
+    try {
+      await fetch(
+        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: form.email,
+            telefone: form.celular,
+            valor: valorTotal,
+            produtos: novoSelecionados,
+            eventName: "AddToCart",
+            eventId,
+          }),
+        }
+      );
+    } catch (erro) {
+      console.error("Erro ao enviar evento AddToCart para o backend:", erro);
+    }
   };
 
   const selecionados = todosProdutos.filter((p) =>
@@ -166,8 +210,24 @@ export default function Checkout() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    fbq("track", "InitiateCheckout");
+    const eventId = `checkout_${Date.now()}_${Math.random()
+      .toString(36)
+      .substring(2, 8)}`;
 
+    fbq("track", "InitiateCheckout", { eventID: eventId });
+
+    fetch("https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: form.email,
+        telefone: form.celular,
+        valor: totalAtual,
+        produtos: produtosSelecionados,
+        eventName: "InitiateCheckout",
+        eventId,
+      }),
+    });
     if (!validarCampos()) return;
 
     // Bloquear múltiplas gerações de Pix por 2 minutos
@@ -252,6 +312,22 @@ export default function Checkout() {
                 eventID: eventId,
               });
 
+              fetch(
+                "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    email: form.email,
+                    telefone: form.celular,
+                    valor: totalAtual,
+                    produtos: produtosSelecionados,
+                    eventName: "Purchase",
+                    eventId,
+                  }),
+                }
+              );
+
               setPagamentoStatus("success");
             } else if (tentativas >= maxTentativas) {
               clearInterval(loop);
@@ -278,8 +354,7 @@ export default function Checkout() {
           eventID: eventId,
         });
 
-        // ✅ Enviar eventID para o backend (pra CAPI deduplicar)
-        await fetch(
+        fetch(
           "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
           {
             method: "POST",
@@ -288,6 +363,8 @@ export default function Checkout() {
               email: form.email,
               telefone: form.celular,
               valor: totalAtual,
+              produtos: produtosSelecionados,
+              eventName: "Purchase",
               eventId,
             }),
           }
