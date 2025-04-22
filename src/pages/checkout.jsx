@@ -13,6 +13,16 @@ export default function Checkout() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
+  function getCookie(name) {
+    const match = document.cookie.match(
+      new RegExp("(^| )" + name + "=([^;]+)")
+    );
+    return match ? match[2] : null;
+  }
+
+  const fbp = getCookie("_fbp");
+  const fbc = getCookie("_fbc");
+
   const produtoPrincipal = {
     sku: "PASCOA-001",
     name: "Lucrando com a Páscoa",
@@ -81,6 +91,11 @@ export default function Checkout() {
         eventId,
         valor: 0,
         produtos: [],
+        fbp,
+        fbc,
+        eventSourceUrl: window.location.href,
+        eventTime: Math.floor(Date.now() / 1000),
+        test_event_code: "TEST12345",
       }),
     });
     const produtosQuery = queryParams.get("produtos");
@@ -139,6 +154,11 @@ export default function Checkout() {
             produtos: novoSelecionados,
             eventName: "AddToCart",
             eventId,
+            fbp,
+            fbc,
+            eventSourceUrl: window.location.href,
+            eventTime: Math.floor(Date.now() / 1000),
+            test_event_code: "TEST12345",
           }),
         }
       );
@@ -226,6 +246,11 @@ export default function Checkout() {
         produtos: produtosSelecionados,
         eventName: "InitiateCheckout",
         eventId,
+        fbp,
+        fbc,
+        eventSourceUrl: window.location.href,
+        eventTime: Math.floor(Date.now() / 1000),
+        test_event_code: "TEST12345",
       }),
     });
     if (!validarCampos()) return;
@@ -324,6 +349,11 @@ export default function Checkout() {
                     produtos: produtosSelecionados,
                     eventName: "Purchase",
                     eventId,
+                    fbp,
+                    fbc,
+                    eventSourceUrl: window.location.href,
+                    eventTime: Math.floor(Date.now() / 1000),
+                    test_event_code: "TEST12345",
                   }),
                 }
               );
@@ -366,6 +396,11 @@ export default function Checkout() {
               produtos: produtosSelecionados,
               eventName: "Purchase",
               eventId,
+              fbp,
+              fbc,
+              eventSourceUrl: window.location.href,
+              eventTime: Math.floor(Date.now() / 1000),
+              test_event_code: "TEST12345",
             }),
           }
         );
