@@ -158,7 +158,6 @@ export default function Checkout() {
             fbc,
             eventSourceUrl: window.location.href,
             eventTime: Math.floor(Date.now() / 1000),
-            test_event_code: "TEST82843",
           }),
         }
       );
