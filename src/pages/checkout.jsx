@@ -95,7 +95,6 @@ export default function Checkout() {
         fbc,
         eventSourceUrl: window.location.href,
         eventTime: Math.floor(Date.now() / 1000),
-        test_event_code: "TEST82843",
       }),
     });
     const produtosQuery = queryParams.get("produtos");
@@ -249,7 +248,6 @@ export default function Checkout() {
         fbc,
         eventSourceUrl: window.location.href,
         eventTime: Math.floor(Date.now() / 1000),
-        test_event_code: "TEST82843",
       }),
     });
     if (!validarCampos()) return;
@@ -352,7 +350,6 @@ export default function Checkout() {
                     fbc,
                     eventSourceUrl: window.location.href,
                     eventTime: Math.floor(Date.now() / 1000),
-                    test_event_code: "TEST82843",
                   }),
                 }
               );
@@ -399,7 +396,6 @@ export default function Checkout() {
               fbc,
               eventSourceUrl: window.location.href,
               eventTime: Math.floor(Date.now() / 1000),
-              test_event_code: "TEST82843",
             }),
           }
         );
