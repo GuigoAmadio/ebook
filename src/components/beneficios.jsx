@@ -3,7 +3,7 @@ import sutia from "../assets/sutia.png";
 
 export default function BeneficiosSection() {
   return (
-    <section className="text-white relative bg-neutral-950 font-medium text-center flex flex-col items-center justify-around py-5">
+    <section className="text-white relative bg-neutral-950 font-medium text-center flex flex-col items-center justify-around py-20">
       <img
         src={sutia}
         className="size-16 md:size-48 absolute bottom-0 left-0"

@@ -1,6 +1,6 @@
-import livro1 from "../assets/livro1.png";
-import livro3 from "../assets/livro3.png";
-import livro4 from "../assets/livro4.png";
+import ebookBiologico from "../assets/ebookBiologico.png";
+import ebookSocial from "../assets/ebookSocial.png";
+import ebookPrincipal from "../assets/ebookPrincipal.png";
 import calcinha from "../assets/calcinha.png";
 
 export default function HeroSection({}) {
@@ -21,19 +21,19 @@ export default function HeroSection({}) {
 
         {/* Ovos laterais (atrás) */}
         <img
-          src={livro1}
+          src={ebookBiologico}
           alt="Ovo esquerdo"
           className="absolute left-1/2 -translate-x-[100%] top-1/2 -translate-y-1/2 w-[160px] md:w-[360px] z-10 -rotate-12"
         />
         <img
-          src={livro3}
+          src={ebookSocial}
           alt="Ovo direito"
           className="absolute left-1/2 translate-x-[10%] top-1/2 -translate-y-1/2 w-[160px] md:w-[350px] z-10 rotate-12"
         />
 
         {/* Ovo central (na frente) */}
         <img
-          src={livro4}
+          src={ebookPrincipal}
           alt="Ovo central"
           className="relative z-20 w-[200px] md:w-[400px]"
         />
