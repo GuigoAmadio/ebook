@@ -3,7 +3,7 @@ import ebookSocial from "../assets/ebookSocial.png";
 import ebookPrincipal from "../assets/ebookPrincipal.png";
 import calcinha from "../assets/calcinha.png";
 
-export default function HeroSection({}) {
+export default function HeroSection() {
   return (
     <section className="text-white relative bg-neutral-800 min-h-screen flex flex-col items-center text-center px-4 py-10">
       <h1 className="mt-12 text-[4vh] md:text-[5vh] font-bold">
@@ -41,14 +41,14 @@ export default function HeroSection({}) {
 
       <button
         onClick={() => (window.location.href = "/checkout?produtos=pascoa")}
-        className="relative bg-red-700 text-black px-6 py-3 rounded-2xl w-3/4 border-2  border-dashed border-orange-400 md:w-1/3 text-[2vh] hover:bg-red-600 hover:scale-105 transition shadow-lg drop-shadow-2xl shadow-orange-400 font-bold my-5 md:my-20"
+        className="relative bg-red-700 text-black px-6 py-3 rounded-2xl w-3/4 border-2  border-dashed border-orange-400 md:w-1/3 text-[2vh] hover:bg-red-600 hover:scale-105 transition shadow-lg drop-shadow-2xl shadow-orange-400 font-bold my-5 md:my-20 uppercase"
       >
         <img
           src={calcinha}
           className="animate-bounce absolute size-16 lg:size-28 lg:-top-24 -top-14 right-0 transform scale-x-[-1] Z-50"
           alt=""
         />
-        🔓 QUERO APRENDER COMO CONQUISTAR UMA MULHER
+        🔓 Aprender a seduzir
       </button>
       {/* Sessão 2: Reenforcement */}
     </section>

@@ -17,8 +17,8 @@ export default function OfertasSection() {
             <p className="mt-2">✔️ Introucao a confeitaria</p>
             <p className="mt-2">✔️ Calculos de custo de producao</p>
           </div>
-          <div class="relative h-[2px] w-full overflow-hidden mt-3">
-            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
+          <div className="relative h-[2px] w-full overflow-hidden mt-3">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
           </div>{" "}
           <div className="text-start flex flex-col items-center">
             <p className="line-through w-3/4">❌Conceitos administrativos</p>
