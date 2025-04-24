@@ -27,11 +27,10 @@ export default function LandingPage() {
 
   return (
     <div className="font-sans text-brown-800 bg-white overflow-hidden">
-      {/* Barra de tempo */}
-      <div className="fixed top-0 w-full z-50 bg-orange-100 border-b border-orange-300 shadow text-center text-sm md:text-base text-orange-800 py-2 px-4 font-medium flex justify-center items-center gap-4">
-        <span className="font-bold text-black">🎈 Especial de Namorados:</span>
-        <span className="font-bold">As promocoes acabam em:</span>
-        <span className="ml-2 px-3 py-1 rounded-full bg-white text-black font-bold shadow-sm">
+      <div className="fixed top-0 w-full z-50 bg-orange-100 border-b border-orange-300 shadow text-center text-sm md:text-base text-orange-800 py-2 px-4 font-medium flex justify-center items-center gap-2">
+        <span className="font-bold text-black">🎈 Especial de Namorados |</span>
+        <span className="font-bold">Promoção válida por</span>
+        <span className="px-3 py-1 rounded-full bg-white text-black font-bold shadow-sm">
           ⏳ {formatarTempo(tempoRestante)}
         </span>
       </div>

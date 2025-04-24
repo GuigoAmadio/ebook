@@ -2,7 +2,7 @@ import ofertaAzul from "../assets/ofertaAzul.png";
 export default function OfertasSection() {
   return (
     <div>
-      <section className="flex flex-col py-16 items-center gap-20">
+      <section className="flex flex-col md:flex-row md:px-16 py-16 items-center gap-20">
         <div className="text-center py-5 w-3/4 rounded-xl shadow-md shadow-rose-300 border border-rose-500 flex flex-col items-center ">
           <h1 className="font-extrabold text-pink-500">
             Manual Secreto da Seducao <br />- Completo -
@@ -17,8 +17,8 @@ export default function OfertasSection() {
             <p className="mt-2">✔️ Introucao a confeitaria</p>
             <p className="mt-2">✔️ Calculos de custo de producao</p>
           </div>
-          <div class="relative h-[2px] w-full overflow-hidden mt-3">
-            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
+          <div className="relative h-[2px] w-full overflow-hidden mt-3">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
           </div>{" "}
           <div className="text-start flex flex-col items-center">
             <p className="line-through w-3/4">❌Conceitos administrativos</p>
