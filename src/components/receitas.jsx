@@ -1,11 +1,3 @@
-import limao from "../assets/limao.png";
-import recheado from "../assets/recheado.png";
-import brancoEcaramelo from "../assets/brancoEcaramelo.png";
-import frutasVermelhas from "../assets/frutasVermelhas.png";
-import amendoin from "../assets/amendoin.png";
-import trufado from "../assets/trufado.png";
-import { motion } from "framer-motion";
-
 export default function ReceitasSection({}) {
   return (
     <section className="pt-14 pb-24 px-4 bg-neutral-800 text-center text-white">

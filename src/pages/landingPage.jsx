@@ -6,6 +6,7 @@ import ReceitasSection from "../components/receitas";
 import UrgenciaSection from "../components/urgencia";
 import OfertasSection from "../components/ofertas";
 import ContatoSection from "../components/contato";
+import ComboEbooks from "../components/livros";
 
 export default function LandingPage() {
   const [tempoRestante, setTempoRestante] = React.useState(1 * 37 * 60);
@@ -38,6 +39,7 @@ export default function LandingPage() {
       <BeneficiosSection></BeneficiosSection>
       <ReceitasSection></ReceitasSection>
       <UrgenciaSection></UrgenciaSection>
+      <ComboEbooks></ComboEbooks>
       <OfertasSection></OfertasSection>
       <ContatoSection></ContatoSection>
     </div>

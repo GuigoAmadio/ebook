@@ -39,7 +39,7 @@ export default function BeneficiosSection() {
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
           <p className="text-xs">
-            Como usar o corpo, a voz e o olhar a seu favor
+            Como corrigir o corpo, a voz e o olhar a seu favor.
           </p>
         </div>
         <div class="relative h-[0.8px] w-full overflow-hidden">
@@ -48,7 +48,7 @@ export default function BeneficiosSection() {
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
           <p className="text-xs">
-            O que ativa o desejo no cérebro feminino (segundo a neurociência)
+            O que ativa o desejo no cérebro feminino (segundo a neurociência).
           </p>
         </div>
         <div class="relative h-[0.8px] w-full overflow-hidden">
@@ -56,7 +56,7 @@ export default function BeneficiosSection() {
         </div>{" "}
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
-          <p className="text-xs">Técnicas reais de atração psicológica</p>
+          <p className="text-xs">Técnicas reais de atração psicológica.</p>
         </div>
         <div class="relative h-[0.8px] w-full overflow-hidden">
           <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
@@ -64,23 +64,8 @@ export default function BeneficiosSection() {
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
           <p className="text-xs">
-            O ciclo hormonal e como ele influencia a percepção de homens
-          </p>
-        </div>
-        <div class="relative h-[0.8px] w-full overflow-hidden">
-          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
-        </div>{" "}
-        <div className="flex items-center gap-2 ">
-          <img src={caixaMarcada} alt="" className="size-6" />
-          <p className="text-xs">Por que as mulheres testam os homens</p>
-        </div>
-        <div class="relative h-[0.8px] w-full overflow-hidden">
-          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
-        </div>{" "}
-        <div className="flex items-center gap-2 ">
-          <img src={caixaMarcada} alt="" className="size-6" />
-          <p className="text-xs">
-            O “efeito tribo”: como atrair sendo observado por outros
+            Hackeie o ciclo hormonal delas: <br /> controle-as usando o seu
+            proprio corpo.
           </p>
         </div>
         <div class="relative h-[0.8px] w-full overflow-hidden">
@@ -89,7 +74,8 @@ export default function BeneficiosSection() {
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
           <p className="text-xs">
-            Como criar tensão sexual só com gestos e postura
+            Entenda como as mulheres testam os homens e saiba como passar neste
+            teste.
           </p>
         </div>
         <div class="relative h-[0.8px] w-full overflow-hidden">
@@ -97,7 +83,28 @@ export default function BeneficiosSection() {
         </div>{" "}
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
-          <p className="text-xs">Pratica dos conceitos apresentados</p>
+          <p className="text-xs">
+            O “efeito tribo”: se ajuste socialmente para impor confianca.
+          </p>
+        </div>
+        <div class="relative h-[0.8px] w-full overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
+        </div>{" "}
+        <div className="flex items-center gap-2 ">
+          <img src={caixaMarcada} alt="" className="size-6" />
+          <p className="text-xs">
+            Como criar tensão sexual só com gestos e postura.
+          </p>
+        </div>
+        <div class="relative h-[0.8px] w-full overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
+        </div>{" "}
+        <div className="flex items-center gap-2 ">
+          <img src={caixaMarcada} alt="" className="size-6" />
+          <p className="text-xs">
+            Conjunto de metodos eficazes para desenvolver sua comunicacao
+            social.
+          </p>
         </div>
       </div>
     </section>

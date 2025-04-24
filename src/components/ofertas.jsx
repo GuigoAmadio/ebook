@@ -36,6 +36,39 @@ export default function OfertasSection() {
             Comprar agora
           </button>
         </div>
+        <div className="text-center py-5 w-3/4 rounded-xl shadow-md shadow-blue-300 border border-blue-500 flex flex-col items-center ">
+          <h1 className="font-extrabold text-blue-500">
+            Manual Secreto da Seducao <br />- Completo -
+          </h1>
+          <h2 className="line-through text-gray-600 text-[3vh]">R$73,90</h2>
+          <h2 className="font-black text-[4vh] text-neutral-700 mt-2">
+            R$14,90
+          </h2>
+          <p className="font-medium mt-3">O que voce ira receber:</p>
+          <div className="text-start mt-2">
+            <p className="mt-2">✔️ Tecnicas Basicas de Vendas</p>
+            <p className="mt-2">✔️ Introucao a confeitaria</p>
+            <p className="mt-2">✔️ Calculos de custo de producao</p>
+          </div>
+          <div class="relative h-[2px] w-full overflow-hidden mt-3">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
+          </div>{" "}
+          <div className="text-start flex flex-col items-center">
+            <p className="line-through w-3/4">❌Conceitos administrativos</p>
+            <p className="line-through w-3/4">
+              ❌Receitas Gourmets dos ovos MAIS VENDIDOS
+            </p>
+            <p className="line-through w-3/4">
+              ❌Receitas Fitness saudaveis para esportistas
+            </p>
+          </div>
+          <button
+            onClick={() => (window.location.href = "/checkout?produto=ebook")}
+            className="mb-4 hover:scale-105 shadow-lg shadow-blue-400 h-12 w-1/2 border-blue-400 mt-6 bg-blue-400 text-black rounded-lg text-[2vh] font-bold hover:bg-blue-300 hover:text-white transition"
+          >
+            Comprar agora
+          </button>
+        </div>
         <div className="relative text-center py-5 px-2 w-3/4 rounded-xl shadow-md shadow-green-300 border border-green-500 flex flex-col items-center ">
           <div
             className="absolute -top-2 -left-16 
