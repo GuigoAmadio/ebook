@@ -37,8 +37,8 @@ export default function LandingPage() {
       <HeroSection></HeroSection>
       <BeneficiosSection></BeneficiosSection>
       <ReceitasSection></ReceitasSection>
-      <UrgenciaSection></UrgenciaSection>
       <ComboEbooks></ComboEbooks>
+      <UrgenciaSection></UrgenciaSection>
       <OfertasSection></OfertasSection>
       <ContatoSection></ContatoSection>
     </div>

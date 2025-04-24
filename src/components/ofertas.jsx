@@ -1,118 +1,178 @@
 import ofertaAzul from "../assets/ofertaAzul.png";
+import ebookBiologico from "../assets/ebookBiologico.png";
+import ebookSocial from "../assets/ebookSocial.png";
+import ebookTecnicas from "../assets/ebookTecnicas.png";
+import ebookPrincipal from "../assets/ebookPrincipal.png";
+
 export default function OfertasSection() {
   return (
     <div>
-      <section className="flex flex-col md:flex-row md:px-16 py-16 items-center gap-20">
-        <div className="text-center py-5 w-3/4 rounded-xl shadow-md shadow-rose-300 border border-rose-500 flex flex-col items-center ">
-          <h1 className="font-extrabold text-pink-500">
+      <section className="bg-zinc-800 text-white flex flex-col md:flex-row md:px-16 py-16 items-center gap-20">
+        <div className="bg-zinc-900 text-center py-5 w-3/4 rounded-xl shadow-md shadow-amber-500 border border-amber-500 flex flex-col items-center ">
+          <h1 className="font-extrabold text-amber-500">
             Manual Secreto da Seducao <br />- Completo -
           </h1>
-          <h2 className="line-through text-gray-600 text-[3vh]">R$73,90</h2>
-          <h2 className="font-black text-[4vh] text-neutral-700 mt-2">
-            R$14,90
+          <h2 className="line-through text-gray-400 text-[3vh]">R$73,90</h2>
+          <h2 className="font-black text-[4vh] text-neutral-300 mt-2">
+            R$16,90
           </h2>
           <p className="font-medium mt-3">O que voce ira receber:</p>
           <div className="text-start mt-2">
-            <p className="mt-2">✔️ Tecnicas Basicas de Vendas</p>
-            <p className="mt-2">✔️ Introucao a confeitaria</p>
-            <p className="mt-2">✔️ Calculos de custo de producao</p>
+            <p className="mt-2 px-4">
+              ✔️ Como elas pensam e o que realmente esperam
+            </p>
+            <p className="mt-2 px-4">✔️ O que te faz único aos olhos delas</p>
+            <p className="mt-2 px-4">✔️ Como criar atração sem forçar nada</p>
+            <p className="mt-2 px-4">
+              📘 Leitura rápida, profunda e transformadora.
+            </p>
           </div>
           <div className="relative h-[2px] w-full overflow-hidden mt-3">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
           </div>{" "}
           <div className="text-start flex flex-col items-center">
-            <p className="line-through w-3/4">❌Conceitos administrativos</p>
+            <p className="line-through w-3/4">❌Guias complementares</p>
             <p className="line-through w-3/4">
-              ❌Receitas Gourmets dos ovos MAIS VENDIDOS
+              ❌Tecnicas e taticas para praticar
             </p>
             <p className="line-through w-3/4">
-              ❌Receitas Fitness saudaveis para esportistas
+              ❌Aprofundamento nas esferas biologicas e sociologicas
             </p>
           </div>
           <button
             onClick={() => (window.location.href = "/checkout?produto=ebook")}
-            className="mb-4 hover:scale-105 shadow-lg shadow-rose-400 h-12 w-1/2 border-rose-400 mt-6 bg-pink-400 text-black rounded-lg text-[2vh] font-bold hover:bg-pink-300 hover:text-white transition"
+            className="text-black mb-4 hover:scale-105 shadow-lg shadow-amber-800 h-12 w-1/2 border border-amber-800 mt-6 bg-amber-400 rounded-lg text-[2vh] font-bold hover:bg-amber-300 hover:text-white transition"
           >
             Comprar agora
           </button>
         </div>
-        <div className="text-center py-5 w-3/4 rounded-xl shadow-md shadow-blue-300 border border-blue-500 flex flex-col items-center ">
-          <h1 className="font-extrabold text-blue-500">
-            Manual Secreto da Seducao <br />- Completo -
+
+        <div className="bg-zinc-900 relative text-center py-5 w-3/4 rounded-xl shadow-md shadow-orange-500 border border-orange-500 flex flex-col items-center ">
+          <div className="absolute -top-7 -left-7">
+            <img
+              src={ebookPrincipal}
+              alt=""
+              className="w-14 h-auto -rotate-12"
+            />
+          </div>
+          <div className="absolute -top-7 -right-7">
+            <img src={ebookSocial} alt="" className="w-14 h-auto rotate-12" />
+          </div>
+          <h1 className="font-extrabold text-orange-500">
+            Manual Completo
+            <br />+ Um ebook bonus
           </h1>
-          <h2 className="line-through text-gray-600 text-[3vh]">R$73,90</h2>
-          <h2 className="font-black text-[4vh] text-neutral-700 mt-2">
-            R$14,90
+          <h2 className="line-through text-gray-400 text-[3vh]">R$73,90</h2>
+          <h2 className="font-black text-[4vh] text-neutral-300 mt-2">
+            R$21,90
           </h2>
           <p className="font-medium mt-3">O que voce ira receber:</p>
           <div className="text-start mt-2">
-            <p className="mt-2">✔️ Tecnicas Basicas de Vendas</p>
-            <p className="mt-2">✔️ Introucao a confeitaria</p>
-            <p className="mt-2">✔️ Calculos de custo de producao</p>
+            <p className="mt-2 px-4">
+              ✔️ Manual Secreto da Sedução – como atrair com autenticidade
+            </p>
+            <p className="mt-2 px-4">
+              ✔️ 1 eBook Bônus à sua escolha: <br />
+              ▪️ Social | Biológico | Técnico
+            </p>
+            <p className="mt-2 px-4">
+              📘 Conversas envolventes. Presença que impacta. Tudo começa com
+              clareza, e não com frases decoradas.
+            </p>
           </div>
           <div class="relative h-[2px] w-full overflow-hidden mt-3">
             <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
           </div>{" "}
           <div className="text-start flex flex-col items-center">
-            <p className="line-through w-3/4">❌Conceitos administrativos</p>
+            <p className="line-through w-3/4">❌2 ebooks nao escolhidos</p>
             <p className="line-through w-3/4">
-              ❌Receitas Gourmets dos ovos MAIS VENDIDOS
+              ❌Aprofundamento completo das abordagens
             </p>
-            <p className="line-through w-3/4">
-              ❌Receitas Fitness saudaveis para esportistas
-            </p>
+            <p className="line-through w-3/4">❌Kamasutra com 25 posicoes</p>
           </div>
           <button
             onClick={() => (window.location.href = "/checkout?produto=ebook")}
-            className="mb-4 hover:scale-105 shadow-lg shadow-blue-400 h-12 w-1/2 border-blue-400 mt-6 bg-blue-400 text-black rounded-lg text-[2vh] font-bold hover:bg-blue-300 hover:text-white transition"
+            className="mb-4 hover:scale-105 shadow-lg shadow-orange-800 h-12 w-1/2 border border-orange-800 mt-6 bg-orange-400 text-black rounded-lg text-[2vh] font-bold hover:bg-orange-300 hover:text-white transition"
           >
             Comprar agora
           </button>
         </div>
-        <div className="relative text-center py-5 px-2 w-3/4 rounded-xl shadow-md shadow-green-300 border border-green-500 flex flex-col items-center ">
+        <div className="bg-zinc-900 relative text-center py-5 px-2 w-3/4 rounded-xl shadow-xl shadow-rose-800 border border-rose-900 flex flex-col items-center ">
           <div
-            className="absolute -top-2 -left-16 
-          -rotate-45 flex items-center bg-white shadow-2xl rounded-full
+            className="absolute -top-7 left-1/4 
+          flex items-center bg-white shadow-2xl rounded-full
           p-2 w-40 justify-center border border-gray-400 animate-pulse"
           >
             <img src={ofertaAzul} alt="" className="size-8" />
             <p className="font-bold text-cyan-500 text-xl">OFERTA</p>
           </div>
-          <h1 className="font-black text-green-500 text-[3vh]">
+          <div className="absolute -top-7 -right-10 flex rotate-45">
+            <img
+              src={ebookBiologico}
+              alt=""
+              className="w-12 h-auto -rotate-12"
+            />
+            <img
+              src={ebookPrincipal}
+              alt=""
+              className="w-12 h-auto rotate-12"
+            />
+          </div>
+          <div className="absolute -top-7 -left-10 flex -rotate-45">
+            <img src={ebookSocial} alt="" className="w-12 h-auto -rotate-12" />
+            <img
+              src={ebookTecnicas}
+              alt=""
+              className="w-12 h-auto rotate-12  "
+            />
+          </div>
+          <h1 className="font-black text-rose-500 text-[3vh]">
             PROMOCAO DIA <br />
             DOS NAMORADOS
           </h1>
-          <h1 className="font-black ">Manual Completo + Kamasutra</h1>
-          <p className="line-through text-gray-600 text-[3vh]">R$92,90</p>
-          <p className="text-green-400 text-[4vh] font-black">R$16,90</p>
+          <h1 className="font-black ">
+            Manual Completo + 3 Guias Aprofundados + Kamasutra
+          </h1>
+          <p className="line-through text-gray-500 text-[3vh]">R$92,90</p>
+          <p className="text-rose-900 text-[4vh] font-black">R$36,90</p>
           <p className="text-sm mt-4 font-medium">
-            Com <span className="font-bold">82%</span> de desconto, voce ira
+            <span className="font-bold">✨ 82%</span> de desconto para voce
             aproveitar:
           </p>
           <div className="text-start mt-2">
-            <p className="mt-2">✔️ Tecnicas Basicas de Vendas</p>
-            <p className="mt-2">✔️ Introucao a confeitaria</p>
-            <p className="mt-2">✔️ Calculos de custo de producao</p>
-            <p className="mt-2">✔️ Calculos de custo de producao</p>
-            <p className="mt-2">✔️ Calculos de custo de producao</p>
-            <p className="mt-2">✔️ Calculos de custo de producao</p>
+            <p className="mt-2 px-4">
+              ❤️ O pacote completo para se tornar um homem magnético.
+            </p>
+            <p className="mt-2 px-4">
+              ✔️ Manual Secreto da Sedução – domine mente, corpo e comunicação
+            </p>
+            <p className="mt-2 px-4">
+              ✔️ 3 eBooks Avançados <br /> ▪️ Esfera Social — entenda o que elas
+              esperam de um homem <br /> ▪️ Esfera Biológica — use seu corpo
+              como aliado da atração <br /> ▪️ Esfera Técnica — como abordar,
+              conversar e deixar marca
+            </p>
+            <p className="mt-2 px-4">
+              ✔️ Kamasutra Contemporâneo – 25 posições explicadas com estilo e
+              consciência
+            </p>
           </div>
           <button
             onClick={() =>
               (window.location.href =
                 "/checkout?produtos=pascoa,fit,gourmet,admin")
             }
-            className="mb-4 hover:scale-105 shadow-lg shadow-green-500 h-12 w-1/2 border-green-300 mt-6 bg-green-400 text-black rounded-lg text-[2vh] font-bold hover:bg-lime-300 hover:text-white transition"
+            className="mb-4 hover:scale-105 shadow-lg shadow-pink-800 h-12 w-1/2 border border-pink-700 mt-6 bg-rose-900 text-black rounded-lg text-[2vh] font-bold hover:bg-pink-950 hover:text-white transition"
           >
             Comprar agora
           </button>
         </div>
       </section>
-      <section className="bg-white text-black py-5 px-4 text-center flex flex-col items-center">
+      <section className="bg-zinc-800 text-white py-10 px-4 text-center flex flex-col items-center">
         <h2 className="text-[4vh] font-bold text-brown-700">
           PRECOS PROMOCIONAIS
         </h2>
-        <h2 className="text-[4vh] font-bold mb-6 text-red-500">
+        <h2 className="text-[4vh] font-bold mb-6 text-rose-900">
           POR TEMPO LIMITADO!
         </h2>
         <p className="font-semibold texl-md w-80">
@@ -120,18 +180,18 @@ export default function OfertasSection() {
           mulheres por apenas:
         </p>
 
-        <h1 className="text-[6vh] font-extrabold text-neutral-700 mt-2">
-          2 x de <span className="font-black text-green-400">R$8,95</span>
+        <h1 className="text-[6vh] font-extrabold text-neutral-400 mt-2">
+          2 x de <span className="font-black text-pink-500">R$8,95</span>
         </h1>
         <h2 className="mt-2 font-semibold">
-          OU R$16,90 <span className="text-red-400">a vista</span>
+          OU R$16,90 <span className="text-rose-400">a vista</span>
         </h2>
         <button
           onClick={() =>
             (window.location.href =
               "/checkout?produtos=pascoa,fit,gourmet,admin")
           }
-          className="animate-bounce shadow-xl shadow-green-600 rounded-2xl w-80 h-14 text-[3vh] font-bold text-white hover:bg-green-400 transition hover:scale-105 bg-green-500 mt-12 mb-20"
+          className="animate-bounce shadow-xl shadow-rose-800 rounded-2xl w-80 h-14 text-[3vh] font-bold text-white hover:bg-rose-800 transition hover:scale-105 bg-rose-900 mt-12 mb-20"
         >
           Quero conhecer
         </button>
