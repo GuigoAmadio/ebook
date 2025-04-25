@@ -4,10 +4,10 @@ import CheckoutForm from "../components/CheckoutForm";
 import ProdutosCard from "../components/ProdutosCard";
 import ResumoCompra from "../components/ResumoCompra";
 
-import capaPrincipal from "../assets/capaPrincipal.jpg";
-import capaFitness from "../assets/capaFitness.jpg";
-import capaGourmet from "../assets/capaGourmet.png";
-import capaExcell from "../assets/capaExcell.jpg";
+import ebookPrincipal from "../assets/ebookPrincipal.png";
+import ebookSocial from "../assets/ebookSocial.png";
+import ebookTecnicas from "../assets/ebookTecnicas.png";
+import ebookBiologico from "../assets/ebookBiologico.png";
 
 export default function Checkout() {
   const location = useLocation();
@@ -31,32 +31,32 @@ export default function Checkout() {
 
   const todosProdutos = [
     {
-      id: "pascoa",
-      nome: "Lucrando com a Páscoa",
+      id: "main",
+      nome: "Manual Secreto da Seducao",
       precoOriginal: 71.9,
-      precoAtual: 16.9,
-      imagem: capaPrincipal,
+      precoAtual: 21.9,
+      imagem: ebookPrincipal,
     },
     {
-      id: "admin",
-      nome: "Planilha Detalhada de Gastos",
+      id: "biologico",
+      nome: "Instinto de Seducao",
       precoOriginal: 22.2,
-      precoAtual: 8.9,
-      imagem: capaExcell,
+      precoAtual: 4.9,
+      imagem: ebookBiologico,
     },
     {
-      id: "fit",
-      nome: "Guia de 8 Ovos Fitness High Protein",
-      precoOriginal: 25.9,
-      precoAtual: 2.9,
-      imagem: capaFitness,
+      id: "sociologico",
+      nome: "Jogo Invisivel",
+      precoOriginal: 23.9,
+      precoAtual: 4.9,
+      imagem: ebookSocial,
     },
     {
-      id: "gourmet",
-      nome: "Receita de 10 Ovos Gourmet Para Impressionar",
+      id: "pratico",
+      nome: "Arsenal da Atracao",
       precoOriginal: 25.9,
-      precoAtual: 2.8,
-      imagem: capaGourmet,
+      precoAtual: 4.9,
+      imagem: ebookTecnicas,
     },
   ];
 
@@ -104,8 +104,8 @@ export default function Checkout() {
           .filter((id) => todosProdutos.some((p) => p.id === id))
       : [];
 
-    if (!selecionados.includes("pascoa")) {
-      selecionados = ["pascoa", ...selecionados];
+    if (!selecionados.includes("main")) {
+      selecionados = ["main", ...selecionados];
     }
     setProdutosSelecionados(selecionados);
   }, [location.search]);
@@ -453,7 +453,7 @@ export default function Checkout() {
             Adicione outros eBooks à sua compra
           </h2>
           <ProdutosCard
-            produtos={todosProdutos.filter((p) => p.id !== "pascoa")}
+            produtos={todosProdutos.filter((p) => p.id !== "main")}
             produtosSelecionados={produtosSelecionados}
             onToggle={alternarProduto}
           />

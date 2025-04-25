@@ -40,7 +40,7 @@ export default function OfertasSection() {
             </p>
           </div>
           <button
-            onClick={() => (window.location.href = "/checkout?produto=ebook")}
+            onClick={() => (window.location.href = "/checkout?produtos=main")}
             className="text-black mb-4 hover:scale-105 shadow-lg shadow-amber-800 h-12 w-1/2 border border-amber-800 mt-6 bg-amber-400 rounded-lg text-[2vh] font-bold hover:bg-amber-300 hover:text-white transition"
           >
             Comprar agora
@@ -64,7 +64,7 @@ export default function OfertasSection() {
           </h1>
           <h2 className="line-through text-gray-400 text-[3vh]">R$73,90</h2>
           <h2 className="font-black text-[4vh] text-neutral-300 mt-2">
-            R$21,90
+            R$20,80
           </h2>
           <p className="font-medium mt-3">O que voce ira receber:</p>
           <div className="text-start mt-2">
@@ -80,8 +80,8 @@ export default function OfertasSection() {
               clareza, e não com frases decoradas.
             </p>
           </div>
-          <div class="relative h-[2px] w-full overflow-hidden mt-3">
-            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
+          <div className="relative h-[2px] w-full overflow-hidden mt-3">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
           </div>{" "}
           <div className="text-start flex flex-col items-center">
             <p className="line-through w-3/4">❌2 ebooks nao escolhidos</p>
@@ -91,7 +91,9 @@ export default function OfertasSection() {
             <p className="line-through w-3/4">❌Kamasutra com 25 posicoes</p>
           </div>
           <button
-            onClick={() => (window.location.href = "/checkout?produto=ebook")}
+            onClick={() =>
+              (window.location.href = "/checkout?produtos=main,biologico")
+            }
             className="mb-4 hover:scale-105 shadow-lg shadow-orange-800 h-12 w-1/2 border border-orange-800 mt-6 bg-orange-400 text-black rounded-lg text-[2vh] font-bold hover:bg-orange-300 hover:text-white transition"
           >
             Comprar agora
@@ -134,7 +136,7 @@ export default function OfertasSection() {
             Manual Completo + 3 Guias Aprofundados + Kamasutra
           </h1>
           <p className="line-through text-gray-500 text-[3vh]">R$92,90</p>
-          <p className="text-rose-900 text-[4vh] font-black">R$36,90</p>
+          <p className="text-rose-900 text-[4vh] font-black">R$36,60</p>
           <p className="text-sm mt-4 font-medium">
             <span className="font-bold">✨ 82%</span> de desconto para voce
             aproveitar:
@@ -160,7 +162,7 @@ export default function OfertasSection() {
           <button
             onClick={() =>
               (window.location.href =
-                "/checkout?produtos=pascoa,fit,gourmet,admin")
+                "/checkout?produtos=main,biologico,sociologico,pratico")
             }
             className="mb-4 hover:scale-105 shadow-lg shadow-pink-800 h-12 w-1/2 border border-pink-700 mt-6 bg-rose-900 text-black rounded-lg text-[2vh] font-bold hover:bg-pink-950 hover:text-white transition"
           >
@@ -189,7 +191,7 @@ export default function OfertasSection() {
         <button
           onClick={() =>
             (window.location.href =
-              "/checkout?produtos=pascoa,fit,gourmet,admin")
+              "/checkout?produtos=main,biologico,sociologico,pratico")
           }
           className="animate-bounce shadow-xl shadow-rose-800 rounded-2xl w-80 h-14 text-[3vh] font-bold text-white hover:bg-rose-800 transition hover:scale-105 bg-rose-900 mt-12 mb-20"
         >

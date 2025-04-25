@@ -5,52 +5,52 @@ import calcinha from "../assets/calcinha.png";
 const perguntas = [
   {
     pergunta:
-      "Você já pensou em ganhar dinheiro com algo seu, mas travou antes de começar?",
+      "O que ela faz quando percebe que você se importa mais do que ela?",
     opcoes: [
-      "😩 Sim, me sinto travada",
-      "🤷‍♀️ Às vezes tenho vontade, mas não sei por onde comecar",
-      "💭 Já pensei, mas não fiz nada ainda",
-      "😎 Não, já tentei algumas coisas",
+      "🧊 Some e finge que nem existo.",
+      "🕸️ Usa isso pra me manter ali.",
+      "🧪 Se aproveita, mas continua distante.",
+      "🧠🚬 Percebe que não tem controle. Eu já recuei e sumi.",
     ],
   },
   {
     pergunta:
-      "Se você pudesse lucrar com a Páscoa, trabalhando de casa, isso te ajudaria hoje?",
+      "Você já se sentiu invisível quando entra em uma roda cheia de mulheres?",
     opcoes: [
-      "🙋‍♀️ Com certeza, seria perfeito pra mim agora",
-      "😍 Sim, daria a renda extra que eu preciso",
-      "🤔 Talvez, se não for complicado",
-      "🤨 Não sei se daria certo pra mim",
+      "👻 Sempre.",
+      "😶 Quase sempre.",
+      "😐 Às vezes.",
+      "👊 Não. Eu faço elas me notarem.",
     ],
   },
   {
     pergunta:
-      "O que mais te impede de começar algo que gere dinheiro pra você hoje?",
+      "Você já se arrependeu de não ter falado algo quando teve a chance?",
     opcoes: [
-      "😬 Nao saber por onde comecar.",
-      "💸 Medo de gastar dinheiro e não vender",
-      "🧾 Não entendo nada de negócios",
-      "😩 Falta de tempo ou motivação",
+      "😩 Todo dia.",
+      "😔 Algumas vezes.",
+      "😶 Poucas vezes.",
+      "🗣️ Hoje eu falo antes mesmo dela pensar.",
     ],
   },
   {
     pergunta:
-      "Se existise um metodo facil, receitas prontas e um plano passo a passo, voce usaria para faturar na Pascoa?",
+      "Como você se sente depois de ser ignorado por alguém que mal te conhece?",
     opcoes: [
-      "💪 Seguiria sem pensar",
-      "🙌 Se for simples, tô dentro!",
-      "🤷‍♀️ Talvez… depende de como funciona",
-      "🤯 Parece muito complicado",
+      "🗑️ Um lixo. Fico remoendo dias.",
+      "😞 Reflito e fico na bad.",
+      "😐 Tento fingir que não me importo.",
+      "🧠 Eu percebo que perdi tempo. Ignorar quem nao me quer ao lado é livramento.",
     ],
   },
   {
     pergunta:
-      "Se tudo ja estivesse pronto, apenas esperando alguem para assumir e lucrar nesta Pascoa, o que voce faria?",
+      "O que você faria se tivesse o mapa mental das mulheres e soubesse exatamente o que dizer em cada momento?",
     opcoes: [
-      "😍 Eu começaria agora mesmo",
-      "🤔 Acho que nao seria para mim",
-      "🙋‍♀️ Com certeza iria tentar",
-      "😓 Ainda assim teria medo de não conseguir",
+      "🫣 Ia usar com medo de errar.",
+      "🤞 Tentaria aos poucos.",
+      "🤫 Usaria, mas com cautela.",
+      "🧠 Usaria como arma. Ninguém mais me domina.",
     ],
   },
 ];
@@ -70,9 +70,9 @@ export default function Quiz() {
   };
 
   return (
-    <div className="relative min-h-screen bg-orange-100 flex flex-col items-center justify-start pt-20 gap-10 p-6">
+    <div className="relative min-h-screen bg-zinc-800 flex flex-col items-center justify-start pt-20 gap-10 p-6">
       <div className="bg-pink-200 text-pink-500 font-extrabold text-lg md:text-xl px-6 py-2 rounded-full mb-8 shadow-md border border-pink-500">
-        🐰 Especial de Páscoa! 🍫
+        ❤️ Especial Dos Namorados! 🎈
       </div>
       <img
         src={calcinha}
@@ -81,17 +81,21 @@ export default function Quiz() {
       />
       {indexAtual === -1 ? (
         <div className="text-center space-y-8 max-w-xl">
-          <h1 className="text-3xl font-bold text-lime-600">
-            Aprenda a faturar com Ovos de Pascoa Caseiros Irresistiveis!
-            <br /> Mesmo nao tendo experiência de vendas
+          <h1 className="text-3xl font-bold text-zinc-200">
+            <span className="text-red-500">Descubra</span> o que te torna
+            invisível pros olhos dela
+            <br /> e aprenda a{" "}
+            <span className="text-orange-500">virar o jogo</span> com
+            brutalidade.
           </h1>
-          <p className="text-gray-700 text-lg font-medium">
-            Responda 5 perguntas simples ✨ e descubra como transformar sua
-            criatividade em lucro com ovos de Páscoa
+          <p className="text-gray-300 text-lg font-medium">
+            Responda 5 perguntas diretas 🧠 e entenda por que você vive sendo
+            ignorado, recusado ou usado — e o que fazer pra se tornar o cara que
+            elas não conseguem esquecer.
           </p>
           <button
             onClick={iniciarQuiz}
-            className="animate-bounce w-72 px-8 py-3 bg-lime-500 text-white font-medium text-lg rounded-full shadow-xl shadow-yellow-200 hover:bg-lime-600 transition"
+            className="animate-bounce w-72 px-8 py-3 bg-rose-900 text-white font-medium text-lg rounded-full shadow-xl shadow-rose-800 hover:bg-rose-800 transition"
           >
             Começar agora
           </button>
@@ -104,7 +108,7 @@ export default function Quiz() {
               <div
                 key={i}
                 className={`h-2 w-1/5 mx-1 rounded-full transition-all ${
-                  i <= indexAtual ? "bg-lime-500" : "bg-gray-300"
+                  i <= indexAtual ? "bg-rose-500" : "bg-gray-300"
                 }`}
               />
             ))}
@@ -121,7 +125,7 @@ export default function Quiz() {
               <button
                 key={i}
                 onClick={proximaPergunta}
-                className="py-3 px-6 bg-lime-400 hover:bg-lime-500 text-neutral-800 font-semibold rounded-lg shadow-sm hover:scale-105 transition duration-150"
+                className="py-3 px-6 bg-rose-500 hover:bg-rose-600 text-neutral-800 font-semibold rounded-lg shadow-sm hover:scale-105 transition duration-150"
               >
                 {opcao}
               </button>

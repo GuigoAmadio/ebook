@@ -79,9 +79,8 @@ export default function CheckoutForm({ form, setForm }) {
       )}
       <div className="flex flex-col items-center text-center">
         <div className="flex items-center">
-          <img src={coelinho} alt="" className="size-6" />
           <h2 className="font-extrabold text-neutral-600">
-            Lucrando com a pascoa
+            Manual Secreto da Seducao
           </h2>
         </div>
         <p className="text-neutral-800 text-sm my-3">

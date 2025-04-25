@@ -5,8 +5,9 @@ export default function ContatoSection() {
         Garanta agora seu eBook e entenda as mulheres ainda hoje!
       </h2>
       <p className="text-[2vh] w-3/4 md:w-1/2 mx-auto mb-4">
-        Não perca o momento! Aprenda enquanto ainda pode a como manipular e
-        controlar as mulheres.
+        Não deixe para depois. Aprenda a desenvolver sua percepção, entender
+        melhor os sinais sociais e aprimorar sua comunicação com clareza e
+        impacto.
       </p>
       <button
         onClick={() => (window.location.href = "/checkout?produtos=pascoa")}

@@ -1,14 +1,8 @@
 import caixaMarcada from "../assets/caixaMarcada.png";
-import sutia from "../assets/sutia.png";
 
 export default function BeneficiosSection() {
   return (
     <section className="text-white relative bg-neutral-950 font-medium text-center flex flex-col items-center justify-around py-20">
-      <img
-        src={sutia}
-        className="size-16 md:size-48 absolute bottom-0 left-0"
-        alt=""
-      />
       <h1 className="font-bold text-[3vh] w-3/4 md:w-2/3">
         <span className="text-[3vh]">Esse manual lendário contém</span>
         <span className="bg-pink-500 p-1 text-white mx-2">
@@ -54,16 +48,8 @@ export default function BeneficiosSection() {
         </div>{" "}
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
-          <p className="text-xs">Técnicas reais de atração psicológica.</p>
-        </div>
-        <div className="relative h-[0.8px] w-full overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
-        </div>{" "}
-        <div className="flex items-center gap-2 ">
-          <img src={caixaMarcada} alt="" className="size-6" />
           <p className="text-xs">
-            Hackeie o ciclo hormonal delas: <br /> controle-as usando o seu
-            proprio corpo.
+            Compreender os estímulos que despertam interesse.
           </p>
         </div>
         <div className="relative h-[0.8px] w-full overflow-hidden">
@@ -72,8 +58,7 @@ export default function BeneficiosSection() {
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
           <p className="text-xs">
-            Entenda como as mulheres testam os homens e saiba como passar neste
-            teste.
+            Entenda como os ciclos hormonais afetam o comportamento feminino.
           </p>
         </div>
         <div className="relative h-[0.8px] w-full overflow-hidden">
@@ -82,7 +67,7 @@ export default function BeneficiosSection() {
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
           <p className="text-xs">
-            O “efeito tribo”: se ajuste socialmente para impor confianca.
+            Descubra como interpretar sinais sutis e responder com confiança.
           </p>
         </div>
         <div className="relative h-[0.8px] w-full overflow-hidden">
@@ -91,7 +76,16 @@ export default function BeneficiosSection() {
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
           <p className="text-xs">
-            Como criar tensão sexual só com gestos e postura.
+            Conceitos de neurociência aplicados ao comportamento.
+          </p>
+        </div>
+        <div className="relative h-[0.8px] w-full overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
+        </div>{" "}
+        <div className="flex items-center gap-2 ">
+          <img src={caixaMarcada} alt="" className="size-6" />
+          <p className="text-xs">
+            Criar uma presença marcante com autenticidade.
           </p>
         </div>
         <div className="relative h-[0.8px] w-full overflow-hidden">

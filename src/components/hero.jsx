@@ -40,7 +40,7 @@ export default function HeroSection() {
       </div>
 
       <button
-        onClick={() => (window.location.href = "/checkout?produtos=pascoa")}
+        onClick={() => (window.location.href = "/checkout?produtos=main")}
         className="relative bg-red-700 text-black px-6 py-3 rounded-2xl w-3/4 border-2  border-dashed border-orange-400 md:w-1/3 text-[2vh] hover:bg-red-600 hover:scale-105 transition shadow-lg drop-shadow-2xl shadow-orange-400 font-bold my-5 md:my-20 uppercase"
       >
         <img
