@@ -80,11 +80,11 @@ export default function CheckoutForm({ form, setForm }) {
       <div className="flex flex-col items-center text-center">
         <div className="flex items-center">
           <h2 className="font-extrabold text-neutral-600">
-            Manual Secreto da Seducao
+            Manual Secreto da Sedução
           </h2>
         </div>
         <p className="text-neutral-800 text-sm my-3">
-          Este pagamento esta sendo processado com seguranca pela AppMax
+          Este pagamento está sendo processado com segurança pela AppMax
         </p>
         <div className="flex items-center mb-4">
           <img src={seguro} alt="" className="size-3 mr-2" />

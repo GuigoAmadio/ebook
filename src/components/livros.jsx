@@ -23,7 +23,7 @@ export default function ComboEbooks() {
             className="w-32 h-auto rounded shadow"
           />
           <div>
-            <h3 className="font-black mb-1 text-center">Instinto Social</h3>
+            <h3 className="font-black mb-1 text-center">Instinto de Sedução</h3>
             <p className="text-center text-xs text-neutral-400 font-bold">
               Por que algumas conexões se aprofundam naturalmente e outras não
               passam da superficialidade? Sociologia, psicologia e neurociência
@@ -41,7 +41,7 @@ export default function ComboEbooks() {
             className="w-32 h-auto rounded shadow"
           />
           <div>
-            <h3 className="font-black mb-1 text-center">Leitura Social</h3>
+            <h3 className="font-black mb-1 text-center">O Jogo Invisível</h3>
             <p className="text-xs text-center text-neutral-400 font-bold">
               Como interpretar sinais não verbais e entender os verdadeiros
               interesses no ambiente? Veja o que está por trás das palavras e
@@ -58,12 +58,10 @@ export default function ComboEbooks() {
             className="w-32 h-auto rounded shadow"
           />
           <div>
-            <h3 className="font-black mb-1 text-center">
-              Expressão de Alto Impacto
-            </h3>
+            <h3 className="font-black mb-1 text-center">Arsenal da Atração</h3>
             <p className="text-xs text-center text-neutral-400 font-bold">
               Desenvolva linguagem corporal, estilo pessoal e formas de
-              comunicação que geram percepção de valor. Não se trata de fingir.
+              comunicação que geram percepção de valor. Não se trata de atuar.
               Trata-se de ser percebido de forma clara, segura e autêntica.
             </p>
           </div>

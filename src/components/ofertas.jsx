@@ -10,13 +10,13 @@ export default function OfertasSection() {
       <section className="bg-zinc-800 text-white flex flex-col md:flex-row md:px-16 py-16 items-center gap-20">
         <div className="bg-zinc-900 text-center py-5 w-3/4 rounded-xl shadow-md shadow-amber-500 border border-amber-500 flex flex-col items-center ">
           <h1 className="font-extrabold text-amber-500">
-            Manual Secreto da Seducao <br />- Completo -
+            Manual Secreto da Sedução <br />- Completo -
           </h1>
           <h2 className="line-through text-gray-400 text-[3vh]">R$73,90</h2>
           <h2 className="font-black text-[4vh] text-neutral-300 mt-2">
-            R$16,90
+            R$21,90
           </h2>
-          <p className="font-medium mt-3">O que voce ira receber:</p>
+          <p className="font-medium mt-3">O que voce irá receber:</p>
           <div className="text-start mt-2">
             <p className="mt-2 px-4">
               ✔️ Como elas pensam e o que realmente esperam
@@ -33,10 +33,10 @@ export default function OfertasSection() {
           <div className="text-start flex flex-col items-center">
             <p className="line-through w-3/4">❌Guias complementares</p>
             <p className="line-through w-3/4">
-              ❌Tecnicas e taticas para praticar
+              ❌Técnicas e táticas para praticar
             </p>
             <p className="line-through w-3/4">
-              ❌Aprofundamento nas esferas biologicas e sociologicas
+              ❌Aprofundamento nas esferas biológicas e sociológicas
             </p>
           </div>
           <button
@@ -60,13 +60,13 @@ export default function OfertasSection() {
           </div>
           <h1 className="font-extrabold text-orange-500">
             Manual Completo
-            <br />+ Um ebook bonus
+            <br />+ Um ebook bônus
           </h1>
-          <h2 className="line-through text-gray-400 text-[3vh]">R$73,90</h2>
+          <h2 className="line-through text-gray-400 text-[3vh]">R$116,90</h2>
           <h2 className="font-black text-[4vh] text-neutral-300 mt-2">
-            R$20,80
+            R$26,80
           </h2>
-          <p className="font-medium mt-3">O que voce ira receber:</p>
+          <p className="font-medium mt-3">O que voce irá receber:</p>
           <div className="text-start mt-2">
             <p className="mt-2 px-4">
               ✔️ Manual Secreto da Sedução – como atrair com autenticidade
@@ -84,11 +84,11 @@ export default function OfertasSection() {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-400 to-transparent animate-line-grow"></div>
           </div>{" "}
           <div className="text-start flex flex-col items-center">
-            <p className="line-through w-3/4">❌2 ebooks nao escolhidos</p>
+            <p className="line-through w-3/4">❌2 ebooks não escolhidos</p>
             <p className="line-through w-3/4">
               ❌Aprofundamento completo das abordagens
             </p>
-            <p className="line-through w-3/4">❌Kamasutra com 25 posicoes</p>
+            <p className="line-through w-3/4">❌Kamasutra com 25 posições</p>
           </div>
           <button
             onClick={() =>
@@ -135,13 +135,16 @@ export default function OfertasSection() {
           <h1 className="font-black ">
             Manual Completo + 3 Guias Aprofundados + Kamasutra
           </h1>
-          <p className="line-through text-gray-500 text-[3vh]">R$92,90</p>
+          <p className="line-through text-gray-500 text-[3vh]">R$209,90</p>
           <p className="text-rose-900 text-[4vh] font-black">R$36,60</p>
           <p className="text-sm mt-4 font-medium">
-            <span className="font-bold">✨ 82%</span> de desconto para voce
+            <span className="font-bold">✨ 82%</span> de desconto para você
             aproveitar:
           </p>
           <div className="text-start mt-2">
+            <p className="mt-2 px-4 text-center text-rose-800 font-bold">
+              Leve de <span>BÔNUS</span> um kamasutra com 25 posições.
+            </p>
             <p className="mt-2 px-4">
               ❤️ O pacote completo para se tornar um homem magnético.
             </p>
@@ -183,11 +186,8 @@ export default function OfertasSection() {
         </p>
 
         <h1 className="text-[6vh] font-extrabold text-neutral-400 mt-2">
-          2 x de <span className="font-black text-pink-500">R$8,95</span>
+          1 x de <span className="font-black text-rose-900">R$36,60</span>
         </h1>
-        <h2 className="mt-2 font-semibold">
-          OU R$16,90 <span className="text-rose-400">a vista</span>
-        </h2>
         <button
           onClick={() =>
             (window.location.href =

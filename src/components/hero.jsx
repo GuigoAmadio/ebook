@@ -40,7 +40,10 @@ export default function HeroSection() {
       </div>
 
       <button
-        onClick={() => (window.location.href = "/checkout?produtos=main")}
+        onClick={() =>
+          (window.location.href =
+            "/checkout?produtos=main,biologico,sociologico,pratico")
+        }
         className="relative bg-red-700 text-black px-6 py-3 rounded-2xl w-3/4 border-2  border-dashed border-orange-400 md:w-1/3 text-[2vh] hover:bg-red-600 hover:scale-105 transition shadow-lg drop-shadow-2xl shadow-orange-400 font-bold my-5 md:my-20 uppercase"
       >
         <img
@@ -48,7 +51,7 @@ export default function HeroSection() {
           className="animate-bounce absolute size-16 lg:size-28 lg:-top-24 -top-14 right-0 transform scale-x-[-1] Z-50"
           alt=""
         />
-        🔓 Aprender a seduzir
+        🔓 Quero aprender a seduzir
       </button>
       {/* Sessão 2: Reenforcement */}
     </section>

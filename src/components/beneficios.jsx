@@ -13,7 +13,7 @@ export default function BeneficiosSection() {
         <span className="text-lime-500"></span>
       </h1>
       <h1 className="text-[3vh] font-bold w-3/4 mt-8">
-        <span className="bg-red-500 p-1 text-white mx-2">Não é preciso</span>{" "}
+        <span className="bg-red-500 p-1 text-white mx-2">Não é preciso</span>
         ser bonito para atrair uma mulher. Se ainda acredita nisso, é porque
         nunca entendeu como elas realmente funcionam. Mulheres são{" "}
         <span className="bg-red-500 p-1 text-white mx-2">
@@ -76,7 +76,7 @@ export default function BeneficiosSection() {
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
           <p className="text-xs">
-            Conceitos de neurociência aplicados ao comportamento.
+            Conceitos de sociologia aplicados ao comportamento humano.
           </p>
         </div>
         <div className="relative h-[0.8px] w-full overflow-hidden">
@@ -94,7 +94,7 @@ export default function BeneficiosSection() {
         <div className="flex items-center gap-2 ">
           <img src={caixaMarcada} alt="" className="size-6" />
           <p className="text-xs">
-            Conjunto de metodos eficazes para desenvolver sua comunicacao
+            Conjunto de métodos eficazes para desenvolver sua comunicação
             social.
           </p>
         </div>

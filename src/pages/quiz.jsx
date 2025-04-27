@@ -5,52 +5,51 @@ import calcinha from "../assets/calcinha.png";
 const perguntas = [
   {
     pergunta:
-      "O que ela faz quando percebe que você se importa mais do que ela?",
+      "Qual dessas situações você já passou ao tentar se conectar com uma mulher?",
     opcoes: [
-      "🧊 Some e finge que nem existo.",
-      "🕸️ Usa isso pra me manter ali.",
-      "🧪 Se aproveita, mas continua distante.",
-      "🧠🚬 Percebe que não tem controle. Eu já recuei e sumi.",
+      "😶‍🌫️ Não consegui puxar assunto e ela perdeu o interesse",
+      "🧊 Fiquei nervoso e acabei parecendo frio ou distante",
+      "😅 Senti que estava me esforçando muito e ela se afastou",
+      "🔥 Consegui prender a atenção dela, mas depois não soube manter",
     ],
   },
   {
     pergunta:
       "Você já se sentiu invisível quando entra em uma roda cheia de mulheres?",
     opcoes: [
-      "👻 Sempre.",
-      "😶 Quase sempre.",
-      "😐 Às vezes.",
-      "👊 Não. Eu faço elas me notarem.",
+      "😅 Nunca, sempre falam comigo",
+      "😐 Às vezes",
+      "😑 Ja, mais de uma vez",
+      "😓 Uma vez",
     ],
   },
   {
     pergunta:
       "Você já se arrependeu de não ter falado algo quando teve a chance?",
     opcoes: [
-      "😩 Todo dia.",
-      "😔 Algumas vezes.",
-      "😶 Poucas vezes.",
-      "🗣️ Hoje eu falo antes mesmo dela pensar.",
+      "🫡 Nunca me ocorreu",
+      "😔 Algumas vezes",
+      "😶 Uma vez",
+      "🤯 Fico remoendo por DIAS",
     ],
   },
   {
-    pergunta:
-      "Como você se sente depois de ser ignorado por alguém que mal te conhece?",
+    pergunta: "E se você pudesse criar desejo sem dizer uma palavra?",
     opcoes: [
-      "🗑️ Um lixo. Fico remoendo dias.",
-      "😞 Reflito e fico na bad.",
-      "😐 Tento fingir que não me importo.",
-      "🧠 Eu percebo que perdi tempo. Ignorar quem nao me quer ao lado é livramento.",
+      "💣 Usaria o magnetismo de maneira estratégica e sem pressa",
+      "👀 Tentaria discretamente",
+      "🔥 Eu aproveitaria e faria ela se perguntar como me percebeu",
+      "😅 Não preciso criar desejo em ninguém",
     ],
   },
   {
     pergunta:
       "O que você faria se tivesse o mapa mental das mulheres e soubesse exatamente o que dizer em cada momento?",
     opcoes: [
-      "🫣 Ia usar com medo de errar.",
-      "🤞 Tentaria aos poucos.",
-      "🤫 Usaria, mas com cautela.",
-      "🧠 Usaria como arma. Ninguém mais me domina.",
+      "🫣 Ia usar sem parar",
+      "🤞 Tentaria aos poucos",
+      "🤫 Me sentiria mais confiante",
+      "🧠 Seria imparável",
     ],
   },
 ];
