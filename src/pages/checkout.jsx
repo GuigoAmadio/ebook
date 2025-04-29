@@ -24,9 +24,9 @@ export default function Checkout() {
   const fbc = getCookie("_fbc");
 
   const produtoPrincipal = {
-    sku: "PASCOA-001",
-    name: "Lucrando com a Páscoa",
-    soft_descriptor: "LucraPascoa",
+    sku: "MANUAL-001",
+    name: "Manual da Seducao",
+    soft_descriptor: "Manual",
   };
 
   const todosProdutos = [
@@ -73,6 +73,15 @@ export default function Checkout() {
   const [ultimoPix, setUltimoPix] = useState(0); // timestamp do último Pix gerado
 
   useEffect(() => {
+    const pixelScript = document.createElement("script");
+    pixelScript.async = true;
+    pixelScript.defer = true;
+    pixelScript.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
+
+    window.pixelId = "68103089634d3f0bac4be54a"; // Define antes de carregar o script
+
+    document.head.appendChild(pixelScript);
+
     const eventId = `view_${Date.now()}_${Math.random()
       .toString(36)
       .substring(2, 8)}`;
