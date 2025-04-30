@@ -55,35 +55,75 @@ const perguntas = [
 ];
 
 export default function Quiz() {
-  const [indexAtual, setIndexAtual] = useState(-1); // -1 mostra o botão inicial
+  const [indexAtual, setIndexAtual] = useState(-1);
+  const [respostas, setRespostas] = useState([]);
   const navigate = useNavigate();
+  const [presencaLogada, setPresencaLogada] = useState(false);
 
-  const iniciarQuiz = () => setIndexAtual(0);
+  const iniciarQuiz = () => {
+    setIndexAtual(0);
 
-  const proximaPergunta = () => {
+    if (!presencaLogada) {
+      fetch(
+        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ mensagem: "Oh, alguém iniciou o quiz 🧠" }),
+        }
+      ).catch((err) => console.error("Erro no rastreio inicial:", err));
+
+      setPresencaLogada(true);
+    }
+  };
+
+  const proximaPergunta = (resposta) => {
+    setRespostas((prev) => [...prev, resposta]);
+
     if (indexAtual + 1 < perguntas.length) {
       setIndexAtual(indexAtual + 1);
     } else {
-      navigate("/landingPage");
+      fetch(
+        "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            respostas,
+            timestamp: new Date().toISOString(),
+          }),
+        }
+      )
+        .then(() => navigate("/landingPage"))
+        .catch(() => navigate("/landingPage"));
     }
   };
 
   useEffect(() => {
-    fetch(
-      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          mensagem: "Oh, alguem ta aqui no quiz. 🧠",
-        }),
+    const handleUnload = () => {
+      if (respostas.length > 0 && respostas.length <= perguntas.length) {
+        navigator.sendBeacon(
+          "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz",
+          new Blob(
+            [
+              JSON.stringify({
+                respostas,
+                timestamp: new Date().toISOString(),
+              }),
+            ],
+            { type: "application/json" }
+          )
+        );
       }
-    ).catch((err) => {
-      console.error("Erro ao enviar rastreio:", err);
-    });
-  }, []);
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+    return () => window.removeEventListener("beforeunload", handleUnload);
+  }, [respostas]);
 
   return (
     <div className="relative min-h-screen bg-zinc-800 flex flex-col items-center justify-start pt-20 gap-10 p-6">
@@ -95,6 +135,7 @@ export default function Quiz() {
         className="absolute bottom-0 right-0 size-28"
         alt=""
       />
+
       {indexAtual === -1 ? (
         <div className="text-center space-y-8 max-w-xl">
           <h1 className="text-3xl font-bold text-zinc-200">
@@ -118,7 +159,6 @@ export default function Quiz() {
         </div>
       ) : (
         <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-xl space-y-6 relative">
-          {/* Barra de progresso */}
           <div className="absolute -top-6 left-0 w-full flex justify-between px-4">
             {[...Array(perguntas.length)].map((_, i) => (
               <div
@@ -140,7 +180,7 @@ export default function Quiz() {
             {perguntas[indexAtual].opcoes.map((opcao, i) => (
               <button
                 key={i}
-                onClick={proximaPergunta}
+                onClick={() => proximaPergunta(opcao)}
                 className="py-3 px-6 bg-rose-500 hover:bg-rose-600 text-neutral-800 font-semibold rounded-lg shadow-sm hover:scale-105 transition duration-150"
               >
                 {opcao}
