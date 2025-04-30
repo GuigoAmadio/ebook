@@ -107,7 +107,7 @@ export default function Quiz() {
     const handleUnload = () => {
       if (respostas.length > 0 && respostas.length <= perguntas.length) {
         fetch(
-          "https://us-central1-stripepay-3c918.cloudfunctions.net/api/salvarRespostasQuiz",
+          "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz",
           {
             method: "POST",
             headers: {
