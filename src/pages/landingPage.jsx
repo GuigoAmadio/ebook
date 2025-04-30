@@ -12,6 +12,21 @@ export default function LandingPage() {
   const [tempoRestante, setTempoRestante] = React.useState(1 * 37 * 60);
 
   React.useEffect(() => {
+    fetch(
+      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mensagem: "TEM GENTE AQUI QUE PASSOU NO QUIZ🎉",
+        }),
+      }
+    ).catch((err) => {
+      console.error("Erro ao enviar rastreio:", err);
+    });
+
     const interval = setInterval(() => {
       setTempoRestante((prev) => (prev <= 0 ? 0 : prev - 1));
     }, 1000);

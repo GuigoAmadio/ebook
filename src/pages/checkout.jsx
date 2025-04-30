@@ -74,6 +74,18 @@ export default function Checkout() {
   const [ultimoPix, setUltimoPix] = useState(0); // timestamp do último Pix gerado
 
   useEffect(() => {
+    fetch("https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mensagem: "BIIIING BOOOONG TEM GENTE NO CHECK-OUT🤑",
+      }),
+    }).catch((err) => {
+      console.error("Erro ao enviar rastreio:", err);
+    });
+
     const pixelScript = document.createElement("script");
     pixelScript.async = true;
     pixelScript.defer = true;

@@ -68,6 +68,23 @@ export default function Quiz() {
     }
   };
 
+  useEffect(() => {
+    fetch(
+      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mensagem: "Oh, alguem ta aqui no quiz. 🧠",
+        }),
+      }
+    ).catch((err) => {
+      console.error("Erro ao enviar rastreio:", err);
+    });
+  }, []);
+
   return (
     <div className="relative min-h-screen bg-zinc-800 flex flex-col items-center justify-start pt-20 gap-10 p-6">
       <div className="bg-pink-200 text-pink-500 font-extrabold text-lg md:text-xl px-6 py-2 rounded-full mb-8 shadow-md border border-pink-500">
