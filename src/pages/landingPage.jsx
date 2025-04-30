@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import HeroSection from "../components/hero";
 import BeneficiosSection from "../components/beneficios";
