@@ -68,6 +68,7 @@ export default function Checkout() {
   });
 
   const [produtosSelecionados, setProdutosSelecionados] = useState([]);
+  const [orderID, setOrderID] = useState("");
   const [pagamentoStatus, setPagamentoStatus] = useState(null); // null | "loading" | "success" | "erro"
   const [qrCodeData, setQrCodeData] = useState(null);
   const [ultimoPix, setUltimoPix] = useState(0); // timestamp do último Pix gerado
@@ -299,6 +300,7 @@ export default function Checkout() {
         }
       );
       const json = await resposta.json();
+      setOrderID(json.orderId);
       console.log("Json resposta do pagamento:", json);
       if (form.pagamento === "pix" && json?.data?.pix_qrcode) {
         // Armazena QR code e inicia verificação de pagamento
@@ -430,6 +432,9 @@ export default function Checkout() {
         <p className="mt-2 font-medium">
           Seu eBook já foi enviado para o e-mail <strong>{form.email}</strong>.
         </p>
+        <p className="mt-2 font-medium">
+          Guarde este Id caso precise falar conosco: <br /> {orderID}
+        </p>
         <p className="mt-2 text-gray-500">Obrigado por comprar com a gente!</p>
       </div>
     );
@@ -478,6 +483,7 @@ export default function Checkout() {
         onSubmit={handleSubmit}
         loading={pagamentoStatus === "loading"}
         qrCodeData={qrCodeData}
+        orderID={orderID}
       />
     </div>
   );

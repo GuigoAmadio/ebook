@@ -1,7 +1,6 @@
 // src/components/ResumoCompra.js
 import React, { useState } from "react";
 import garantia from "../assets/garantia.webp";
-import { div } from "framer-motion/client";
 
 export default function ResumoCompra({
   selecionados,
@@ -12,6 +11,7 @@ export default function ResumoCompra({
   onSubmit,
   loading,
   qrCodeData,
+  orderID,
 }) {
   const [copiado, setCopiado] = useState(false);
 
@@ -125,6 +125,14 @@ export default function ResumoCompra({
           <p className="text-xs text-center text-gray-500 mt-2">
             Válido até:{" "}
             {new Date(qrCodeData.vencimento).toLocaleString("pt-BR")}
+          </p>
+          <p className="animate-pulse text-md font-bold text-center text-neutral-800 mt-4">
+            Verifique o seu e-mail após o pagamento. Assim que confirmarmos seu
+            pagamento, enviaremos sua compra.
+          </p>
+          <p className="text-md font-bold text-center text-neutral-600 mt-4">
+            Caso haja algum problema, fale conosco sobre o pedido:{" "}
+            <span className="text-neutral-950">{orderID}</span>.
           </p>
         </div>
       )}
