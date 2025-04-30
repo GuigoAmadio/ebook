@@ -106,17 +106,19 @@ export default function Quiz() {
   useEffect(() => {
     const handleUnload = () => {
       if (respostas.length > 0 && respostas.length <= perguntas.length) {
-        navigator.sendBeacon(
-          "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz",
-          new Blob(
-            [
-              JSON.stringify({
-                respostas,
-                timestamp: new Date().toISOString(),
-              }),
-            ],
-            { type: "application/json" }
-          )
+        fetch(
+          "https://us-central1-stripepay-3c918.cloudfunctions.net/api/salvarRespostasQuiz",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              respostas,
+              timestamp: new Date().toISOString(),
+            }),
+            keepalive: true, // <- permite envio mesmo com a aba sendo fechada
+          }
         );
       }
     };
