@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import ofertaAzul from "../assets/ofertaAzul.png";
 import ebookBiologico from "../assets/ebookBiologico.png";
 import ebookSocial from "../assets/ebookSocial.png";

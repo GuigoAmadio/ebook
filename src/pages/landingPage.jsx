@@ -1,4 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import OfertasSection from "../components/ofertas";
+import HeroSection from "../components/hero";
+import BeneficiosSection from "../components/beneficios";
+import ReceitasSection from "../components/receitas";
+import ComboEbooks from "../components/livros";
+import UrgenciaSection from "../components/urgencia";
+import ContatoSection from "../components/contato";
 
 export default function LandingPage() {
   const [tempoRestante, setTempoRestante] = useState(1 * 37 * 60);

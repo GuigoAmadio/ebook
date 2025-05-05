@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 export default function ContatoSection({ id, inicio, ultimaSessao }) {
   const [enviando, setEnviando] = useState(false);
 
