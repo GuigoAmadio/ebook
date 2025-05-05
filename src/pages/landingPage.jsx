@@ -1,36 +1,61 @@
-import React, { useEffect } from "react";
-
-import HeroSection from "../components/hero";
-import BeneficiosSection from "../components/beneficios";
-import ReceitasSection from "../components/receitas";
-import UrgenciaSection from "../components/urgencia";
-import OfertasSection from "../components/ofertas";
-import ContatoSection from "../components/contato";
-import ComboEbooks from "../components/livros";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function LandingPage() {
-  const [tempoRestante, setTempoRestante] = React.useState(1 * 37 * 60);
+  const [tempoRestante, setTempoRestante] = useState(1 * 37 * 60);
+  const inicio = useRef(Date.now());
+  const ultimaSessao = useRef("Desconhecida");
 
-  React.useEffect(() => {
-    fetch(
-      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          mensagem: "TEM GENTE AQUI QUE PASSOU NO QUIZ🎉",
-        }),
-      }
-    ).catch((err) => {
-      console.error("Erro ao enviar rastreio:", err);
+  useEffect(() => {
+    const secoes = [
+      { id: "hero", nome: "Hero" },
+      { id: "beneficios", nome: "Benefícios" },
+      { id: "receitas", nome: "Receitas" },
+      { id: "ebooks", nome: "Ebooks" },
+      { id: "urgencia", nome: "Urgência" },
+      { id: "ofertas", nome: "Ofertas" },
+      { id: "contato", nome: "Contato" },
+    ];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const s = secoes.find((secao) => secao.id === entry.target.id);
+            if (s) ultimaSessao.current = s.nome;
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    secoes.forEach((s) => {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
     });
 
-    const interval = setInterval(() => {
-      setTempoRestante((prev) => (prev <= 0 ? 0 : prev - 1));
-    }, 1000);
-    return () => clearInterval(interval);
+    const handleUnload = () => {
+      const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
+      navigator.sendBeacon(
+        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
+        new Blob(
+          [
+            JSON.stringify({
+              mensagem: "Saiu da landing sem ir ao checkout",
+              ultimaSessao: ultimaSessao.current,
+              tempoTotal,
+              timestamp: new Date().toISOString(),
+            }),
+          ],
+          { type: "application/json" }
+        )
+      );
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("beforeunload", handleUnload);
+    };
   }, []);
 
   const formatarTempo = (segundos) => {
@@ -51,13 +76,21 @@ export default function LandingPage() {
           ⏳ {formatarTempo(tempoRestante)}
         </span>
       </div>
-      <HeroSection></HeroSection>
-      <BeneficiosSection></BeneficiosSection>
-      <ReceitasSection></ReceitasSection>
-      <ComboEbooks></ComboEbooks>
-      <UrgenciaSection></UrgenciaSection>
-      <OfertasSection></OfertasSection>
-      <ContatoSection></ContatoSection>
+      <HeroSection id="hero" inicio={inicio} ultimaSessao={ultimaSessao} />
+      <BeneficiosSection id="beneficios" />
+      <ReceitasSection id="receitas" />
+      <ComboEbooks id="ebooks" />
+      <UrgenciaSection id="urgencia" />
+      <OfertasSection
+        id="ofertas"
+        inicio={inicio}
+        ultimaSessao={ultimaSessao}
+      />
+      <ContatoSection
+        id="contato"
+        inicio={inicio}
+        ultimaSessao={ultimaSessao}
+      />
     </div>
   );
 }

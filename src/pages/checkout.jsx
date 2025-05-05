@@ -74,35 +74,60 @@ export default function Checkout() {
   const [ultimoPix, setUltimoPix] = useState(0); // timestamp do último Pix gerado
 
   useEffect(() => {
-    fetch("https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        mensagem: "BIIIING BOOOONG TEM GENTE NO CHECK-OUT🤑",
-      }),
-    }).catch((err) => {
-      console.error("Erro ao enviar rastreio:", err);
-    });
+    const entrada = Date.now();
+    const origem = queryParams.get("origem") || "desconhecida";
 
+    const handleUnload = () => {
+      const tempoTotal = Math.floor((Date.now() - entrada) / 1000);
+      navigator.sendBeacon(
+        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
+        new Blob(
+          [
+            JSON.stringify({
+              mensagem: "Saiu do checkout sem comprar",
+              origem,
+              tempoTotal,
+              timestamp: new Date().toISOString(),
+              url: window.location.href,
+            }),
+          ],
+          { type: "application/json" }
+        )
+      );
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+
+    const produtosQuery = queryParams.get("produtos");
+
+    let selecionados = produtosQuery
+      ? produtosQuery
+          .split(",")
+          .filter((id) => todosProdutos.some((p) => p.id === id))
+      : [];
+
+    if (!selecionados.includes("main")) {
+      selecionados = ["main", ...selecionados];
+    }
+
+    setProdutosSelecionados(selecionados);
+
+    // ✅ 3. Pixel e evento de visualização
     const pixelScript = document.createElement("script");
     pixelScript.async = true;
     pixelScript.defer = true;
     pixelScript.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
-
-    window.pixelId = "68103089634d3f0bac4be54a"; // Define antes de carregar o script
-
+    window.pixelId = "68103089634d3f0bac4be54a";
     document.head.appendChild(pixelScript);
 
     const eventId = `view_${Date.now()}_${Math.random()
       .toString(36)
       .substring(2, 8)}`;
-
     fbq("track", "ViewContent", {
       content_name: "Página de Checkout",
       eventID: eventId,
     });
+
     fetch("https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -119,17 +144,9 @@ export default function Checkout() {
         eventTime: Math.floor(Date.now() / 1000),
       }),
     });
-    const produtosQuery = queryParams.get("produtos");
-    let selecionados = produtosQuery
-      ? produtosQuery
-          .split(",")
-          .filter((id) => todosProdutos.some((p) => p.id === id))
-      : [];
-
-    if (!selecionados.includes("main")) {
-      selecionados = ["main", ...selecionados];
-    }
-    setProdutosSelecionados(selecionados);
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+    };
   }, [location.search]);
 
   const alternarProduto = async (id) => {

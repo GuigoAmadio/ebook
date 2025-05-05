@@ -1,6 +1,9 @@
-export default function ReceitasSection() {
+export default function ReceitasSection({ id }) {
   return (
-    <section className="pt-14 pb-24 px-4 bg-neutral-800 text-center text-white">
+    <section
+      id={id}
+      className="pt-14 pb-24 px-4 bg-neutral-800 text-center text-white"
+    >
       <h2 className="text-[3vh] font-bold text-center text-brown-700">
         ❌ Esqueça fórmulas prontas. Este material oferece entendimento
         aprofundado sobre o comportamento humano.

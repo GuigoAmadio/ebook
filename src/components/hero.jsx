@@ -3,9 +3,41 @@ import ebookSocial from "../assets/ebookSocial.png";
 import ebookPrincipal from "../assets/ebookPrincipal.png";
 import calcinha from "../assets/calcinha.png";
 
-export default function HeroSection() {
+export default function HeroSection({ id, inicio, ultimaSessao }) {
+  const [enviando, setEnviando] = useState(false);
+
+  const irParaCheckout = (origem, produtos) => {
+    if (enviando) return;
+    setEnviando(true);
+
+    const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
+    const sessaoFinal = ultimaSessao.current;
+
+    fetch(
+      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mensagem: "Foi para o checkout ✅",
+          origem,
+          sessaoMaisLonge: sessaoFinal,
+          tempoTotal,
+          timestamp: new Date().toISOString(),
+        }),
+      }
+    ).finally(() => {
+      window.location.href = `/checkout?produtos=${encodeURIComponent(
+        produtos
+      )}&origem=${encodeURIComponent(origem)}`;
+    });
+  };
+
   return (
-    <section className="text-white relative bg-neutral-800 min-h-screen flex flex-col items-center text-center px-4 py-10">
+    <section
+      id={id}
+      className="text-white relative bg-neutral-800 min-h-screen flex flex-col items-center text-center px-4 py-10"
+    >
       <h1 className="mt-12 text-[4vh] md:text-[5vh] font-bold">
         A atração não é sorte.<br></br>
       </h1>
@@ -41,10 +73,8 @@ export default function HeroSection() {
 
       <button
         onClick={() =>
-          (window.location.href =
-            "/checkout?produtos=main,biologico,sociologico,pratico")
+          irParaCheckout("Hero", "main,biologico,sociologico,pratico")
         }
-        className="relative bg-red-700 text-black px-6 py-3 rounded-2xl w-3/4 border-2  border-dashed border-orange-400 md:w-1/3 text-[2vh] hover:bg-red-600 hover:scale-105 transition shadow-lg drop-shadow-2xl shadow-orange-400 font-bold my-5 md:my-20 uppercase"
       >
         <img
           src={calcinha}
@@ -53,6 +83,7 @@ export default function HeroSection() {
         />
         🔓 Quero aprender a seduzir
       </button>
+
       {/* Sessão 2: Reenforcement */}
     </section>
   );

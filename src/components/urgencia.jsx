@@ -1,8 +1,11 @@
 import ProvaSocial2 from "../assets/ProvaSocial2.svg";
 
-export default function UrgenciaSection() {
+export default function UrgenciaSection({ id }) {
   return (
-    <section className="bg-rose-950 text-white relative py-10 px-4 text-center flex flex-col items-center">
+    <section
+      id={id}
+      className="bg-rose-950 text-white relative py-10 px-4 text-center flex flex-col items-center"
+    >
       <h2 className="text-[3vh] md:text-[5vh] font-bold w-3/4">
         <span className="text-white bg-pink-500 px-4 py-1 rounded-sm">
           Você está a poucos passos

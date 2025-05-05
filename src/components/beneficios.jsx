@@ -1,8 +1,11 @@
 import caixaMarcada from "../assets/caixaMarcada.png";
 
-export default function BeneficiosSection() {
+export default function BeneficiosSection({ id }) {
   return (
-    <section className="text-white relative bg-neutral-950 font-medium text-center flex flex-col items-center justify-around py-20">
+    <section
+      id={id}
+      className="text-white relative bg-neutral-950 font-medium text-center flex flex-col items-center justify-around py-20"
+    >
       <h1 className="font-bold text-[3vh] w-3/4 md:w-2/3">
         <span className="text-[3vh]">Esse manual lendário contém</span>
         <span className="bg-pink-500 p-1 text-white mx-2">

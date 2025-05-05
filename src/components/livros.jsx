@@ -2,9 +2,12 @@ import ebookBiologico from "../assets/ebookBiologico.png";
 import ebookSocial from "../assets/ebookSocial.png";
 import ebookTecnicas from "../assets/ebookTecnicas.png";
 
-export default function ComboEbooks() {
+export default function ComboEbooks({ id }) {
   return (
-    <div className="bg-neutral-900 text-white min-h-screen px-4 py-16 sm:px-8 md:px-16">
+    <div
+      id={id}
+      className="bg-neutral-900 text-white min-h-screen px-4 py-16 sm:px-8 md:px-16"
+    >
       <h2 className="text-xl md:text-3xl font-semibold mb-2 text-center">
         Melhor do que um… <span className="text-orange-600">Três.</span> Três
         abordagens para ampliar sua performance interpessoal.

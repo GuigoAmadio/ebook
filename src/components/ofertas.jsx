@@ -4,9 +4,37 @@ import ebookSocial from "../assets/ebookSocial.png";
 import ebookTecnicas from "../assets/ebookTecnicas.png";
 import ebookPrincipal from "../assets/ebookPrincipal.png";
 
-export default function OfertasSection() {
+export default function OfertasSection({ id, inicio, ultimaSessao }) {
+  const [enviando, setEnviando] = useState(false);
+
+  const irParaCheckout = (origem, produtos) => {
+    if (enviando) return;
+    setEnviando(true);
+
+    const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
+    const sessaoFinal = ultimaSessao.current;
+
+    fetch(
+      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mensagem: "Foi para o checkout ✅",
+          origem,
+          sessaoMaisLonge: sessaoFinal,
+          tempoTotal,
+          timestamp: new Date().toISOString(),
+        }),
+      }
+    ).finally(() => {
+      window.location.href = `/checkout?produtos=${encodeURIComponent(
+        produtos
+      )}&origem=${encodeURIComponent(origem)}`;
+    });
+  };
   return (
-    <div>
+    <div id={id}>
       <section className="bg-zinc-800 text-white flex flex-col md:flex-row md:px-16 py-16 items-center gap-20">
         <div className="bg-zinc-900 text-center py-5 w-3/4 rounded-xl shadow-md shadow-amber-500 border border-amber-500 flex flex-col items-center ">
           <h1 className="font-extrabold text-amber-500">
@@ -40,7 +68,7 @@ export default function OfertasSection() {
             </p>
           </div>
           <button
-            onClick={() => (window.location.href = "/checkout?produtos=main")}
+            onClick={() => irParaCheckout("OfertasPrimeiro", "main")}
             className="text-black mb-4 hover:scale-105 shadow-lg shadow-amber-800 h-12 w-1/2 border border-amber-800 mt-6 bg-amber-400 rounded-lg text-[2vh] font-bold hover:bg-amber-300 hover:text-white transition"
           >
             Comprar agora
@@ -91,9 +119,7 @@ export default function OfertasSection() {
             <p className="line-through w-3/4">❌Kamasutra com 25 posições</p>
           </div>
           <button
-            onClick={() =>
-              (window.location.href = "/checkout?produtos=main,biologico")
-            }
+            onClick={() => irParaCheckout("OfertasSegundo", "main,biologico")}
             className="mb-4 hover:scale-105 shadow-lg shadow-orange-800 h-12 w-1/2 border border-orange-800 mt-6 bg-orange-400 text-black rounded-lg text-[2vh] font-bold hover:bg-orange-300 hover:text-white transition"
           >
             Comprar agora
@@ -164,8 +190,10 @@ export default function OfertasSection() {
           </div>
           <button
             onClick={() =>
-              (window.location.href =
-                "/checkout?produtos=main,biologico,sociologico,pratico")
+              irParaCheckout(
+                "OfertasTerceira",
+                "main,biologico,sociologico,pratico"
+              )
             }
             className="mb-4 hover:scale-105 shadow-lg shadow-pink-800 h-12 w-1/2 border border-pink-700 mt-6 bg-rose-900 text-black rounded-lg text-[2vh] font-bold hover:bg-pink-950 hover:text-white transition"
           >
@@ -190,8 +218,7 @@ export default function OfertasSection() {
         </h1>
         <button
           onClick={() =>
-            (window.location.href =
-              "/checkout?produtos=main,biologico,sociologico,pratico")
+            irParaCheckout("OfertasFinal", "main,biologico,sociologico,pratico")
           }
           className="animate-bounce shadow-xl shadow-rose-800 rounded-2xl w-80 h-14 text-[3vh] font-bold text-white hover:bg-rose-800 transition hover:scale-105 bg-rose-900 mt-12 mb-20"
         >
