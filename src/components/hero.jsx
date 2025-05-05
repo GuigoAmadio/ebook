@@ -6,12 +6,7 @@ import ebookPrincipal from "../assets/ebookPrincipal.png";
 import calcinha from "../assets/calcinha.png";
 
 export default function HeroSection({ id, inicio, ultimaSessao }) {
-  const [enviando, setEnviando] = useState(false);
-
   const irParaCheckout = (origem, produtos) => {
-    if (enviando) return;
-    setEnviando(true);
-
     const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
     const sessaoFinal = ultimaSessao.current;
 
@@ -77,13 +72,14 @@ export default function HeroSection({ id, inicio, ultimaSessao }) {
         onClick={() =>
           irParaCheckout("Hero", "main,biologico,sociologico,pratico")
         }
+        className="mb-10 border-dashed border-2 bg-red-700 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl shadow-xl shadow-orange-800 transition duration-300 relative mt-6"
       >
         <img
           src={calcinha}
           className="animate-bounce absolute size-16 lg:size-28 lg:-top-24 -top-14 right-0 transform scale-x-[-1] Z-50"
           alt=""
         />
-        🔓 Quero aprender a seduzir
+        🔓 Quero aprender a ser sedutor
       </button>
 
       {/* Sessão 2: Reenforcement */}

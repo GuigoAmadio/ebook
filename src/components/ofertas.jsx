@@ -7,11 +7,8 @@ import ebookTecnicas from "../assets/ebookTecnicas.png";
 import ebookPrincipal from "../assets/ebookPrincipal.png";
 
 export default function OfertasSection({ id, inicio, ultimaSessao }) {
-  const [enviando, setEnviando] = useState(false);
 
   const irParaCheckout = (origem, produtos) => {
-    if (enviando) return;
-    setEnviando(true);
 
     const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
     const sessaoFinal = ultimaSessao.current;

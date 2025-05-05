@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 
 export default function ContatoSection({ id, inicio, ultimaSessao }) {
-  const [enviando, setEnviando] = useState(false);
-
   const irParaCheckout = (origem, produtos) => {
-    if (enviando) return;
-    setEnviando(true);
 
     const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
     const sessaoFinal = ultimaSessao.current;
