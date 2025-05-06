@@ -46,7 +46,7 @@ const perguntas = [
     pergunta:
       "O que você faria se tivesse o mapa mental das mulheres e soubesse exatamente o que dizer em cada momento?",
     opcoes: [
-      "🫣 Ia usar sem parar",
+      "🪣 Ia usar sem parar",
       "🤞 Tentaria aos poucos",
       "🤫 Me sentiria mais confiante",
       "🧠 Seria imparável",
@@ -68,6 +68,7 @@ export default function Quiz() {
   }, [respostas]);
 
   const iniciarQuiz = () => {
+    localStorage.removeItem("respostasQuizTemp");
     setIndexAtual(0);
 
     if (!presencaLogadaRef.current) {
@@ -92,6 +93,7 @@ export default function Quiz() {
   const proximaPergunta = (resposta) => {
     const novasRespostas = [...respostas, resposta];
     setRespostas(novasRespostas);
+    localStorage.setItem("respostasQuizTemp", JSON.stringify(novasRespostas));
 
     if (indexAtual + 1 < perguntas.length) {
       setIndexAtual(indexAtual + 1);
@@ -112,7 +114,10 @@ export default function Quiz() {
           }),
         }
       )
-        .then(() => navigate("/landingPage"))
+        .then(() => {
+          localStorage.removeItem("respostasQuizTemp");
+          navigate("/landingPage");
+        })
         .catch(() => navigate("/landingPage"));
     }
   };
@@ -122,12 +127,17 @@ export default function Quiz() {
       if (enviandoRef.current) return;
       enviandoRef.current = true;
 
+      const respostasSalvas =
+        respostasRef.current.length > 0
+          ? respostasRef.current
+          : JSON.parse(localStorage.getItem("respostasQuizTemp") || "[]");
+
       if (
-        respostasRef.current.length > 0 &&
-        respostasRef.current.length <= perguntas.length
+        respostasSalvas.length > 0 &&
+        respostasSalvas.length <= perguntas.length
       ) {
         const payload = {
-          respostas: respostasRef.current,
+          respostas: respostasSalvas,
           timestamp: new Date().toISOString(),
         };
 
@@ -136,6 +146,7 @@ export default function Quiz() {
             "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz",
             new Blob([JSON.stringify(payload)], { type: "application/json" })
           );
+          localStorage.removeItem("respostasQuizTemp");
         } catch (err) {
           console.warn("Erro ao enviar beacon de saída:", err);
         }
