@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import calcinha from "../assets/calcinha.png";
 
@@ -58,33 +58,47 @@ export default function Quiz() {
   const [indexAtual, setIndexAtual] = useState(-1);
   const [respostas, setRespostas] = useState([]);
   const navigate = useNavigate();
-  const [presencaLogada, setPresencaLogada] = useState(false);
+
+  const presencaLogadaRef = useRef(false);
+  const enviandoRef = useRef(false);
+  const respostasRef = useRef([]);
+
+  useEffect(() => {
+    respostasRef.current = respostas;
+  }, [respostas]);
 
   const iniciarQuiz = () => {
     setIndexAtual(0);
 
-    if (!presencaLogada) {
-      fetch(
-        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ mensagem: "Oh, alguém iniciou o quiz 🧠" }),
-        }
-      ).catch((err) => console.error("Erro no rastreio inicial:", err));
+    if (!presencaLogadaRef.current) {
+      const payload = {
+        mensagem: "Oh, alguém iniciou o quiz 🧠",
+        timestamp: new Date().toISOString(),
+      };
 
-      setPresencaLogada(true);
+      try {
+        navigator.sendBeacon(
+          "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
+          new Blob([JSON.stringify(payload)], { type: "application/json" })
+        );
+      } catch (err) {
+        console.warn("Erro ao enviar beacon inicial:", err);
+      }
+
+      presencaLogadaRef.current = true;
     }
   };
 
   const proximaPergunta = (resposta) => {
-    setRespostas((prev) => [...prev, resposta]);
+    const novasRespostas = [...respostas, resposta];
+    setRespostas(novasRespostas);
 
     if (indexAtual + 1 < perguntas.length) {
       setIndexAtual(indexAtual + 1);
     } else {
+      if (enviandoRef.current) return;
+      enviandoRef.current = true;
+
       fetch(
         "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz",
         {
@@ -93,7 +107,7 @@ export default function Quiz() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            respostas,
+            respostas: novasRespostas,
             timestamp: new Date().toISOString(),
           }),
         }
@@ -105,27 +119,32 @@ export default function Quiz() {
 
   useEffect(() => {
     const handleUnload = () => {
-      if (respostas.length > 0 && respostas.length <= perguntas.length) {
-        fetch(
-          "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              respostas,
-              timestamp: new Date().toISOString(),
-            }),
-            keepalive: true, // <- permite envio mesmo com a aba sendo fechada
-          }
-        );
+      if (enviandoRef.current) return;
+      enviandoRef.current = true;
+
+      if (
+        respostasRef.current.length > 0 &&
+        respostasRef.current.length <= perguntas.length
+      ) {
+        const payload = {
+          respostas: respostasRef.current,
+          timestamp: new Date().toISOString(),
+        };
+
+        try {
+          navigator.sendBeacon(
+            "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz",
+            new Blob([JSON.stringify(payload)], { type: "application/json" })
+          );
+        } catch (err) {
+          console.warn("Erro ao enviar beacon de saída:", err);
+        }
       }
     };
 
     window.addEventListener("beforeunload", handleUnload);
     return () => window.removeEventListener("beforeunload", handleUnload);
-  }, [respostas]);
+  }, []);
 
   return (
     <div className="relative min-h-screen bg-zinc-800 flex flex-col items-center justify-start pt-20 gap-10 p-6">

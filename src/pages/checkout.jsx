@@ -128,22 +128,24 @@ export default function Checkout() {
       eventID: eventId,
     });
 
-    fetch("https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: form.email,
-        telefone: form.celular,
-        eventName: "ViewContent",
-        eventId,
-        valor: 0,
-        produtos: [],
-        fbp,
-        fbc,
-        eventSourceUrl: window.location.href,
-        eventTime: Math.floor(Date.now() / 1000),
-      }),
-    });
+    const payloadView = {
+      email: form.email,
+      telefone: form.celular,
+      eventName: "ViewContent",
+      eventId,
+      valor: 0,
+      produtos: [],
+      fbp,
+      fbc,
+      eventSourceUrl: window.location.href,
+      eventTime: Math.floor(Date.now() / 1000),
+    };
+
+    navigator.sendBeacon(
+      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
+      new Blob([JSON.stringify(payloadView)], { type: "application/json" })
+    );
+
     return () => {
       window.removeEventListener("beforeunload", handleUnload);
     };
@@ -179,29 +181,23 @@ export default function Checkout() {
     });
 
     // 🔹 Dispara para o backend (API de Conversão da Meta)
-    try {
-      await fetch(
-        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: form.email,
-            telefone: form.celular,
-            valor: valorTotal,
-            produtos: novoSelecionados,
-            eventName: "AddToCart",
-            eventId,
-            fbp,
-            fbc,
-            eventSourceUrl: window.location.href,
-            eventTime: Math.floor(Date.now() / 1000),
-          }),
-        }
-      );
-    } catch (erro) {
-      console.error("Erro ao enviar evento AddToCart para o backend:", erro);
-    }
+    const payloadAddToCart = {
+      email: form.email,
+      telefone: form.celular,
+      valor: valorTotal,
+      produtos: novoSelecionados,
+      eventName: "AddToCart",
+      eventId,
+      fbp,
+      fbc,
+      eventSourceUrl: window.location.href,
+      eventTime: Math.floor(Date.now() / 1000),
+    };
+
+    navigator.sendBeacon(
+      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
+      new Blob([JSON.stringify(payloadAddToCart)], { type: "application/json" })
+    );
   };
 
   const selecionados = todosProdutos.filter((p) =>
@@ -273,22 +269,24 @@ export default function Checkout() {
 
     fbq("track", "InitiateCheckout", { eventID: eventId });
 
-    fetch("https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: form.email,
-        telefone: form.celular,
-        valor: totalAtual,
-        produtos: produtosSelecionados,
-        eventName: "InitiateCheckout",
-        eventId,
-        fbp,
-        fbc,
-        eventSourceUrl: window.location.href,
-        eventTime: Math.floor(Date.now() / 1000),
-      }),
-    });
+    const payloadInitiate = {
+      email: form.email,
+      telefone: form.celular,
+      valor: totalAtual,
+      produtos: produtosSelecionados,
+      eventName: "InitiateCheckout",
+      eventId,
+      fbp,
+      fbc,
+      eventSourceUrl: window.location.href,
+      eventTime: Math.floor(Date.now() / 1000),
+    };
+
+    navigator.sendBeacon(
+      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
+      new Blob([JSON.stringify(payloadInitiate)], { type: "application/json" })
+    );
+
     if (!validarCampos()) return;
 
     // Bloquear múltiplas gerações de Pix por 2 minutos
@@ -374,24 +372,24 @@ export default function Checkout() {
                 eventID: eventId,
               });
 
-              fetch(
+              const payloadPurchase = {
+                email: form.email,
+                telefone: form.celular,
+                valor: totalAtual,
+                produtos: produtosSelecionados,
+                eventName: "Purchase",
+                eventId,
+                fbp,
+                fbc,
+                eventSourceUrl: window.location.href,
+                eventTime: Math.floor(Date.now() / 1000),
+              };
+
+              navigator.sendBeacon(
                 "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
-                {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    email: form.email,
-                    telefone: form.celular,
-                    valor: totalAtual,
-                    produtos: produtosSelecionados,
-                    eventName: "Purchase",
-                    eventId,
-                    fbp,
-                    fbc,
-                    eventSourceUrl: window.location.href,
-                    eventTime: Math.floor(Date.now() / 1000),
-                  }),
-                }
+                new Blob([JSON.stringify(payloadPurchase)], {
+                  type: "application/json",
+                })
               );
 
               setPagamentoStatus("success");
@@ -422,24 +420,24 @@ export default function Checkout() {
           eventID: eventId,
         });
 
-        fetch(
+        const payloadPurchase = {
+          email: form.email,
+          telefone: form.celular,
+          valor: totalAtual,
+          produtos: produtosSelecionados,
+          eventName: "Purchase",
+          eventId,
+          fbp,
+          fbc,
+          eventSourceUrl: window.location.href,
+          eventTime: Math.floor(Date.now() / 1000),
+        };
+
+        navigator.sendBeacon(
           "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: form.email,
-              telefone: form.celular,
-              valor: totalAtual,
-              produtos: produtosSelecionados,
-              eventName: "Purchase",
-              eventId,
-              fbp,
-              fbc,
-              eventSourceUrl: window.location.href,
-              eventTime: Math.floor(Date.now() / 1000),
-            }),
-          }
+          new Blob([JSON.stringify(payloadPurchase)], {
+            type: "application/json",
+          })
         );
       } else {
         alert("Erro no pagamento. Tente novamente.");
