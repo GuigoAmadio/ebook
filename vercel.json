@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/get",
-      "destination": "http://127.0.0.1:5001/stripepay-3c918/us-central1/getPage"
+      "destination": "/https://us-central1-stripepay-3c918.cloudfunctions.net/getPage"
     }
   ]
 }
