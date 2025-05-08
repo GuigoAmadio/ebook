@@ -1,6 +1,6 @@
 import React from "react";
 
-const LandingPage = () => {
+const MainPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-900 text-white p-8">
       <header className="text-center py-8">
@@ -61,4 +61,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default MainPage;
