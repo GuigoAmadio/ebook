@@ -2,7 +2,11 @@
   "rewrites": [
     {
       "source": "/get",
-      "destination": "/https://us-central1-stripepay-3c918.cloudfunctions.net/getPage"
+      "destination": "https://us-central1-stripepay-3c918.cloudfunctions.net/getPage"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
     }
   ]
 }
