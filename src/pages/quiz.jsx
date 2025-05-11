@@ -36,7 +36,7 @@ const perguntas = [
   {
     pergunta: "E se você pudesse criar desejo sem dizer uma palavra?",
     opcoes: [
-      "💣 Usaria o magnetismo de maneira estratégica e sem pressa",
+      "🥲 Seria ainda incapaz de fazer elas se apaixonar por mim",
       "👀 Tentaria discretamente",
       "🔥 Eu aproveitaria e faria ela se perguntar como me percebeu",
       "😅 Não preciso criar desejo em ninguém",
@@ -46,10 +46,10 @@ const perguntas = [
     pergunta:
       "O que você faria se tivesse o mapa mental das mulheres e soubesse exatamente o que dizer em cada momento?",
     opcoes: [
-      "🪣 Ia usar sem parar",
-      "🤞 Tentaria aos poucos",
-      "🤫 Me sentiria mais confiante",
-      "🧠 Seria imparável",
+      "🎉 Ia usar sem parar",
+      "🤞 Continuaria sendo ignorado",
+      "🙌 Me sentiria mais confiante",
+      "🫡 Não sei se é para mim",
     ],
   },
 ];
