@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import ebookBiologico from "../assets/ebookBiologico.png";
-import ebookSocial from "../assets/ebookSocial.png";
-import ebookTecnicas from "../assets/ebookTecnicas.png";
+import ebookBiologico from "../assets/ebookBiologico.webp";
+import ebookSocial from "../assets/ebookSocial.webp";
+import ebookTecnicas from "../assets/ebookTecnicas.webp";
 
 export default function ComboEbooks({ id }) {
   // Controle da animação

@@ -17,11 +17,11 @@ export default function ReceitasSection({ id }) {
 
   // Lista de textos para simplificar a estrutura
   const textos = [
-    "❌ Esqueça fórmulas prontas. Este material oferece entendimento aprofundado sobre o comportamento humano.",
+    "❌ Isso aqui não é um livro de cantadas! Estamos oferecendo conhecimento aprofundado sobre o comportamento humano.",
     "📚 Compreenda os códigos sociais, a linguagem não verbal e os sinais que realmente despertam atenção e conexão.",
-    "💭 Desenvolva consciência emocional e aprenda o que influencia o interesse genuíno.",
-    "🧬 Entenda o impacto de fatores biológicos e sociais na percepção de valor e presença.",
-    "👉 Este não é um manual para impressionar. É um mapa mental para desenvolver segurança, carisma e influência real.",
+    "💭 Desenvolva sua percepção e aprenda o que influencia o interesse genuíno nelas.",
+    "🧬 Entenda o poder do corpo no reconhecimento do seu valor e sua presença.",
+    "👉 Este é um passo a passo para desenvolver segurança, carisma e influência real.",
   ];
 
   return (
@@ -30,17 +30,30 @@ export default function ReceitasSection({ id }) {
       ref={ref}
       className="pt-14 pb-24 px-4 bg-neutral-800 text-center text-white"
     >
-      {textos.map((texto, index) => (
-        <motion.h2
-          key={index}
-          className="text-[2vh] font-bold text-center mt-4 text-brown-700"
-          initial={{ opacity: 0, y: 30 }}
-          animate={controls}
-          transition={{ duration: 0.8, delay: index * 0.5 }}
-        >
-          {texto}
-        </motion.h2>
-      ))}
+      {/* Frase principal destacada */}
+      <motion.h2
+        className="text-[3vh] font-bold text-center text-brown-700"
+        initial={{ opacity: 0, y: 30 }}
+        animate={controls}
+        transition={{ duration: 0.8 }}
+      >
+        {textos[0]}
+      </motion.h2>
+
+      {/* Subitens estilizados */}
+      <div className="mt-4 ml-8 pl-4 border-l-4 border-brown-700">
+        {textos.slice(1).map((texto, index) => (
+          <motion.h3
+            key={index}
+            className="text-[2.2vh] font-semibold text-left text-gray-300 mt-2"
+            initial={{ opacity: 0, y: 30 }}
+            animate={controls}
+            transition={{ duration: 0.8, delay: (index + 1) * 0.3 }}
+          >
+            {texto}
+          </motion.h3>
+        ))}
+      </div>
     </section>
   );
 }

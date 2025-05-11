@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import caixaMarcada from "../assets/caixaMarcada.png";
+import caixaMarcada from "../assets/caixaMarcada.webp";
 
 export default function BeneficiosSection({ id }) {
   // Configuração para que os textos apareçam mais cedo
@@ -60,7 +60,8 @@ export default function BeneficiosSection({ id }) {
       >
         <span className="bg-red-500 p-1 text-white mx-2">Não é preciso</span>
         ser bonito para atrair uma mulher. Se ainda acredita nisso, é porque
-        nunca entendeu como elas realmente funcionam. Mulheres são{" "}
+        nunca entendeu como elas realmente funcionam, basta ver o tanto de feio
+        se dando bem por ai. Mulheres são{" "}
         <span className="bg-red-500 p-1 text-white mx-2">
           movidas por emoção
         </span>{" "}
@@ -75,7 +76,7 @@ export default function BeneficiosSection({ id }) {
       >
         Quando você aprende a identificar e acionar esses gatilhos, o poder da
         atração <span className="text-red-500">deixa de ser um acaso...</span> e
-        passa a ser uma <span className="text-pink-500">escolha sua.</span>
+        passa a ser uma <span className="text-red-600">ESCOLHA SUA.</span>
       </motion.h1>
 
       <motion.h2

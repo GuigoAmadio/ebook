@@ -4,10 +4,10 @@ import CheckoutForm from "../components/CheckoutForm";
 import ProdutosCard from "../components/ProdutosCard";
 import ResumoCompra from "../components/ResumoCompra";
 
-import ebookPrincipal from "../assets/ebookPrincipal.png";
-import ebookSocial from "../assets/ebookSocial.png";
-import ebookTecnicas from "../assets/ebookTecnicas.png";
-import ebookBiologico from "../assets/ebookBiologico.png";
+import ebookPrincipal from "../assets/ebookPrincipal.webp";
+import ebookSocial from "../assets/ebookSocial.webp";
+import ebookTecnicas from "../assets/ebookTecnicas.webp";
+import ebookBiologico from "../assets/ebookBiologico.webp";
 
 export default function Checkout() {
   const location = useLocation();

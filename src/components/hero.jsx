@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import ebookBiologico from "../assets/ebookBiologico.png";
-import ebookSocial from "../assets/ebookSocial.png";
-import ebookPrincipal from "../assets/ebookPrincipal.png";
-import calcinha from "../assets/calcinha.png";
+import ebookBiologico from "../assets/ebookBiologico.webp";
+import ebookSocial from "../assets/ebookSocial.webp";
+import ebookPrincipal from "../assets/ebookPrincipal.webp";
+import calcinha from "../assets/calcinha.webp";
 
 export default function HeroSection({ id, inicio, ultimaSessao }) {
   const irParaCheckout = (origem, produtos) => {

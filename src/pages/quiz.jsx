@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import calcinha from "../assets/calcinha.png";
+import calcinha from "../assets/calcinha.webp"
 
 const perguntas = [
   {

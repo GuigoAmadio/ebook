@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import ofertaAzul from "../assets/ofertaAzul.png";
-import ebookBiologico from "../assets/ebookBiologico.png";
-import ebookSocial from "../assets/ebookSocial.png";
-import ebookTecnicas from "../assets/ebookTecnicas.png";
-import ebookPrincipal from "../assets/ebookPrincipal.png";
+import ofertaAzul from "../assets/ofertaAzul.webp";
+import ebookBiologico from "../assets/ebookBiologico.webp";
+import ebookSocial from "../assets/ebookSocial.webp";
+import ebookTecnicas from "../assets/ebookTecnicas.webp";
+import ebookPrincipal from "../assets/ebookPrincipal.webp";
 
 export default function OfertasSection({ id, inicio, ultimaSessao }) {
   const irParaCheckout = (origem, produtos) => {
