@@ -46,7 +46,8 @@ export default function HeroSection({ id, inicio, ultimaSessao }) {
         <span className="text-orange-600">controle</span> dela.
       </p>
       <div className="relative flex justify-center items-center h-auto my-20">
-        {/* Glow / Vinheta */}
+        {/* Glow / Aura */}
+        <div className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r from-rose-800 to-orange-600 opacity-40 blur-2xl z-10"></div>
 
         {/* Ovos laterais (atrás) */}
         <img

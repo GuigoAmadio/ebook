@@ -1,6 +1,5 @@
 // CheckoutForm.js
 import React from "react";
-import coelinho from "../assets/coelinho.png";
 import seguro from "../assets/seguro.png";
 
 export default function CheckoutForm({ form, setForm }) {

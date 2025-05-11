@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import ofertaAzul from "../assets/ofertaAzul.png";
 import ebookBiologico from "../assets/ebookBiologico.png";
@@ -7,9 +7,7 @@ import ebookTecnicas from "../assets/ebookTecnicas.png";
 import ebookPrincipal from "../assets/ebookPrincipal.png";
 
 export default function OfertasSection({ id, inicio, ultimaSessao }) {
-
   const irParaCheckout = (origem, produtos) => {
-
     const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
     const sessaoFinal = ultimaSessao.current;
 
@@ -32,10 +30,40 @@ export default function OfertasSection({ id, inicio, ultimaSessao }) {
       )}&origem=${encodeURIComponent(origem)}`;
     });
   };
+
+  const generateBolas = () => {
+    return Array.from({ length: 50 }).map(() => ({
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      size: `${Math.random() * 20 + 30}px`,
+      opacity: Math.random() * 0.2 + 0.3,
+    }));
+  };
+
+  const [bolas, setBolas] = useState([]);
+
+  useEffect(() => {
+    setBolas(generateBolas());
+  }, []);
   return (
     <div id={id}>
-      <section className="bg-zinc-800 text-white flex flex-col md:flex-row md:px-16 py-16 items-center gap-20">
-        <div className="bg-zinc-900 text-center py-5 w-3/4 rounded-xl shadow-md shadow-amber-500 border border-amber-500 flex flex-col items-center ">
+      <section className="relative bg-zinc-800 text-white flex flex-col md:flex-row md:px-16 py-16 items-center gap-20">
+        {/* Bolinhas Pequenas de Fundo */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          {bolas.map((bola, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full blur-2xl bg-neutral-950"
+              style={{
+                width: bola.size,
+                height: bola.size,
+                top: bola.top,
+                left: bola.left,
+              }}
+            ></div>
+          ))}
+        </div>
+        <div className="z-10 bg-zinc-900 text-center py-5 w-3/4 rounded-xl shadow-md shadow-amber-500 border border-amber-500 flex flex-col items-center ">
           <h1 className="font-extrabold text-amber-500">
             Manual Secreto da Sedução <br />- Completo -
           </h1>
@@ -74,7 +102,7 @@ export default function OfertasSection({ id, inicio, ultimaSessao }) {
           </button>
         </div>
 
-        <div className="bg-zinc-900 relative text-center py-5 w-3/4 rounded-xl shadow-md shadow-orange-500 border border-orange-500 flex flex-col items-center ">
+        <div className="z-10 bg-zinc-900 relative text-center py-5 w-3/4 rounded-xl shadow-md shadow-orange-500 border border-orange-500 flex flex-col items-center ">
           <div className="absolute -top-7 -left-7">
             <img
               src={ebookPrincipal}
@@ -124,7 +152,7 @@ export default function OfertasSection({ id, inicio, ultimaSessao }) {
             Comprar agora
           </button>
         </div>
-        <div className="bg-zinc-900 relative text-center py-5 px-2 w-3/4 rounded-xl shadow-xl shadow-rose-800 border border-rose-900 flex flex-col items-center ">
+        <div className="z-10 bg-zinc-900 relative text-center py-5 px-2 w-3/4 rounded-xl shadow-xl shadow-rose-800 border border-rose-900 flex flex-col items-center ">
           <div
             className="absolute -top-7 left-1/4 
           flex items-center bg-white shadow-2xl rounded-full
