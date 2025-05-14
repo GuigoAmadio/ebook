@@ -60,6 +60,10 @@ export default function LandingPage() {
     }
 
     const handlePageHide = () => {
+      // Verifica se a próxima página é o checkout
+      const nextUrl = document.referrer || "desconhecida";
+      if (nextUrl.includes("checkout")) return;
+
       const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
       const payload = {
         mensagem: "Saiu da landing sem ir ao checkout 🫡",
@@ -71,10 +75,10 @@ export default function LandingPage() {
       try {
         navigator.sendBeacon(
           "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-          new Blob([JSON.stringify(payload)], { type: "text/plain" })
+          new Blob([JSON.stringify(payload)], { type: "application/json" })
         );
       } catch (e) {
-        console.warn("Erro ao enviar beacon:", e);
+        console.warn("Erro ao enviar beacon de saída:", e);
       }
     };
 

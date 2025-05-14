@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import calcinha from "../assets/calcinha.webp"
+import calcinha from "../assets/calcinha.webp";
 
 const perguntas = [
   {
@@ -77,14 +77,44 @@ export default function Quiz() {
         timestamp: new Date().toISOString(),
       };
 
-      try {
-        navigator.sendBeacon(
-          "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-          new Blob([JSON.stringify(payload)], { type: "application/json" })
-        );
-      } catch (err) {
-        console.warn("Erro ao enviar beacon inicial:", err);
-      }
+      // Método principal: Fetch para garantir envio imediato
+      fetch(
+        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+          mode: "cors",
+        }
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Erro no envio via fetch");
+          }
+          console.log("🟢 Log enviado com fetch");
+        })
+        .catch((err) => {
+          console.warn("Erro ao enviar log via fetch:", err);
+          // Fallback: Usar sendBeacon caso o fetch falhe
+          try {
+            const blob = new Blob([JSON.stringify(payload)], {
+              type: "application/json",
+            });
+            const sent = navigator.sendBeacon(
+              "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
+              blob
+            );
+            if (sent) {
+              console.log("🟢 Log enviado com sendBeacon");
+            } else {
+              console.warn("❌ Falha no envio com sendBeacon");
+            }
+          } catch (err) {
+            console.error("❌ Erro ao usar sendBeacon:", err);
+          }
+        });
 
       presencaLogadaRef.current = true;
     }

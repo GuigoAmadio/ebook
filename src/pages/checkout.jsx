@@ -146,8 +146,16 @@ export default function Checkout() {
       new Blob([JSON.stringify(payloadView)], { type: "application/json" })
     );
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") handleUnload();
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     return () => {
       window.removeEventListener("beforeunload", handleUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [location.search]);
 
