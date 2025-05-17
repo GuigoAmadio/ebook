@@ -90,26 +90,14 @@ export default function Checkout() {
       logEnviado.current = true;
 
       const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
-      const referrer = document.referrer || "";
-      const isReturningToLanding = referrer.includes("/landingPage");
-      console.log("referrer:", referrer);
-      // Verifica se está voltando para a landingPage ou saindo do site
-      if (isReturningToLanding) {
-        console.log("to registrando retorno pelo jeito");
-        registrarLog("checkout", "Retorno", {
-          mensagem: "Usuário voltou para a Landing Page",
-          tempoTotal,
-        });
-      } else {
-        console.log("to saindo do checkout pelo jeito");
-        registrarLog("checkout", "Saida", {
-          mensagem: "Usuário está saindo do checkout",
-          tempoTotal,
-        });
+      console.log("to saindo do checkout pelo jeito");
+      registrarLog("checkout", "Saida", {
+        mensagem: "Usuário está saindo do checkout",
+        tempoTotal,
+      });
 
-        // ✅ Enviar os logs consolidados
-        enviarLogs("quiz", "landingPage", "checkout");
-      }
+      // ✅ Enviar os logs consolidados
+      enviarLogs("quiz", "landingPage", "checkout");
     };
 
     window.addEventListener("beforeunload", handleUnload);
