@@ -63,6 +63,7 @@ export default function Checkout() {
   const [pagamentoStatus, setPagamentoStatus] = useState(null); // null | "loading" | "success" | "erro"
   const [qrCodeData, setQrCodeData] = useState(null);
   const [ultimoPix, setUltimoPix] = useState(0); // timestamp do último Pix gerado
+  const logEnviado = useRef(false);
 
   useEffect(() => {
     // COMECANDO LOGS MEUS
@@ -84,11 +85,9 @@ export default function Checkout() {
   }, []);
 
   useEffect(() => {
-    let logEnviado = false;
-
     const handleUnload = () => {
-      if (logEnviado) return; // Evita duplicidade de logs
-      logEnviado = true;
+      if (logEnviado.current) return; // Evita duplicidade de logs
+      logEnviado.current = true;
 
       const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
       const referrer = document.referrer || "";
@@ -96,11 +95,13 @@ export default function Checkout() {
       console.log("referrer:", referrer);
       // Verifica se está voltando para a landingPage ou saindo do site
       if (isReturningToLanding) {
+        console.log("to registrando retorno pelo jeito");
         registrarLog("checkout", "Retorno", {
           mensagem: "Usuário voltou para a Landing Page",
           tempoTotal,
         });
       } else {
+        console.log("to saindo do checkout pelo jeito");
         registrarLog("checkout", "Saida", {
           mensagem: "Usuário está saindo do checkout",
           tempoTotal,
@@ -111,16 +112,10 @@ export default function Checkout() {
       }
     };
 
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") handleUnload();
-    };
-
     window.addEventListener("beforeunload", handleUnload);
-    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       window.removeEventListener("beforeunload", handleUnload);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
