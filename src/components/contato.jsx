@@ -1,30 +1,9 @@
 import React, { useState } from "react";
 
-export default function ContatoSection({ id, inicio, ultimaSessao }) {
-  const irParaCheckout = (origem, produtos) => {
-
-    const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
-    const sessaoFinal = ultimaSessao.current;
-
-    fetch(
-      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          mensagem: "Foi para o checkout ✅",
-          origem,
-          sessaoMaisLonge: sessaoFinal,
-          tempoTotal,
-          timestamp: new Date().toISOString(),
-        }),
-      }
-    ).finally(() => {
-      window.location.href = `/checkout?produtos=${encodeURIComponent(
-        produtos
-      )}&origem=${encodeURIComponent(origem)}`;
-    });
-  };
+export default function ContatoSection({
+  id,
+  irParaCheckout,
+}) {
   return (
     <section
       id={id}
@@ -39,9 +18,9 @@ export default function ContatoSection({ id, inicio, ultimaSessao }) {
         impacto.
       </p>
       <button
-        onClick={() =>
-          irParaCheckout("Contato", "main,biologico,sociologico,pratico")
-        }
+        onClick={() => {
+          irParaCheckout("Contato", "main,biologico,sociologico,pratico");
+        }}
         className="border-2 border-dashed border-red-400 hover:scale-105 shadow-lg shadow-yellow-500 h-12 w-72 mt-6 bg-white text-black rounded-lg text-[2vh] font-bold hover:bg-lime-400 hover:text-white transition"
       >
         🔥 QUERO APRENDER AGORA MESMO

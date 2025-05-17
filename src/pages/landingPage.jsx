@@ -6,11 +6,32 @@ import ReceitasSection from "../components/receitas";
 import ComboEbooks from "../components/livros";
 import UrgenciaSection from "../components/urgencia";
 import ContatoSection from "../components/contato";
+import {
+  incrementarCliquesCheckout,
+  registrarLog,
+  enviarLogs,
+} from "../utils/utils";
 
 export default function LandingPage() {
   const [tempoRestante, setTempoRestante] = useState(1 * 37 * 60); // 37 minutos
   const inicio = useRef(Date.now());
   const ultimaSessao = useRef("Desconhecida");
+
+  const irParaCheckout = (origem, produtos) => {
+    const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
+    incrementarCliquesCheckout("landingPage", "idasAoCheckout");
+
+    registrarLog("landingPage", "Cliques", {
+      mensagem: "Usuário clicou para ir ao checkout",
+      origem,
+      produtos,
+      tempoTotal,
+    });
+
+    window.location.href = `/checkout?produtos=${encodeURIComponent(
+      produtos
+    )}&origem=${encodeURIComponent(origem)}`;
+  };
 
   useEffect(() => {
     const secoes = [
@@ -44,20 +65,20 @@ export default function LandingPage() {
   }, []);
 
   useEffect(() => {
-    // ✅ Envio imediato quando o usuário entra
-    const payloadEntrada = {
-      mensagem: "Novo visitante na landing page 👀🎉",
-      timestamp: new Date().toISOString(),
-    };
+    const dadosQuiz = JSON.parse(sessionStorage.getItem("landingPage")) || {};
 
-    try {
-      navigator.sendBeacon(
-        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-        new Blob([JSON.stringify(payloadEntrada)], { type: "text/plain" })
-      );
-    } catch (e) {
-      console.warn("Erro ao enviar beacon de entrada:", e);
+    if (dadosQuiz.Entrada) {
+      console.log("⚠️ Parâmetros já salvos anteriormente.");
+      return;
     }
+    // ✅ Registro de entrada na landing page
+    registrarLog("landingPage", "Entrada", {
+      mensagem: "Novo visitante na landing page 👀🎉",
+    });
+  }, []);
+
+  useEffect(() => {
+    const dadosQuiz = JSON.parse(sessionStorage.getItem("landingPage")) || {};
 
     const handlePageHide = () => {
       // Verifica se a próxima página é o checkout
@@ -65,26 +86,28 @@ export default function LandingPage() {
       if (nextUrl.includes("checkout")) return;
 
       const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
-      const payload = {
-        mensagem: "Saiu da landing sem ir ao checkout 🫡",
-        ultimaSessao: ultimaSessao.current,
-        tempoTotal,
-        timestamp: new Date().toISOString(),
-      };
 
-      try {
-        navigator.sendBeacon(
-          "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-          new Blob([JSON.stringify(payload)], { type: "application/json" })
-        );
-      } catch (e) {
-        console.warn("Erro ao enviar beacon de saída:", e);
+      if (dadosQuiz.idasAoCheckout > 1) {
+        registrarLog("landingPage", "Saida", {
+          mensagem: "Usuário foi ao checkout, mas voltou e saiu",
+          ultimaSessao: ultimaSessao.current,
+          tempoTotal,
+        });
+        enviarLogs("quiz", "landingPage", "checkout");
+      } else {
+        registrarLog("landingPage", "Saida", {
+          mensagem: "Usuário saiu sem ir ao checkout",
+          ultimaSessao: ultimaSessao.current,
+          tempoTotal,
+        });
+
+        enviarLogs("quiz", "landingPage");
       }
     };
 
     window.addEventListener("pagehide", handlePageHide);
     return () => window.removeEventListener("pagehide", handlePageHide);
-  }, []);
+  });
 
   useEffect(() => {
     const intervalo = setInterval(() => {
@@ -119,21 +142,13 @@ export default function LandingPage() {
         </span>
       </div>
 
-      <HeroSection id="hero" inicio={inicio} ultimaSessao={ultimaSessao} />
+      <HeroSection id="hero" irParaCheckout={irParaCheckout} />
       <BeneficiosSection id="beneficios" />
       <ReceitasSection id="receitas" />
       <ComboEbooks id="ebooks" />
       <UrgenciaSection id="urgencia" />
-      <OfertasSection
-        id="ofertas"
-        inicio={inicio}
-        ultimaSessao={ultimaSessao}
-      />
-      <ContatoSection
-        id="contato"
-        inicio={inicio}
-        ultimaSessao={ultimaSessao}
-      />
+      <OfertasSection id="ofertas" irParaCheckout={irParaCheckout} />
+      <ContatoSection id="contato" irParaCheckout={irParaCheckout} />
     </div>
   );
 }

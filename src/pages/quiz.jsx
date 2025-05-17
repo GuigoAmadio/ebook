@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import calcinha from "../assets/calcinha.webp";
+import {
+  registrarLog,
+  salvarDados,
+  enviarLogs,
+  obterSalvarParametrosUrl,
+  enviarRespostasComBeacon,
+  incrementarRespostasQuiz,
+} from "../utils/utils";
+import { LazyLandingPage } from "../App"; // Importa para fazer o preload
+
+// Carregue o componente da LandingPage de forma assíncrona
 
 const perguntas = [
   {
@@ -58,10 +69,21 @@ export default function Quiz() {
   const [indexAtual, setIndexAtual] = useState(-1);
   const [respostas, setRespostas] = useState([]);
   const navigate = useNavigate();
-
-  const presencaLogadaRef = useRef(false);
-  const enviandoRef = useRef(false);
+  const enviandoBeacon = useRef(false);
   const respostasRef = useRef([]);
+
+  useEffect(() => {
+    // Verifica se os parâmetros já foram salvos dentro da chave "quiz"
+    const dadosQuiz = JSON.parse(sessionStorage.getItem("quiz")) || {};
+
+    if (dadosQuiz.parametrosEntrada) {
+      console.log("⚠️ Parâmetros já salvos anteriormente.");
+      return;
+    }
+
+    // Se não estiverem salvos, captura e salva
+    obterSalvarParametrosUrl("quiz");
+  }, []);
 
   useEffect(() => {
     respostasRef.current = respostas;
@@ -71,91 +93,47 @@ export default function Quiz() {
     localStorage.removeItem("respostasQuizTemp");
     setIndexAtual(0);
 
-    if (!presencaLogadaRef.current) {
-      const payload = {
-        mensagem: "Oh, alguém iniciou o quiz 🧠",
-        timestamp: new Date().toISOString(),
-      };
+    LazyLandingPage.preload();
 
-      // Método principal: Fetch para garantir envio imediato
-      fetch(
-        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-          mode: "cors",
-        }
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Erro no envio via fetch");
-          }
-          console.log("🟢 Log enviado com fetch");
-        })
-        .catch((err) => {
-          console.warn("Erro ao enviar log via fetch:", err);
-          // Fallback: Usar sendBeacon caso o fetch falhe
-          try {
-            const blob = new Blob([JSON.stringify(payload)], {
-              type: "application/json",
-            });
-            const sent = navigator.sendBeacon(
-              "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-              blob
-            );
-            if (sent) {
-              console.log("🟢 Log enviado com sendBeacon");
-            } else {
-              console.warn("❌ Falha no envio com sendBeacon");
-            }
-          } catch (err) {
-            console.error("❌ Erro ao usar sendBeacon:", err);
-          }
-        });
-
-      presencaLogadaRef.current = true;
-    }
+    registrarLog("quiz", "iniciarQuiz", {
+      mensagem: "Usuário iniciou o quiz",
+    });
   };
 
   const proximaPergunta = (resposta) => {
+    if (enviandoBeacon.current) return;
+
     const novasRespostas = [...respostas, resposta];
     setRespostas(novasRespostas);
     localStorage.setItem("respostasQuizTemp", JSON.stringify(novasRespostas));
 
+    salvarDados("quiz", "respostas", novasRespostas);
+    incrementarRespostasQuiz("quiz", "perguntasRespondidas");
+
     if (indexAtual + 1 < perguntas.length) {
       setIndexAtual(indexAtual + 1);
     } else {
-      if (enviandoRef.current) return;
-      enviandoRef.current = true;
+      // se enviandoBeacon eh true
+      enviandoBeacon.current = true;
 
-      fetch(
-        "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            respostas: novasRespostas,
-            timestamp: new Date().toISOString(),
-          }),
-        }
-      )
-        .then(() => {
-          localStorage.removeItem("respostasQuizTemp");
-          navigate("/landingPage");
-        })
-        .catch(() => navigate("/landingPage"));
+      registrarLog("quiz", "finalizarQuiz", {
+        mensagem: "Usuário finalizou o quiz",
+      });
+      if (enviarRespostasComBeacon(novasRespostas)) {
+        // Navega para a landing page após o envio bem-sucedido
+        navigate("/landingPage");
+      } else {
+        console.error("Erro ao enviar respostas. Tente novamente.");
+      }
     }
   };
 
   useEffect(() => {
     const handleUnload = () => {
-      if (enviandoRef.current) return;
-      enviandoRef.current = true;
+      if (enviandoBeacon.current) return;
+      enviandoBeacon.current = true;
+
+      enviarLogs("quiz");
 
       const respostasSalvas =
         respostasRef.current.length > 0
@@ -166,20 +144,7 @@ export default function Quiz() {
         respostasSalvas.length > 0 &&
         respostasSalvas.length <= perguntas.length
       ) {
-        const payload = {
-          respostas: respostasSalvas,
-          timestamp: new Date().toISOString(),
-        };
-
-        try {
-          navigator.sendBeacon(
-            "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz",
-            new Blob([JSON.stringify(payload)], { type: "application/json" })
-          );
-          localStorage.removeItem("respostasQuizTemp");
-        } catch (err) {
-          console.warn("Erro ao enviar beacon de saída:", err);
-        }
+        enviarRespostasComBeacon(respostasSalvas);
       }
     };
 

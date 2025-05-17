@@ -1,27 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import CheckoutForm from "../components/CheckoutForm";
 import ProdutosCard from "../components/ProdutosCard";
 import ResumoCompra from "../components/ResumoCompra";
-
 import ebookPrincipal from "../assets/ebookPrincipal.webp";
 import ebookSocial from "../assets/ebookSocial.webp";
 import ebookTecnicas from "../assets/ebookTecnicas.webp";
 import ebookBiologico from "../assets/ebookBiologico.webp";
+import { enviarEventoPixel, registrarLog, enviarLogs } from "../utils/utils";
 
 export default function Checkout() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-
-  function getCookie(name) {
-    const match = document.cookie.match(
-      new RegExp("(^| )" + name + "=([^;]+)")
-    );
-    return match ? match[2] : null;
-  }
-
-  const fbp = getCookie("_fbp");
-  const fbc = getCookie("_fbc");
 
   const produtoPrincipal = {
     sku: "MANUAL-001",
@@ -67,6 +57,7 @@ export default function Checkout() {
     pagamento: "pix",
   });
 
+  const inicio = useRef(Date.now());
   const [produtosSelecionados, setProdutosSelecionados] = useState([]);
   const [orderID, setOrderID] = useState("");
   const [pagamentoStatus, setPagamentoStatus] = useState(null); // null | "loading" | "success" | "erro"
@@ -74,77 +65,33 @@ export default function Checkout() {
   const [ultimoPix, setUltimoPix] = useState(0); // timestamp do último Pix gerado
 
   useEffect(() => {
-    const entrada = Date.now();
+    // COMECANDO LOGS MEUS
+    //
+    const dadosQuiz = JSON.parse(sessionStorage.getItem("checkout")) || {};
+
+    if (dadosQuiz.Entrada) {
+      console.log("⚠️ Parâmetros já salvos anteriormente.");
+      return;
+    }
     const origem = queryParams.get("origem") || "desconhecida";
 
-    const handleUnload = () => {
-      const tempoTotal = Math.floor((Date.now() - entrada) / 1000);
-      navigator.sendBeacon(
-        "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-        new Blob(
-          [
-            JSON.stringify({
-              mensagem: "Saiu do checkout sem comprar",
-              origem,
-              tempoTotal,
-              timestamp: new Date().toISOString(),
-              url: window.location.href,
-            }),
-          ],
-          { type: "application/json" }
-        )
-      );
-    };
-
-    window.addEventListener("beforeunload", handleUnload);
-
-    const produtosQuery = queryParams.get("produtos");
-
-    let selecionados = produtosQuery
-      ? produtosQuery
-          .split(",")
-          .filter((id) => todosProdutos.some((p) => p.id === id))
-      : [];
-
-    if (!selecionados.includes("main")) {
-      selecionados = ["main", ...selecionados];
-    }
-
-    setProdutosSelecionados(selecionados);
-
-    // ✅ 3. Pixel e evento de visualização
-    const pixelScript = document.createElement("script");
-    pixelScript.async = true;
-    pixelScript.defer = true;
-    pixelScript.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
-    window.pixelId = "68103089634d3f0bac4be54a";
-    document.head.appendChild(pixelScript);
-
-    const eventId = `view_${Date.now()}_${Math.random()
-      .toString(36)
-      .substring(2, 8)}`;
-    fbq("track", "ViewContent", {
-      content_name: "Página de Checkout",
-      eventID: eventId,
+    registrarLog("checkout", "Entrada", {
+      mensagem: "Usuário entrou na página de checkout",
+      origem,
     });
+  }, []);
 
-    const payloadView = {
-      email: form.email,
-      telefone: form.celular,
-      eventName: "ViewContent",
-      eventId,
-      valor: 0,
-      produtos: [],
-      fbp,
-      fbc,
-      eventSourceUrl: window.location.href,
-      eventTime: Math.floor(Date.now() / 1000),
+  useEffect(() => {
+    const handleUnload = () => {
+      const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
+      registrarLog("checkout", "Saida", {
+        mensagem: "Usuário esta saindo do checkout",
+        tempoTotal,
+      });
+
+      // ✅ Enviar os logs consolidados
+      enviarLogs("quiz", "landingPage", "checkout");
     };
-
-    navigator.sendBeacon(
-      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
-      new Blob([JSON.stringify(payloadView)], { type: "application/json" })
-    );
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === "hidden") handleUnload();
@@ -157,7 +104,36 @@ export default function Checkout() {
       window.removeEventListener("beforeunload", handleUnload);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [location.search]);
+  }, []);
+
+  useEffect(() => {
+    // ✅ Evita envio duplicado para o Pixel
+    if (sessionStorage.getItem("pixelEnviado")) return;
+    sessionStorage.setItem("pixelEnviado", "true");
+
+    // ✅ Configuração dos produtos selecionados no checkout
+    const produtosQuery = queryParams.get("produtos");
+    let selecionados = produtosQuery
+      ? produtosQuery
+          .split(",")
+          .filter((id) => todosProdutos.some((p) => p.id === id))
+      : [];
+
+    if (!selecionados.includes("main")) {
+      selecionados = ["main", ...selecionados];
+    }
+    setProdutosSelecionados(selecionados);
+
+    // ✅ Configuração e disparo do Pixel
+    const pixelScript = document.createElement("script");
+    pixelScript.async = true;
+    pixelScript.defer = true;
+    pixelScript.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
+    window.pixelId = "68103089634d3f0bac4be54a";
+    document.head.appendChild(pixelScript);
+
+    enviarEventoPixel("ViewContent", totalAtual, selecionados);
+  }, []);
 
   const alternarProduto = async (id) => {
     const novoSelecionados = produtosSelecionados.includes(id)
@@ -166,46 +142,16 @@ export default function Checkout() {
 
     setProdutosSelecionados(novoSelecionados);
 
-    // Pega os produtos completos com base nos IDs
+    // Cálculo direto dos produtos completos e total
     const produtosCompletos = todosProdutos.filter((p) =>
       novoSelecionados.includes(p.id)
     );
-
     const valorTotal = produtosCompletos.reduce(
       (total, p) => total + p.precoAtual,
       0
     );
 
-    const eventId = `add_${Date.now()}_${Math.random()
-      .toString(36)
-      .substring(2, 8)}`;
-
-    // 🔹 Dispara para o Pixel (frontend)
-    fbq("track", "AddToCart", {
-      content_ids: novoSelecionados,
-      value: valorTotal,
-      currency: "BRL",
-      eventID: eventId,
-    });
-
-    // 🔹 Dispara para o backend (API de Conversão da Meta)
-    const payloadAddToCart = {
-      email: form.email,
-      telefone: form.celular,
-      valor: valorTotal,
-      produtos: novoSelecionados,
-      eventName: "AddToCart",
-      eventId,
-      fbp,
-      fbc,
-      eventSourceUrl: window.location.href,
-      eventTime: Math.floor(Date.now() / 1000),
-    };
-
-    navigator.sendBeacon(
-      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
-      new Blob([JSON.stringify(payloadAddToCart)], { type: "application/json" })
-    );
+    enviarEventoPixel("AddToCart", valorTotal, novoSelecionados);
   };
 
   const selecionados = todosProdutos.filter((p) =>
@@ -271,31 +217,9 @@ export default function Checkout() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const eventId = `checkout_${Date.now()}_${Math.random()
-      .toString(36)
-      .substring(2, 8)}`;
-
-    fbq("track", "InitiateCheckout", { eventID: eventId });
-
-    const payloadInitiate = {
-      email: form.email,
-      telefone: form.celular,
-      valor: totalAtual,
-      produtos: produtosSelecionados,
-      eventName: "InitiateCheckout",
-      eventId,
-      fbp,
-      fbc,
-      eventSourceUrl: window.location.href,
-      eventTime: Math.floor(Date.now() / 1000),
-    };
-
-    navigator.sendBeacon(
-      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
-      new Blob([JSON.stringify(payloadInitiate)], { type: "application/json" })
-    );
-
     if (!validarCampos()) return;
+
+    enviarEventoPixel("InitiateCheckout", totalAtual, produtosSelecionados);
 
     // Bloquear múltiplas gerações de Pix por 2 minutos
     if (form.pagamento === "pix") {
@@ -336,7 +260,13 @@ export default function Checkout() {
       );
       const json = await resposta.json();
       setOrderID(json.orderId);
-      console.log("Json resposta do pagamento:", json);
+
+      const processarSucesso = () => {
+        setPagamentoStatus("success");
+        window.history.replaceState({}, "", "?status=sucesso");
+        enviarEventoPixel("Purchase", totalAtual, produtosSelecionados);
+      };
+
       if (form.pagamento === "pix" && json?.data?.pix_qrcode) {
         // Armazena QR code e inicia verificação de pagamento
         setQrCodeData({
@@ -369,39 +299,7 @@ export default function Checkout() {
 
             if (resposta2.status === "aprovado") {
               clearInterval(loop);
-
-              const eventId = `purchase_${Date.now()}_${Math.random()
-                .toString(36)
-                .substring(2, 8)}`;
-
-              fbq("track", "Purchase", {
-                value: totalAtual,
-                currency: "BRL",
-                eventID: eventId,
-              });
-
-              const payloadPurchase = {
-                email: form.email,
-                telefone: form.celular,
-                valor: totalAtual,
-                produtos: produtosSelecionados,
-                eventName: "Purchase",
-                eventId,
-                fbp,
-                fbc,
-                eventSourceUrl: window.location.href,
-                eventTime: Math.floor(Date.now() / 1000),
-              };
-
-              navigator.sendBeacon(
-                "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
-                new Blob([JSON.stringify(payloadPurchase)], {
-                  type: "application/json",
-                })
-              );
-
-              setPagamentoStatus("success");
-              window.history.replaceState({}, "", "?status=sucesso");
+              processarSucesso();
             } else if (tentativas >= maxTentativas) {
               clearInterval(loop);
               alert("❌ Pagamento via Pix não foi confirmado em 10 minutos.");
@@ -414,39 +312,7 @@ export default function Checkout() {
 
         // Fazer requisicao de checkagem para meu banco de dados.
       } else if (json.status === "aprovado") {
-        setPagamentoStatus("success");
-        window.history.replaceState({}, "", "?status=sucesso");
-
-        // ✅ Disparar Pixel de compra
-        const eventId = `purchase_${Date.now()}_${Math.random()
-          .toString(36)
-          .substring(2, 8)}`;
-
-        fbq("track", "Purchase", {
-          value: totalAtual,
-          currency: "BRL",
-          eventID: eventId,
-        });
-
-        const payloadPurchase = {
-          email: form.email,
-          telefone: form.celular,
-          valor: totalAtual,
-          produtos: produtosSelecionados,
-          eventName: "Purchase",
-          eventId,
-          fbp,
-          fbc,
-          eventSourceUrl: window.location.href,
-          eventTime: Math.floor(Date.now() / 1000),
-        };
-
-        navigator.sendBeacon(
-          "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
-          new Blob([JSON.stringify(payloadPurchase)], {
-            type: "application/json",
-          })
-        );
+        processarSucesso();
       } else {
         alert("Erro no pagamento. Tente novamente.");
         setPagamentoStatus("erro");

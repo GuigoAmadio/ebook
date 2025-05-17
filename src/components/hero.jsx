@@ -5,30 +5,8 @@ import ebookSocial from "../assets/ebookSocial.webp";
 import ebookPrincipal from "../assets/ebookPrincipal.webp";
 import calcinha from "../assets/calcinha.webp";
 
-export default function HeroSection({ id, inicio, ultimaSessao }) {
-  const irParaCheckout = (origem, produtos) => {
-    const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
-    const sessaoFinal = ultimaSessao.current;
+export default function HeroSection({ id, irParaCheckout }) {
 
-    fetch(
-      "https://us-central1-stripepay-3c918.cloudfunctions.net/api/temGenteAquikk",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          mensagem: "Foi para o checkout ✅",
-          origem,
-          sessaoMaisLonge: sessaoFinal,
-          tempoTotal,
-          timestamp: new Date().toISOString(),
-        }),
-      }
-    ).finally(() => {
-      window.location.href = `/checkout?produtos=${encodeURIComponent(
-        produtos
-      )}&origem=${encodeURIComponent(origem)}`;
-    });
-  };
 
   return (
     <section
@@ -70,9 +48,9 @@ export default function HeroSection({ id, inicio, ultimaSessao }) {
       </div>
 
       <button
-        onClick={() =>
-          irParaCheckout("Hero", "main,biologico,sociologico,pratico")
-        }
+        onClick={() => {
+          irParaCheckout("Hero", "main,biologico,sociologico,pratico");
+        }}
         className="mb-10 border-dashed border-2 bg-red-700 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl shadow-xl shadow-orange-800 transition duration-300 relative mt-6"
       >
         <img
