@@ -7,6 +7,7 @@ import ebookPrincipal from "../assets/ebookPrincipal.webp";
 import ebookSocial from "../assets/ebookSocial.webp";
 import ebookTecnicas from "../assets/ebookTecnicas.webp";
 import ebookBiologico from "../assets/ebookBiologico.webp";
+import bau_checkout from "../assets/bau_checkout.png";
 import { enviarEventoPixel, registrarLog, enviarLogs } from "../utils/utils";
 
 export default function Checkout() {
@@ -96,7 +97,6 @@ export default function Checkout() {
         tempoTotal,
       });
 
-      // ✅ Enviar os logs consolidados
       enviarLogs("quiz", "landingPage", "checkout");
     };
 
@@ -361,12 +361,22 @@ export default function Checkout() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row gap-10 min-h-screen bg-gray-100 p-4 md:p-10">
-      <div className="flex flex-col gap-6 w-full lg:w-2/3">
-        <CheckoutForm form={form} setForm={setForm} />
-        <div className="bg-white p-4 rounded-xl shadow-md space-y-4">
-          <h2 className="text-lg font-semibold">
-            Adicione outros eBooks à sua compra
+    <div className="flex items-center flex-col lg:flex-row gap-10 min-h-screen bg-orange-950 p-4 md:p-10 z-20">
+      <div className="relative flex flex-col items-center">
+        <div className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r -left-16 -top-10 from-red-700 to-amber-700 opacity-70 blur-2xl z-10"></div>
+        <img src={bau_checkout} alt="" className="relative size-64 z-20 " />
+        <h1 className="font-bold text-white text-2xl mx-2 text-center z-20 relative">
+          Nem todos têm acesso ao que está aqui... Mas você está a um passo de
+          descobrir.
+        </h1>
+      </div>
+      <div className="flex flex-col gap-6 w-full lg:w-2/3 z-20 pt-8">
+        <div className="bg-orange-950 p-4 rounded-xl space-y-4">
+          <h2 className="text-xl text-orange-300 font-bold text-center">
+            Aproveite e leve também:
+          </h2>
+          <h2 className="text-md text-orange-300 font-bold text-center">
+            *Clique para adicionar ou remover do carrinho*
           </h2>
           <ProdutosCard
             produtos={todosProdutos.filter((p) => p.id !== "main")}
@@ -374,18 +384,22 @@ export default function Checkout() {
             onToggle={alternarProduto}
           />
         </div>
-      </div>
 
-      <ResumoCompra
-        selecionados={selecionados}
-        totalOriginal={totalOriginal}
-        totalAtual={totalAtual}
-        descontoTotal={descontoTotal}
-        pagamento={form.pagamento}
-        onSubmit={handleSubmit}
-        loading={pagamentoStatus === "loading"}
+        <ResumoCompra
+          selecionados={selecionados}
+          totalOriginal={totalOriginal}
+          totalAtual={totalAtual}
+          descontoTotal={descontoTotal}
+        />
+      </div>
+      <CheckoutForm
         qrCodeData={qrCodeData}
         orderID={orderID}
+        loading={pagamentoStatus === "loading"}
+        onSubmit={handleSubmit}
+        pagamento={form.pagamento}
+        form={form}
+        setForm={setForm}
       />
     </div>
   );
