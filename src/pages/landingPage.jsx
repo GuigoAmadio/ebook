@@ -36,10 +36,11 @@ export default function LandingPage() {
     // Verifica se o usuário já foi para o checkout e retornou
     if (sessionStorage.getItem("jaFoiProCheckout") === "true") {
       // Reseta o estado ao retornar da página de checkout
+      console.log("ta lendo aqui, ou seja, to voltando do checkout.")
       indoParaCheckout = false;
     }
 
-    const handleBeforeUnload = (event) => {
+    const handleBeforeUnload = () => {
       const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
       const jaFoiProCheckout =
         sessionStorage.getItem("jaFoiProCheckout") === "true";

@@ -82,15 +82,31 @@ export default function Checkout() {
   }, []);
 
   useEffect(() => {
-    const handleUnload = () => {
-      const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
-      registrarLog("checkout", "Saida", {
-        mensagem: "Usuário esta saindo do checkout",
-        tempoTotal,
-      });
+    let logEnviado = false;
 
-      // ✅ Enviar os logs consolidados
-      enviarLogs("quiz", "landingPage", "checkout");
+    const handleUnload = () => {
+      if (logEnviado) return; // Evita duplicidade de logs
+      logEnviado = true;
+
+      const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
+      const referrer = document.referrer || "";
+      const isReturningToLanding = referrer.includes("/landingPage");
+
+      // Verifica se está voltando para a landingPage ou saindo do site
+      if (isReturningToLanding) {
+        registrarLog("checkout", "Retorno", {
+          mensagem: "Usuário voltou para a Landing Page",
+          tempoTotal,
+        });
+      } else {
+        registrarLog("checkout", "Saida", {
+          mensagem: "Usuário está saindo do checkout",
+          tempoTotal,
+        });
+
+        // ✅ Enviar os logs consolidados
+        enviarLogs("quiz", "landingPage", "checkout");
+      }
     };
 
     const handleVisibilityChange = () => {
