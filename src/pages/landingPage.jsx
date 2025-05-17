@@ -6,20 +6,19 @@ import ReceitasSection from "../components/receitas";
 import ComboEbooks from "../components/livros";
 import UrgenciaSection from "../components/urgencia";
 import ContatoSection from "../components/contato";
-import {
-  incrementarCliquesCheckout,
-  registrarLog,
-  enviarLogs,
-} from "../utils/utils";
+import { registrarLog, enviarLogs } from "../utils/utils";
 
 export default function LandingPage() {
   const [tempoRestante, setTempoRestante] = useState(1 * 37 * 60); // 37 minutos
   const inicio = useRef(Date.now());
   const ultimaSessao = useRef("Desconhecida");
+  let indoParaCheckout = false;
 
   const irParaCheckout = (origem, produtos) => {
     const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
-    incrementarCliquesCheckout("landingPage", "idasAoCheckout");
+
+    indoParaCheckout = true;
+    sessionStorage.setItem("jaFoiProCheckout", "true");
 
     registrarLog("landingPage", "Cliques", {
       mensagem: "Usuário clicou para ir ao checkout",
@@ -32,6 +31,47 @@ export default function LandingPage() {
       produtos
     )}&origem=${encodeURIComponent(origem)}`;
   };
+
+  useEffect(() => {
+    // Verifica se o usuário já foi para o checkout e retornou
+    if (sessionStorage.getItem("jaFoiProCheckout") === "true") {
+      // Reseta o estado ao retornar da página de checkout
+      indoParaCheckout = false;
+    }
+
+    const handleBeforeUnload = (event) => {
+      const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
+      const jaFoiProCheckout =
+        sessionStorage.getItem("jaFoiProCheckout") === "true";
+
+      // Se estiver indo para o checkout, não registra log de saída
+      if (indoParaCheckout) return;
+
+      if (jaFoiProCheckout) {
+        // Usuário foi para o checkout e voltou
+        registrarLog("landingPage", "Saida", {
+          mensagem: "Usuário foi ao checkout, mas voltou e saiu",
+          ultimaSessao: ultimaSessao.current,
+          tempoTotal,
+        });
+        enviarLogs("quiz", "landingPage", "checkout");
+      } else {
+        // Usuário saiu sem nunca ter ido ao checkout
+        registrarLog("landingPage", "Saida", {
+          mensagem: "Usuário saiu sem ir ao checkout",
+          ultimaSessao: ultimaSessao.current,
+          tempoTotal,
+        });
+        enviarLogs("quiz", "landingPage");
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   useEffect(() => {
     const secoes = [
@@ -76,38 +116,6 @@ export default function LandingPage() {
       mensagem: "Novo visitante na landing page 👀🎉",
     });
   }, []);
-
-  useEffect(() => {
-    const dadosQuiz = JSON.parse(sessionStorage.getItem("landingPage")) || {};
-
-    const handlePageHide = () => {
-      // Verifica se a próxima página é o checkout
-      const nextUrl = document.referrer || "desconhecida";
-      if (nextUrl.includes("checkout")) return;
-
-      const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
-
-      if (dadosQuiz.idasAoCheckout > 1) {
-        registrarLog("landingPage", "Saida", {
-          mensagem: "Usuário foi ao checkout, mas voltou e saiu",
-          ultimaSessao: ultimaSessao.current,
-          tempoTotal,
-        });
-        enviarLogs("quiz", "landingPage", "checkout");
-      } else {
-        registrarLog("landingPage", "Saida", {
-          mensagem: "Usuário saiu sem ir ao checkout",
-          ultimaSessao: ultimaSessao.current,
-          tempoTotal,
-        });
-
-        enviarLogs("quiz", "landingPage");
-      }
-    };
-
-    window.addEventListener("pagehide", handlePageHide);
-    return () => window.removeEventListener("pagehide", handlePageHide);
-  });
 
   useEffect(() => {
     const intervalo = setInterval(() => {
