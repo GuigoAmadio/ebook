@@ -12,14 +12,14 @@ export default function LandingPage() {
   const [tempoRestante, setTempoRestante] = useState(1 * 37 * 60); // 37 minutos
   const inicio = useRef(Date.now());
   const ultimaSessao = useRef("Desconhecida");
-  let indoProCheckout = false;
+  const indoProCheckout = useRef(false);
 
   const irParaCheckout = (origem, produtos) => {
     const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
 
-    indoProCheckout = true;
+    indoProCheckout.current = true;
     sessionStorage.setItem("jaFoiProCheckout", "true");
-
+    console.log("indoProCheckout ja foi editado para TRUE");
     registrarLog("landingPage", "Cliques", {
       mensagem: "Usuário clicou para ir ao checkout",
       origem,
@@ -37,24 +37,25 @@ export default function LandingPage() {
     if (sessionStorage.getItem("jaFoiProCheckout") === "true") {
       // Reseta o estado ao retornar da página de checkout
       console.log("ta lendo aqui, ou seja, to voltando do checkout.");
-      indoProCheckout = false;
+      indoProCheckout.current = false;
     }
 
     const handleBeforeUnload = () => {
       console.log("aaaaaa ta de fato lendo isso ao ir para checkout");
-      console.log("indoProCheckout:", indoProCheckout);
+      console.log("indoProCheckout:", indoProCheckout.current);
 
       const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
       const jaFoiProCheckout =
         sessionStorage.getItem("jaFoiProCheckout") === "true";
 
       // Se estiver indo para o checkout, não registra log de saída
-      if (indoProCheckout) return;
+      if (indoProCheckout.current) return;
 
       console.log(
         "aparentemente nao ta indo pro checkout, entao vou enviar algum log"
       );
       if (jaFoiProCheckout) {
+        console.log("ta falando que ja foi pro checkout");
         // Usuário foi para o checkout e voltou
         registrarLog("landingPage", "Saida", {
           mensagem: "Usuário foi ao checkout, mas voltou e saiu",
@@ -63,6 +64,7 @@ export default function LandingPage() {
         });
         enviarLogs("quiz", "landingPage", "checkout");
       } else {
+        console.log("ta falando que NAO foi pro checkout");
         // Usuário saiu sem nunca ter ido ao checkout
         registrarLog("landingPage", "Saida", {
           mensagem: "Usuário saiu sem ir ao checkout",
