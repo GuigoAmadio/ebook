@@ -79,6 +79,8 @@ export default function Checkout() {
       mensagem: "Usuário entrou na página de checkout",
       origem,
     });
+
+    console.log("refistrei entrada no checkout.");
   }, []);
 
   useEffect(() => {
@@ -91,7 +93,7 @@ export default function Checkout() {
       const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
       const referrer = document.referrer || "";
       const isReturningToLanding = referrer.includes("/landingPage");
-
+      console.log("referrer:", referrer);
       // Verifica se está voltando para a landingPage ou saindo do site
       if (isReturningToLanding) {
         registrarLog("checkout", "Retorno", {

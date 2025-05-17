@@ -12,12 +12,12 @@ export default function LandingPage() {
   const [tempoRestante, setTempoRestante] = useState(1 * 37 * 60); // 37 minutos
   const inicio = useRef(Date.now());
   const ultimaSessao = useRef("Desconhecida");
-  let indoParaCheckout = false;
+  let indoProCheckout = false;
 
   const irParaCheckout = (origem, produtos) => {
     const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
 
-    indoParaCheckout = true;
+    indoProCheckout = true;
     sessionStorage.setItem("jaFoiProCheckout", "true");
 
     registrarLog("landingPage", "Cliques", {
@@ -36,18 +36,24 @@ export default function LandingPage() {
     // Verifica se o usuário já foi para o checkout e retornou
     if (sessionStorage.getItem("jaFoiProCheckout") === "true") {
       // Reseta o estado ao retornar da página de checkout
-      console.log("ta lendo aqui, ou seja, to voltando do checkout.")
-      indoParaCheckout = false;
+      console.log("ta lendo aqui, ou seja, to voltando do checkout.");
+      indoProCheckout = false;
     }
 
     const handleBeforeUnload = () => {
+      console.log("aaaaaa ta de fato lendo isso ao ir para checkout");
+      console.log("indoProCheckout:", indoProCheckout);
+
       const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
       const jaFoiProCheckout =
         sessionStorage.getItem("jaFoiProCheckout") === "true";
 
       // Se estiver indo para o checkout, não registra log de saída
-      if (indoParaCheckout) return;
+      if (indoProCheckout) return;
 
+      console.log(
+        "aparentemente nao ta indo pro checkout, entao vou enviar algum log"
+      );
       if (jaFoiProCheckout) {
         // Usuário foi para o checkout e voltou
         registrarLog("landingPage", "Saida", {
