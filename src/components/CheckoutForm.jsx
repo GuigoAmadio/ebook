@@ -164,7 +164,7 @@ export default function CheckoutForm({
           />
           <button
             onClick={copiarPix}
-            className="text-xs break-words text-center w-full p-2 border border-pink-500 rounded bg-pink-100 hover:bg-pink-200 transition"
+            className="text-xs break-words text-center w-full p-2 border border-lime-500 rounded bg-lime-400 hover:bg-lime-500 transition"
           >
             {copiado
               ? "✅ Copiado para a área de transferência!"
@@ -175,13 +175,13 @@ export default function CheckoutForm({
             Válido até:{" "}
             {new Date(qrCodeData.vencimento).toLocaleString("pt-BR")}
           </p>
-          <p className="animate-pulse text-md font-bold text-center text-neutral-800 mt-4">
+          <p className="animate-pulse text-md font-bold text-center text-neutral-400 mt-4">
             Verifique o seu e-mail após o pagamento. Assim que confirmarmos seu
             pagamento, enviaremos sua compra.
           </p>
-          <p className="text-md font-bold text-center text-neutral-600 mt-4">
+          <p className="text-md font-bold text-center text-white mt-4">
             Caso haja algum problema, fale conosco sobre o pedido:{" "}
-            <span className="text-neutral-950">{orderID}</span>.
+            <span className="text-orange-400">{orderID}</span>.
           </p>
         </div>
       )}
