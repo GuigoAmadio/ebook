@@ -58,11 +58,8 @@ export function enviarLogs(...chaves) {
   });
 
   if (Object.keys(hiperLogs).length > 0) {
-    navigator.sendBeacon(
-      "https://us-central1-stripepay-3c918.cloudfunctions.net/logs",
-      new Blob([JSON.stringify({ hiperLogs })], { type: "application/json" })
-    );
-    console.log("🟢 Logs enviados com sucesso:", hiperLogs);
+    const url = "https://us-central1-stripepay-3c918.cloudfunctions.net/logs";
+    enviarComBeaconOuFetch(url, { hiperLogs });
   } else {
     console.warn("⚠️ Nenhum log encontrado para as chaves fornecidas.");
   }
@@ -119,13 +116,10 @@ export function enviarEventoPixel(eventName, valor, produtos, form) {
     eventID: eventId,
   });
 
+  const url = "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi";
   const payload = criarPayload(eventName, valor, produtos, eventId, form);
 
-  navigator.sendBeacon(
-    "https://us-central1-stripepay-3c918.cloudfunctions.net/api/capi",
-    new Blob([JSON.stringify(payload)], { type: "application/json" })
-  );
-
+  enviarComBeaconOuFetch(url, payload);
   return eventId;
 }
 
@@ -139,26 +133,64 @@ export function getCookie(name) {
 // ✅ Função para enviar as respostas usando sendBeacon
 export function enviarRespostasComBeacon(novasRespostas) {
   try {
+    const url =
+      "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz";
     const payload = {
       respostas: novasRespostas,
       timestamp: new Date().toISOString(),
     };
 
-    const sent = navigator.sendBeacon(
-      "https://us-central1-stripepay-3c918.cloudfunctions.net/salvarRespostasQuiz",
-      new Blob([JSON.stringify(payload)], { type: "application/json" })
-    );
-
-    if (sent) {
-      console.log("🟢 Respostas enviadas com sendBeacon.");
+    if (enviarComBeaconOuFetch(url, payload)) {
+      console.log("🟢 Respostas enviadas com sucesso.");
       localStorage.removeItem("respostasQuizTemp");
       return true;
     } else {
-      console.warn("❌ Falha no envio das respostas com sendBeacon.");
+      console.warn("❌ Falha ao enviar respostas.");
       return false;
     }
   } catch (error) {
-    console.error("❌ Erro ao usar sendBeacon:", error);
+    console.error("❌ Erro ao enviar respostas:", error);
+    return false;
+  }
+}
+
+function enviarComBeaconOuFetch(url, payload) {
+  try {
+    // Tenta enviar com sendBeacon se suportado
+    if (typeof navigator.sendBeacon === "function") {
+      const sent = navigator.sendBeacon(
+        url,
+        new Blob([JSON.stringify(payload)], { type: "application/json" })
+      );
+      if (sent) {
+        console.log("🟢 Dados enviados com sendBeacon:", payload);
+        return true;
+      } else {
+        console.warn(
+          "❌ Falha ao enviar com sendBeacon. Tentando com fetch..."
+        );
+      }
+    }
+    // Fallback para fetch com keepalive
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("✅ Dados enviados com fetch:", payload);
+        } else {
+          console.error("❌ Falha no envio com fetch:", response.statusText);
+        }
+      })
+      .catch((err) => {
+        console.error("❌ Erro ao enviar com fetch:", err);
+      });
+    return false;
+  } catch (error) {
+    console.error("❌ Erro na função de envio:", error);
     return false;
   }
 }
