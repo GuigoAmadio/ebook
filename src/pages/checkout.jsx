@@ -87,25 +87,37 @@ export default function Checkout() {
 
   useEffect(() => {
     const handleUnload = () => {
-      if (logEnviado.current) return; // Evita duplicidade de logs
+      if (logEnviado.current) return;
       logEnviado.current = true;
 
       const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
-      console.log("to saindo do checkout pelo jeito");
+      console.log("🚪 Usuário está saindo do checkout.");
+
       registrarLog("checkout", "Saida", {
-        mensagem: "Usuário está saindo do checkout",
+        mensagem: "Usuário saiu do checkout",
         tempoTotal,
       });
-
       enviarLogs("quiz", "landingPage", "checkout");
     };
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        handleUnload();
+      }
+    };
+
+    // Eventos para garantir compatibilidade com todos os dispositivos
     window.addEventListener("beforeunload", handleUnload);
+    window.addEventListener("pagehide", handleUnload);
+    window.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       window.removeEventListener("beforeunload", handleUnload);
+      window.removeEventListener("pagehide", handleUnload);
+      window.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
+  
 
   useEffect(() => {
     // ✅ Evita envio duplicado para o Pixel

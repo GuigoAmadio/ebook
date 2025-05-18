@@ -12,6 +12,24 @@ import {
 import { LazyLandingPage } from "../App"; // Importa para fazer o preload
 
 // Carregue o componente da LandingPage de forma assíncrona
+function handleUnload() {
+  if (enviandoBeacon.current) return;
+  enviandoBeacon.current = true;
+
+  enviarLogs("quiz", "landingPage", "checkout");
+
+  const respostasSalvas =
+    respostasRef.current.length > 0
+      ? respostasRef.current
+      : JSON.parse(localStorage.getItem("respostasQuizTemp") || "[]");
+
+  if (
+    respostasSalvas.length > 0 &&
+    respostasSalvas.length <= perguntas.length
+  ) {
+    enviarRespostasComBeacon(respostasSalvas);
+  }
+}
 
 const perguntas = [
   {
@@ -125,27 +143,23 @@ export default function Quiz() {
   };
 
   useEffect(() => {
-    const handleUnload = () => {
-      if (enviandoBeacon.current) return;
-      enviandoBeacon.current = true;
-
-      enviarLogs("quiz");
-
-      const respostasSalvas =
-        respostasRef.current.length > 0
-          ? respostasRef.current
-          : JSON.parse(localStorage.getItem("respostasQuizTemp") || "[]");
-
-      if (
-        respostasSalvas.length > 0 &&
-        respostasSalvas.length <= perguntas.length
-      ) {
-        enviarRespostasComBeacon(respostasSalvas);
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        console.log("🔄 Página ficou oculta, registrando logs.");
+        handleUnload();
       }
     };
 
+    // Adiciona os eventos de saída e mudança de visibilidade
     window.addEventListener("beforeunload", handleUnload);
-    return () => window.removeEventListener("beforeunload", handleUnload);
+    window.addEventListener("pagehide", handleUnload);
+    window.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+      window.removeEventListener("pagehide", handleUnload);
+      window.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   return (

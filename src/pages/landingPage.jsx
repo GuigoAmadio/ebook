@@ -33,52 +33,63 @@ export default function LandingPage() {
   };
 
   useEffect(() => {
-    // Verifica se o usuário já foi para o checkout e retornou
+    // Verifica se o usuário já foi para o checkout e voltou
     if (sessionStorage.getItem("jaFoiProCheckout") === "true") {
-      // Reseta o estado ao retornar da página de checkout
-      console.log("ta lendo aqui, ou seja, to voltando do checkout.");
+      console.log("🟢 Retorno detectado: Usuário voltou do checkout.");
       indoProCheckout.current = false;
+    } else {
+      console.log("⚠️ Primeira visita ou não foi para o checkout ainda.");
     }
+  }, []);
 
-    const handleBeforeUnload = () => {
-      console.log("aaaaaa ta de fato lendo isso ao ir para checkout");
-      console.log("indoProCheckout:", indoProCheckout.current);
+  useEffect(() => {
+    const handleUnload = () => {
+      if (enviandoBeacon.current) return;
+      enviandoBeacon.current = true;
 
       const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
       const jaFoiProCheckout =
         sessionStorage.getItem("jaFoiProCheckout") === "true";
 
-      // Se estiver indo para o checkout, não registra log de saída
+      // Verifica se está indo para o checkout
       if (indoProCheckout.current) return;
 
-      console.log(
-        "aparentemente nao ta indo pro checkout, entao vou enviar algum log"
-      );
+      // Verifica se o usuário foi ao checkout e voltou
       if (jaFoiProCheckout) {
-        console.log("ta falando que ja foi pro checkout");
-        // Usuário foi para o checkout e voltou
         registrarLog("landingPage", "Saida", {
-          mensagem: "Usuário foi ao checkout, mas voltou e saiu",
+          mensagem: "Usuário foi ao checkout e voltou, mas saiu",
           ultimaSessao: ultimaSessao.current,
           tempoTotal,
         });
         enviarLogs("quiz", "landingPage", "checkout");
+        console.log("Usuário foi ao checkout e voltou, log registrado.");
       } else {
-        console.log("ta falando que NAO foi pro checkout");
-        // Usuário saiu sem nunca ter ido ao checkout
+        // Usuário saiu sem ir ao checkout
         registrarLog("landingPage", "Saida", {
           mensagem: "Usuário saiu sem ir ao checkout",
           ultimaSessao: ultimaSessao.current,
           tempoTotal,
         });
         enviarLogs("quiz", "landingPage");
+        console.log("Usuário saiu sem ir ao checkout, log registrado.");
       }
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        handleUnload();
+      }
+    };
+
+    // Eventos para garantir compatibilidade com todos os dispositivos
+    window.addEventListener("beforeunload", handleUnload);
+    window.addEventListener("pagehide", handleUnload);
+    window.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleUnload);
+      window.removeEventListener("pagehide", handleUnload);
+      window.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
