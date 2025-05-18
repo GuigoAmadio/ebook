@@ -13,6 +13,7 @@ export default function LandingPage() {
   const inicio = useRef(Date.now());
   const ultimaSessao = useRef("Desconhecida");
   const indoProCheckout = useRef(false);
+  const enviandoBeacon = useRef(false);
 
   const irParaCheckout = (origem, produtos) => {
     const tempoTotal = Math.floor((Date.now() - inicio.current) / 1000);
