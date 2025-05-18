@@ -24,9 +24,24 @@ export function salvarDados(chave, campo, valor) {
 
 // ✅ Função para registrar logs de ações
 export function registrarLog(chave, acao, detalhes) {
-  const logs = JSON.parse(sessionStorage.getItem(chave)) || [];
-  logs.push({ acao, detalhes });
-  sessionStorage.setItem(chave, JSON.stringify(logs));
+  try {
+    // Recupera os dados completos da chave
+    let dados = JSON.parse(sessionStorage.getItem(chave)) || {};
+
+    // Garante que a subchave "logs" seja um array
+    if (!Array.isArray(dados.logs)) {
+      dados.logs = [];
+    }
+
+    // Adiciona o novo log ao array "logs"
+    dados.logs.push({ acao, detalhes });
+
+    // Salva novamente no sessionStorage
+    sessionStorage.setItem(chave, JSON.stringify(dados));
+    console.log("🟢 Log registrado com sucesso:", { acao, detalhes });
+  } catch (error) {
+    console.error("❌ Erro ao registrar log:", error);
+  }
 }
 
 // ✅ Função para enviar logs

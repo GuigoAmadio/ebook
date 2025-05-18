@@ -119,12 +119,8 @@ export default function Quiz() {
       registrarLog("quiz", "finalizarQuiz", {
         mensagem: "Usuário finalizou o quiz",
       });
-      if (enviarRespostasComBeacon(novasRespostas)) {
-        // Navega para a landing page após o envio bem-sucedido
-        navigate("/landingPage");
-      } else {
-        console.error("Erro ao enviar respostas. Tente novamente.");
-      }
+      enviarRespostasComBeacon(novasRespostas);
+      navigate("/landingPage");
     }
   };
 
