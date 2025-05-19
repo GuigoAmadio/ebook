@@ -1,4 +1,26 @@
 // utils.js
+// src/utils.js
+
+export function logVisit(data) {
+  try {
+    fetch("https://us-central1-stripepay-3c918.cloudfunctions.net/logs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+  } catch (e) {
+    console.error("Erro ao registrar visita:", e);
+  }
+}
+
+export function getBasicLogData() {
+  return {
+    timestamp: new Date().toISOString(),
+    referrer: document.referrer,
+    userAgent: navigator.userAgent,
+    page: window.location.href,
+  };
+}
 
 // ✅ Função para incrementar valor numérico no sessionStorage
 export function incrementarCliquesCheckout(chave, campo, incremento = 1) {

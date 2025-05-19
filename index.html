@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <head>
+      <script type="module">
+        import { logVisit, getBasicLogData } from "./src/utils.js";
+
+        (function () {
+          try {
+            // Coleta os dados básicos e envia o log
+            const data = getBasicLogData();
+            logVisit(data);
+            console.log("🚀 Log enviado com sucesso:", data);
+          } catch (e) {
+            console.error("❌ Erro ao enviar log:", e);
+          }
+        })();
+      </script>
+    </head>
+
     <script
       src="https://cdn.utmify.com.br/scripts/utms/latest.js"
       data-utmify-prevent-xcod-sck
