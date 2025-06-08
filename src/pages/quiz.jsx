@@ -11,26 +11,6 @@ import {
 } from "../utils/utils";
 import { LazyLandingPage } from "../App"; // Importa para fazer o preload
 
-// Carregue o componente da LandingPage de forma assíncrona
-function handleUnload() {
-  if (enviandoBeacon.current) return;
-  enviandoBeacon.current = true;
-
-  enviarLogs("quiz", "landingPage", "checkout");
-
-  const respostasSalvas =
-    respostasRef.current.length > 0
-      ? respostasRef.current
-      : JSON.parse(localStorage.getItem("respostasQuizTemp") || "[]");
-
-  if (
-    respostasSalvas.length > 0 &&
-    respostasSalvas.length <= perguntas.length
-  ) {
-    enviarRespostasComBeacon(respostasSalvas);
-  }
-}
-
 const perguntas = [
   {
     pergunta:
@@ -89,6 +69,25 @@ export default function Quiz() {
   const navigate = useNavigate();
   const enviandoBeacon = useRef(false);
   const respostasRef = useRef([]);
+
+  const handleUnload = () => {
+    if (enviandoBeacon.current) return;
+    enviandoBeacon.current = true;
+
+    enviarLogs("quiz", "landingPage", "checkout");
+
+    const respostasSalvas =
+      respostasRef.current.length > 0
+        ? respostasRef.current
+        : JSON.parse(localStorage.getItem("respostasQuizTemp") || "[]");
+
+    if (
+      respostasSalvas.length > 0 &&
+      respostasSalvas.length <= perguntas.length
+    ) {
+      enviarRespostasComBeacon(respostasSalvas);
+    }
+  };
 
   useEffect(() => {
     // Verifica se os parâmetros já foram salvos dentro da chave "quiz"
